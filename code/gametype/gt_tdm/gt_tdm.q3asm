@@ -1,7 +1,0 @@
--o "gt_tdm"
-
-gt_main
-bg_lib
-q_math
-q_shared
-..\..\gt_syscalls
