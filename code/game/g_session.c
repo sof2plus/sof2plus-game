@@ -17,7 +17,7 @@ G_WriteClientSessionData
 Called on game shutdown
 ================
 */
-void G_WriteClientSessionData( gclient_t *client ) 
+void G_WriteClientSessionData( gclient_t *client )
 {
     const char  *s;
     const char  *var;
@@ -36,7 +36,7 @@ G_ReadSessionData
 Called on a reconnect
 ================
 */
-void G_ReadSessionData( gclient_t *client ) 
+void G_ReadSessionData( gclient_t *client )
 {
     char        s[MAX_STRING_CHARS];
     const char  *var;
@@ -59,7 +59,7 @@ G_InitSessionData
 Called on a first-time connect
 ================
 */
-void G_InitSessionData( gclient_t *client, char *userinfo ) 
+void G_InitSessionData( gclient_t *client, char *userinfo )
 {
     clientSession_t *sess;
     const char      *value;
@@ -67,33 +67,33 @@ void G_InitSessionData( gclient_t *client, char *userinfo )
     sess = &client->sess;
 
     // initial team determination
-    if ( level.gametypeData->teams ) 
+    if ( level.gametypeData->teams )
     {
-        if ( g_teamAutoJoin.integer ) 
+        if ( g_teamAutoJoin.integer )
         {
             sess->team = PickTeam( -1 );
-        } 
-        else 
+        }
+        else
         {
             // always spawn as spectator in team games
-            sess->team = TEAM_SPECTATOR;    
+            sess->team = TEAM_SPECTATOR;
         }
-    } 
-    else 
+    }
+    else
     {
         value = Info_ValueForKey( userinfo, "team" );
-        if ( value[0] == 's' ) 
+        if ( value[0] == 's' )
         {
             // a willing spectator, not a waiting-in-line
             sess->team = TEAM_SPECTATOR;
-        } 
-        else 
+        }
+        else
         {
-            if ( g_maxGameClients.integer > 0 && level.numNonSpectatorClients >= g_maxGameClients.integer ) 
+            if ( g_maxGameClients.integer > 0 && level.numNonSpectatorClients >= g_maxGameClients.integer )
             {
                 sess->team = TEAM_SPECTATOR;
-            } 
-            else 
+            }
+            else
             {
                 sess->team = TEAM_FREE;
             }
@@ -113,18 +113,18 @@ G_InitWorldSession
 
 ==================
 */
-void G_InitWorldSession( void ) 
+void G_InitWorldSession( void )
 {
     char    s[MAX_STRING_CHARS];
     int     gt;
 
     trap_Cvar_VariableStringBuffer( "session", s, sizeof(s) );
-    
+
     gt = BG_FindGametype ( s );
-    
+
     // if the gametype changed since the last session, don't use any
     // client sessions
-    if ( level.gametype != gt ) 
+    if ( level.gametype != gt )
     {
         level.newSession = qtrue;
         Com_Printf( "Gametype changed, clearing session data.\n" );
@@ -136,15 +136,15 @@ void G_InitWorldSession( void )
 G_WriteSessionData
 ==================
 */
-void G_WriteSessionData( void ) 
+void G_WriteSessionData( void )
 {
     int     i;
 
     trap_Cvar_Set( "session", level.gametypeData->name );
 
-    for ( i = 0 ; i < level.maxclients ; i++ ) 
+    for ( i = 0 ; i < level.maxclients ; i++ )
     {
-        if ( level.clients[i].pers.connected == CON_CONNECTED ) 
+        if ( level.clients[i].pers.connected == CON_CONNECTED )
         {
             G_WriteClientSessionData( &level.clients[i] );
         }

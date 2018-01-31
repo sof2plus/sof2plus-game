@@ -78,7 +78,7 @@ int G_ParseInfos( const char *buf, int max, char *infos[] ) {
             Q_strncpyz( key, token, sizeof( key ) );
 
             token = COM_ParseExt( &buf, qfalse );
-            if ( !token[0] ) 
+            if ( !token[0] )
             {
                 Info_SetValueForKey( info, key, "<NULL>" );
             }
@@ -130,7 +130,7 @@ static void G_LoadArenasFromFile( char *filename ) {
 G_LoadArenas
 ===============
 */
-void G_LoadArenas( void ) 
+void G_LoadArenas( void )
 {
     int         numdirs;
     char        filename[128];
@@ -144,7 +144,7 @@ void G_LoadArenas( void )
     // get all arenas from .arena files
     numdirs = trap_FS_GetFileList("scripts", ".arena", dirlist, 1024 );
     dirptr  = dirlist;
-    for (i = 0; i < numdirs; i++, dirptr += dirlen+1) 
+    for (i = 0; i < numdirs; i++, dirptr += dirlen+1)
     {
         dirlen = strlen(dirptr);
         strcpy(filename, "scripts/");
@@ -155,8 +155,8 @@ void G_LoadArenas( void )
 #ifdef _DEBUG
     Com_Printf ( "%i arenas parsed\n", g_numArenas );
 #endif
-    
-    for( n = 0; n < g_numArenas; n++ ) 
+
+    for( n = 0; n < g_numArenas; n++ )
     {
         Info_SetValueForKey( g_arenaInfos[n], "num", va( "%i", n ) );
     }
@@ -167,13 +167,13 @@ void G_LoadArenas( void )
 G_GetArenaInfoByNumber
 ===============
 */
-const char *G_GetArenaInfoByMap( const char *map ) 
+const char *G_GetArenaInfoByMap( const char *map )
 {
     int n;
 
-    for( n = 0; n < g_numArenas; n++ ) 
+    for( n = 0; n < g_numArenas; n++ )
     {
-        if( Q_stricmp( Info_ValueForKey( g_arenaInfos[n], "map" ), map ) == 0 ) 
+        if( Q_stricmp( Info_ValueForKey( g_arenaInfos[n], "map" ), map ) == 0 )
         {
             return g_arenaInfos[n];
         }
@@ -223,7 +223,7 @@ qboolean G_DoesMapSupportGametype ( const char* gametype )
         trap_Cvar_VariableStringBuffer ( "mapname", mapname, MAX_QPATH );
     }
 
-    // Get the arena info for the current map 
+    // Get the arena info for the current map
     info = G_GetArenaInfoByMap ( mapname );
     if ( !info )
     {
@@ -282,7 +282,7 @@ static void PlayerIntroSound( const char *modelAndSkin ) {
 G_AddRandomBot
 ===============
 */
-void G_AddRandomBot( int team ) 
+void G_AddRandomBot( int team )
 {
     int         i;
     int         n;
@@ -294,77 +294,77 @@ void G_AddRandomBot( int team )
     gclient_t   *cl;
 
     num = 0;
-    
-    for ( n = 0; n < g_numBots ; n++ ) 
+
+    for ( n = 0; n < g_numBots ; n++ )
     {
         value = Info_ValueForKey( g_botInfos[n], "name" );
-    
+
         //
-        for ( i=0 ; i< g_maxclients.integer ; i++ ) 
+        for ( i=0 ; i< g_maxclients.integer ; i++ )
         {
             cl = level.clients + i;
-            if ( cl->pers.connected != CON_CONNECTED ) 
+            if ( cl->pers.connected != CON_CONNECTED )
             {
                 continue;
             }
-            
-            if ( !(g_entities[cl->ps.clientNum].r.svFlags & SVF_BOT) ) 
+
+            if ( !(g_entities[cl->ps.clientNum].r.svFlags & SVF_BOT) )
             {
                 continue;
             }
-            
-            if ( team >= 0 && cl->sess.team != team ) 
+
+            if ( team >= 0 && cl->sess.team != team )
             {
                 continue;
             }
-            
-            if ( !Q_stricmp( value, cl->pers.netname ) ) 
+
+            if ( !Q_stricmp( value, cl->pers.netname ) )
             {
                 break;
             }
         }
-        
-        if (i >= g_maxclients.integer) 
+
+        if (i >= g_maxclients.integer)
         {
             num++;
         }
     }
-    
+
     num = random() * num;
-    
-    for ( n = 0; n < g_numBots ; n++ ) 
+
+    for ( n = 0; n < g_numBots ; n++ )
     {
         value = Info_ValueForKey( g_botInfos[n], "name" );
         //
-        for ( i=0 ; i< g_maxclients.integer ; i++ ) 
+        for ( i=0 ; i< g_maxclients.integer ; i++ )
         {
             cl = level.clients + i;
-            if ( cl->pers.connected != CON_CONNECTED ) 
+            if ( cl->pers.connected != CON_CONNECTED )
             {
                 continue;
             }
-            
-            if ( !(g_entities[cl->ps.clientNum].r.svFlags & SVF_BOT) ) 
+
+            if ( !(g_entities[cl->ps.clientNum].r.svFlags & SVF_BOT) )
             {
                 continue;
             }
-            
-            if ( team >= 0 && cl->sess.team != team ) 
+
+            if ( team >= 0 && cl->sess.team != team )
             {
                 continue;
             }
-            
-            if ( !Q_stricmp( value, cl->pers.netname ) ) 
+
+            if ( !Q_stricmp( value, cl->pers.netname ) )
             {
                 break;
             }
         }
-        
-        if (i >= g_maxclients.integer) 
+
+        if (i >= g_maxclients.integer)
         {
             num--;
-            
-            if (num <= 0) 
+
+            if (num <= 0)
             {
                 skill = trap_Cvar_VariableValue( "g_botSkill" );
                 if (team == TEAM_RED) teamstr = "red";
@@ -385,31 +385,31 @@ void G_AddRandomBot( int team )
 G_RemoveRandomBot
 ===============
 */
-int G_RemoveRandomBot( int team ) 
+int G_RemoveRandomBot( int team )
 {
     int         i;
     char        netname[36];
     gclient_t   *cl;
 
-    for ( i=0 ; i< g_maxclients.integer ; i++ ) 
+    for ( i=0 ; i< g_maxclients.integer ; i++ )
     {
         cl = level.clients + i;
-        
-        if ( cl->pers.connected != CON_CONNECTED ) 
+
+        if ( cl->pers.connected != CON_CONNECTED )
         {
             continue;
         }
-        
-        if ( !(g_entities[cl->ps.clientNum].r.svFlags & SVF_BOT) ) 
+
+        if ( !(g_entities[cl->ps.clientNum].r.svFlags & SVF_BOT) )
         {
             continue;
         }
-        
-        if ( team >= 0 && cl->sess.team != team ) 
+
+        if ( team >= 0 && cl->sess.team != team )
         {
             continue;
         }
-    
+
         strcpy(netname, cl->pers.netname);
         Q_CleanStr(netname);
         trap_SendConsoleCommand( EXEC_INSERT, va("kick \"%s\"\n", netname) );
@@ -424,27 +424,27 @@ int G_RemoveRandomBot( int team )
 G_CountHumanPlayers
 ===============
 */
-int G_CountHumanPlayers( int team ) 
+int G_CountHumanPlayers( int team )
 {
     int         i;
     int         num;
     gclient_t   *cl;
 
     num = 0;
-    for ( i=0 ; i< g_maxclients.integer ; i++ ) 
+    for ( i=0 ; i< g_maxclients.integer ; i++ )
     {
         cl = level.clients + i;
-        if ( cl->pers.connected != CON_CONNECTED ) 
+        if ( cl->pers.connected != CON_CONNECTED )
         {
             continue;
         }
 
-        if ( g_entities[cl->ps.clientNum].r.svFlags & SVF_BOT ) 
+        if ( g_entities[cl->ps.clientNum].r.svFlags & SVF_BOT )
         {
             continue;
         }
 
-        if ( team >= 0 && cl->sess.team != team ) 
+        if ( team >= 0 && cl->sess.team != team )
         {
             continue;
         }
@@ -460,7 +460,7 @@ int G_CountHumanPlayers( int team )
 G_CountBotPlayers
 ===============
 */
-int G_CountBotPlayers( int team ) 
+int G_CountBotPlayers( int team )
 {
     int         i;
     int         n;
@@ -468,40 +468,40 @@ int G_CountBotPlayers( int team )
     gclient_t   *cl;
 
     num = 0;
-    
-    for ( i=0 ; i< g_maxclients.integer ; i++ ) 
+
+    for ( i=0 ; i< g_maxclients.integer ; i++ )
     {
         cl = level.clients + i;
-        if ( cl->pers.connected != CON_CONNECTED ) 
+        if ( cl->pers.connected != CON_CONNECTED )
         {
             continue;
         }
 
-        if ( !(g_entities[cl->ps.clientNum].r.svFlags & SVF_BOT) ) 
+        if ( !(g_entities[cl->ps.clientNum].r.svFlags & SVF_BOT) )
         {
             continue;
         }
 
-        if ( team >= 0 && cl->sess.team != team ) 
+        if ( team >= 0 && cl->sess.team != team )
         {
             continue;
         }
 
         num++;
     }
-    
-    for( n = 0; n < BOT_SPAWN_QUEUE_DEPTH; n++ ) 
+
+    for( n = 0; n < BOT_SPAWN_QUEUE_DEPTH; n++ )
     {
-        if( !botSpawnQueue[n].spawnTime ) 
+        if( !botSpawnQueue[n].spawnTime )
         {
             continue;
         }
-        
-        if ( botSpawnQueue[n].spawnTime > level.time ) 
+
+        if ( botSpawnQueue[n].spawnTime > level.time )
         {
             continue;
         }
-        
+
         num++;
     }
 
@@ -513,20 +513,20 @@ int G_CountBotPlayers( int team )
 G_CheckMinimumPlayers
 ===============
 */
-void G_CheckMinimumPlayers( void ) 
+void G_CheckMinimumPlayers( void )
 {
     int         minplayers;
     int         humanplayers;
     int         botplayers;
     static int  checkminimumplayers_time;
 
-    if (level.intermissiontime) 
+    if (level.intermissiontime)
     {
         return;
     }
 
     // only check once each 10 seconds
-    if (checkminimumplayers_time > level.time - 10000) 
+    if (checkminimumplayers_time > level.time - 10000)
     {
         return;
     }
@@ -535,48 +535,48 @@ void G_CheckMinimumPlayers( void )
     trap_Cvar_Update(&bot_minplayers);
     minplayers = bot_minplayers.integer;
 
-    if (minplayers <= 0) 
+    if (minplayers <= 0)
     {
         return;
     }
 
-    if ( level.gametypeData->teams ) 
+    if ( level.gametypeData->teams )
     {
-        if (minplayers >= g_maxclients.integer / 2) 
+        if (minplayers >= g_maxclients.integer / 2)
         {
             minplayers = (g_maxclients.integer / 2) -1;
         }
 
         humanplayers = G_CountHumanPlayers( TEAM_RED );
         botplayers = G_CountBotPlayers( TEAM_RED );
-        
+
         //
-        if (humanplayers + botplayers < minplayers) 
+        if (humanplayers + botplayers < minplayers)
         {
             G_AddRandomBot( TEAM_RED );
-        } 
-        else if (humanplayers + botplayers > minplayers && botplayers) 
+        }
+        else if (humanplayers + botplayers > minplayers && botplayers)
         {
             G_RemoveRandomBot( TEAM_RED );
         }
-        
+
         //
         humanplayers = G_CountHumanPlayers( TEAM_BLUE );
         botplayers = G_CountBotPlayers( TEAM_BLUE );
-        
+
         //
-        if (humanplayers + botplayers < minplayers) 
+        if (humanplayers + botplayers < minplayers)
         {
             G_AddRandomBot( TEAM_BLUE );
-        } 
-        else if (humanplayers + botplayers > minplayers && botplayers) 
+        }
+        else if (humanplayers + botplayers > minplayers && botplayers)
         {
             G_RemoveRandomBot( TEAM_BLUE );
         }
     }
-    else 
+    else
     {
-        if (minplayers >= g_maxclients.integer) 
+        if (minplayers >= g_maxclients.integer)
         {
             minplayers = g_maxclients.integer-1;
         }
@@ -584,12 +584,12 @@ void G_CheckMinimumPlayers( void )
         humanplayers = G_CountHumanPlayers( TEAM_FREE );
         botplayers = G_CountBotPlayers( TEAM_FREE );
         //
-        
-        if (humanplayers + botplayers < minplayers) 
+
+        if (humanplayers + botplayers < minplayers)
         {
             G_AddRandomBot( TEAM_FREE );
-        } 
-        else if (humanplayers + botplayers > minplayers && botplayers) 
+        }
+        else if (humanplayers + botplayers > minplayers && botplayers)
         {
             G_RemoveRandomBot( TEAM_FREE );
         }
@@ -601,19 +601,19 @@ void G_CheckMinimumPlayers( void )
 G_CheckBotSpawn
 ===============
 */
-void G_CheckBotSpawn( void ) 
+void G_CheckBotSpawn( void )
 {
     int     n;
 
     G_CheckMinimumPlayers();
 
-    for( n = 0; n < BOT_SPAWN_QUEUE_DEPTH; n++ ) 
+    for( n = 0; n < BOT_SPAWN_QUEUE_DEPTH; n++ )
     {
-        if( !botSpawnQueue[n].spawnTime ) 
+        if( !botSpawnQueue[n].spawnTime )
         {
             continue;
         }
-        if ( botSpawnQueue[n].spawnTime > level.time ) 
+        if ( botSpawnQueue[n].spawnTime > level.time )
         {
             continue;
         }
@@ -628,13 +628,13 @@ void G_CheckBotSpawn( void )
 AddBotToSpawnQueue
 ===============
 */
-static void AddBotToSpawnQueue( int clientNum, int delay ) 
+static void AddBotToSpawnQueue( int clientNum, int delay )
 {
     int     n;
 
-    for( n = 0; n < BOT_SPAWN_QUEUE_DEPTH; n++ ) 
+    for( n = 0; n < BOT_SPAWN_QUEUE_DEPTH; n++ )
     {
-        if( !botSpawnQueue[n].spawnTime ) 
+        if( !botSpawnQueue[n].spawnTime )
         {
             botSpawnQueue[n].spawnTime = level.time + delay;
             botSpawnQueue[n].clientNum = clientNum;
@@ -695,7 +695,7 @@ qboolean G_BotConnect( int clientNum, qboolean restart ) {
 G_AddBot
 ===============
 */
-static void G_AddBot( const char *name, float skill, const char *team, int delay, char *altname) 
+static void G_AddBot( const char *name, float skill, const char *team, int delay, char *altname)
 {
     int             clientNum;
     char            *botinfo;
@@ -741,7 +741,7 @@ static void G_AddBot( const char *name, float skill, const char *team, int delay
 
     key = "identity";
     identity = Info_ValueForKey( botinfo, key );
-    if ( !*identity ) 
+    if ( !*identity )
     {
         identity = "mullinsjungle";
     }
@@ -766,20 +766,20 @@ static void G_AddBot( const char *name, float skill, const char *team, int delay
     }
 
     // initialize the bot settings
-    if( !team || !*team || !Q_stricmp ( team, "auto" )) 
+    if( !team || !*team || !Q_stricmp ( team, "auto" ))
     {
-        if( level.gametypeData->teams ) 
+        if( level.gametypeData->teams )
         {
-            if( PickTeam(clientNum) == TEAM_RED) 
+            if( PickTeam(clientNum) == TEAM_RED)
             {
                 team = "red";
             }
-            else 
+            else
             {
                 team = "blue";
             }
         }
-        else 
+        else
         {
             team = "red";
         }
@@ -878,7 +878,7 @@ void Svcmd_AddBot_f( void ) {
 
     // if this was issued during gameplay and we are playing locally,
     // go ahead and load the bot's media immediately
-    if ( level.time - level.startTime > 1000 && trap_Cvar_VariableIntegerValue( "cl_running" ) ) 
+    if ( level.time - level.startTime > 1000 && trap_Cvar_VariableIntegerValue( "cl_running" ) )
     {
         trap_SendServerCommand( -1, "loaddeferred\n" );
     }
@@ -932,12 +932,12 @@ static void G_SpawnBots( char *botList, int baseDelay ) {
     char        bots[MAX_INFO_VALUE];
 
     skill = trap_Cvar_VariableValue( "g_botSkill" );
-    if( skill < 2 ) 
+    if( skill < 2 )
     {
         trap_Cvar_Set( "g_botSkill", "2" );
         skill = 2;
     }
-    else if ( skill > 5 ) 
+    else if ( skill > 5 )
     {
         trap_Cvar_Set( "g_botSkill", "5" );
         skill = 5;
@@ -1088,7 +1088,7 @@ void LoadPath_ThisLevel(void);
 G_InitBots
 ===============
 */
-void G_InitBots( qboolean restart ) 
+void G_InitBots( qboolean restart )
 {
     G_LoadBots();
 

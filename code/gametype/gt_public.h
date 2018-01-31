@@ -1,11 +1,11 @@
 // Copyright (C) 2001-2002 Raven Software.
 //
 
-// gt_public.h -- game type module 
+// gt_public.h -- game type module
 
 #define GAMETYPE_API_VERSION    1
 
-typedef enum 
+typedef enum
 {
     //============== general Quake services ==================
 
@@ -36,14 +36,14 @@ typedef enum
     GT_ASIN,
     GT_MATRIXMULTIPLY,
 
-    
+
     GT_TEXTMESSAGE,                 // void ( int clientid, const char* message );
     GT_RESETITEM,                   // void ( int itemid );
     GT_GETCLIENTNAME,               // void ( int clientid, const char* buffer, int buffersize );
-                                    
+
     GT_REGISTERSOUND,               // int  ( const char* filename );
     GT_STARTGLOBALSOUND,            // void ( int soundid );
-                                    
+
     GT_REGISTERITEM,                // bool ( int itemid, const char* name, gtItemDef_t* def );
     GT_RADIOMESSAGE,                // void ( int clientid, const char* message );
     GT_REGISTERTRIGGER,             // bool ( int trigid, const char* name, gtTriggerDef_t* def );
@@ -94,10 +94,10 @@ typedef enum
     GTCMD_TEXTMESSAGE,              // void ( int client, const char* message );
     GTCMD_RESETITEM,                // void ( const char* itemName );
     GTCMD_GETCLIENTNAME,            // void ( int clientid, char* buffer, int buffersize );
-                                    
+
     GTCMD_REGISTERSOUND,            // int  ( const char* soundFile );
     GTCMD_STARTGLOBALSOUND,         // void ( int soundid );
-                                    
+
     GTCMD_REGISTERITEM,             // int  ( const char* name, gtItemDef_t* def );
 
     GTCMD_RADIOMESSAGE,             // void ( int clientid, const char* message );
@@ -144,7 +144,7 @@ typedef enum
 
     GTEV_TEAM_ELIMINATED,       // void ( team_t team );
     GTEV_TIME_EXPIRED,          // void ( void );
-    
+
     GTEV_ITEM_STUCK,            // void ( int itemID );
 
     GTEV_ITEM_DEFEND,           // void ( int itemID, int clientID, int clientTeam );

@@ -30,12 +30,12 @@ void multi_trigger( gentity_t *ent, gentity_t *activator ) {
     }
 
     if ( activator->client ) {
-        if ( ( ent->spawnflags & 1 ) && activator->client->sess.team != TEAM_RED ) 
+        if ( ( ent->spawnflags & 1 ) && activator->client->sess.team != TEAM_RED )
         {
             return;
         }
-        
-        if ( ( ent->spawnflags & 2 ) && activator->client->sess.team != TEAM_BLUE ) 
+
+        if ( ( ent->spawnflags & 2 ) && activator->client->sess.team != TEAM_BLUE )
         {
             return;
         }
@@ -73,7 +73,7 @@ Variable sized repeatable trigger.  Must be targeted at one or more entities.
 so, the basic time between firing is a random time between
 (wait - random) and (wait + random)
 */
-void SP_trigger_multiple( gentity_t *ent ) 
+void SP_trigger_multiple( gentity_t *ent )
 {
     // This is a hack because the single player game has usable triggers
     // in shared bsp instances, since multiplayer doesnt have useable triggers
@@ -87,7 +87,7 @@ void SP_trigger_multiple( gentity_t *ent )
     G_SpawnFloat( "wait", "0.5", &ent->wait );
     G_SpawnFloat( "random", "0", &ent->random );
 
-    if ( ent->random >= ent->wait && ent->wait >= 0 ) 
+    if ( ent->random >= ent->wait && ent->wait >= 0 )
     {
         ent->random = ent->wait - FRAMETIME;
         Com_Printf( "trigger_multiple has random >= wait\n" );
@@ -133,7 +133,7 @@ trigger_push
 ==============================================================================
 */
 
-void trigger_push_touch (gentity_t *self, gentity_t *other, trace_t *trace ) 
+void trigger_push_touch (gentity_t *self, gentity_t *other, trace_t *trace )
 {
 }
 
@@ -263,7 +263,7 @@ void trigger_teleporter_touch (gentity_t *self, gentity_t *other, trace_t *trace
         return;
     }
     // Spectators only?
-    if ( ( self->spawnflags & 1 ) && !G_IsClientSpectating ( other->client ) ) 
+    if ( ( self->spawnflags & 1 ) && !G_IsClientSpectating ( other->client ) )
     {
         return;
     }
@@ -387,13 +387,13 @@ void SP_trigger_hurt( gentity_t *self ) {
     self->use = hurt_use;
 
     // link in to the world if starting active
-    if ( ! (self->spawnflags & 1) ) 
+    if ( ! (self->spawnflags & 1) )
     {
         trap_LinkEntity (self);
     }
 }
 
-/*QUAKED trigger_ladder (.5 .5 .5) ? 
+/*QUAKED trigger_ladder (.5 .5 .5) ?
 Indicates a ladder and its normal
 
 "angles"        angle ladder faces
@@ -405,8 +405,8 @@ void SP_trigger_ladder ( gentity_t* self )
     trap_SetBrushModel( self, self->model );
     trap_LinkEntity ( self );
 
-    trap_SetConfigstring( CS_LADDERS + level.ladderCount++, 
-                          va("%i,%i,%i,%i,%i,%i,%i", 
+    trap_SetConfigstring( CS_LADDERS + level.ladderCount++,
+                          va("%i,%i,%i,%i,%i,%i,%i",
                              (int)self->r.absmin[0],(int)self->r.absmin[1],(int)self->r.absmin[2],
                              (int)self->r.absmax[0],(int)self->r.absmax[1],(int)self->r.absmax[2],
                              (int)self->s.angles[YAW] ) );
@@ -418,7 +418,7 @@ void SP_trigger_ladder ( gentity_t* self )
     self->r.absmax[0] = (int)self->r.absmax[0];
     self->r.absmax[1] = (int)self->r.absmax[1];
     self->r.absmax[2] = (int)self->r.absmax[2];
-    
+
     self->s.angles[PITCH] = self->s.angles[ROLL] = 0;
     self->s.angles[YAW] = (int)self->s.angles[YAW];
     AngleVectors( self->s.angles, fwd, 0, 0);
@@ -426,7 +426,7 @@ void SP_trigger_ladder ( gentity_t* self )
     BG_AddLadder ( self->r.absmin, self->r.absmax, fwd );
 
     G_FreeEntity ( self );
-}   
+}
 
 /*
 ==============================================================================

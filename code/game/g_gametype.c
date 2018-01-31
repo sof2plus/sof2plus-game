@@ -19,7 +19,7 @@ vec3_t      g_effectOrigin;
 /*QUAKED gametype_player (0 1 0) (-16 -16 -46) (16 16 48) REDTEAM BLUETEAM
 Potential spawning position for red or blue team in custom gametype games.
 */
-void SP_gametype_player ( gentity_t *ent ) 
+void SP_gametype_player ( gentity_t *ent )
 {
     team_t  team;
 
@@ -29,7 +29,7 @@ void SP_gametype_player ( gentity_t *ent )
         G_FreeEntity ( ent );
         return;
     }
-    
+
     // If a team filter is set then override any team settings for the spawns
     if ( level.mTeamFilter[0] )
     {
@@ -89,7 +89,7 @@ void gametype_item_use ( gentity_t* self, gentity_t* other )
     }
 }
 
-void gametype_trigger_use ( gentity_t *self, gentity_t *other, gentity_t *activator ) 
+void gametype_trigger_use ( gentity_t *self, gentity_t *other, gentity_t *activator )
 {
     if ( level.gametypeResetTime )
     {
@@ -102,7 +102,7 @@ void gametype_trigger_use ( gentity_t *self, gentity_t *other, gentity_t *activa
     }
 }
 
-void gametype_trigger_touch ( gentity_t *self, gentity_t *other, trace_t *trace ) 
+void gametype_trigger_touch ( gentity_t *self, gentity_t *other, trace_t *trace )
 {
     if ( level.gametypeResetTime )
     {
@@ -115,7 +115,7 @@ void gametype_trigger_touch ( gentity_t *self, gentity_t *other, trace_t *trace 
     }
 }
 
-/*QUAKED gametype_trigger (0 0 .8) ? 
+/*QUAKED gametype_trigger (0 0 .8) ?
 */
 void SP_gametype_trigger ( gentity_t* ent )
 {
@@ -146,8 +146,8 @@ static gentity_t* G_RealSpawnGametypeItem ( gitem_t* item, vec3_t origin, vec3_t
     VectorCopy ( angles, it_ent->s.angles );
     it_ent->classname = item->classname;
     G_SpawnItem ( it_ent, it_ent->item );
-    FinishSpawningItem(it_ent); 
-    
+    FinishSpawningItem(it_ent);
+
     VectorSet( it_ent->r.mins, -ITEM_RADIUS * 4 / 3, -ITEM_RADIUS * 4 / 3, -ITEM_RADIUS );
     VectorSet( it_ent->r.maxs, ITEM_RADIUS * 4 / 3, ITEM_RADIUS * 4 / 3, ITEM_RADIUS );
 
@@ -168,7 +168,7 @@ gentity_t* G_SpawnGametypeItem ( const char* pickup_name, qboolean dropped, vec3
 
         return NULL;
     }
-        
+
     // Look for the gametype item in the map
     ent = NULL;
     while ( NULL != (ent = G_Find ( ent, FOFS(classname), "gametype_item" ) ) )
@@ -179,13 +179,13 @@ gentity_t* G_SpawnGametypeItem ( const char* pickup_name, qboolean dropped, vec3
             break;
         }
     }
-    
-    // If we couldnt find the item spawner then we have a problem   
+
+    // If we couldnt find the item spawner then we have a problem
     if ( !ent )
     {
         Com_Error ( ERR_FATAL, "Could not spawn gametype item '%s'\n", pickup_name );
         return NULL;
-    }       
+    }
 
     return G_RealSpawnGametypeItem ( ent->item, ent->r.currentOrigin, ent->s.angles, dropped );
 }
@@ -195,7 +195,7 @@ void G_GametypeItemThink ( gentity_t* ent )
     G_RealSpawnGametypeItem ( ent->item, ent->r.currentOrigin, ent->s.angles, qfalse );
 }
 
-/*QUAKED gametype_item (0 0 1) (-16 -16 -16) (16 16 16) 
+/*QUAKED gametype_item (0 0 1) (-16 -16 -16) (16 16 16)
 "name"          name of the item to spawn (defined in gametype script)
 */
 void SP_gametype_item ( gentity_t* ent )
@@ -205,7 +205,7 @@ void SP_gametype_item ( gentity_t* ent )
     {
         if ( ent->targetname )
             ent->targetname = strchr ( ent->targetname, '-' ) + 1;
-    
+
         if ( ent->target )
             ent->target = strchr ( ent->target, '-' ) + 1;
     }
@@ -334,7 +334,7 @@ void G_RespawnClients ( qboolean force, team_t team, qboolean fullRestart )
             ent->client->ps.pm_type = PM_NORMAL;
             ent->client->sess.ghost = qfalse;
         }
-        
+
         ent->client->sess.noTeamChange = qfalse;
 
         trap_UnlinkEntity (ent);
@@ -495,7 +495,7 @@ void G_ResetGametype ( qboolean fullRestart )
         level.startTime = level.time;
         memset ( level.teamScores, 0, sizeof(level.teamScores) );
         trap_SetConfigstring( CS_WARMUP, va("%i", level.warmupTime) );
-        trap_SetConfigstring( CS_LEVEL_START_TIME, va("%i", level.startTime ) );    
+        trap_SetConfigstring( CS_LEVEL_START_TIME, va("%i", level.startTime ) );
     }
 
     // Reset the clients local effects
@@ -524,14 +524,14 @@ qboolean G_ParseGametypeItems ( TGPGroup* itemsGroup )
         return qfalse;
     }
 
-    // Loop over all the items and add each 
+    // Loop over all the items and add each
     itemGroup = trap_GPG_GetSubGroups ( itemsGroup );
     itemCount = 0;
 
     while ( itemGroup )
-    {   
+    {
         gitem_t*   item;
-        
+
         // Parse out the pickup name
         trap_GPG_GetName ( itemGroup, temp );
 
@@ -543,7 +543,7 @@ qboolean G_ParseGametypeItems ( TGPGroup* itemsGroup )
             itemCount++;
         }
 
-        // Handle the entity specific stuff by finding all matching items that 
+        // Handle the entity specific stuff by finding all matching items that
         // were spawned.
         ent = NULL;
         while ( NULL != (ent = G_Find ( ent, FOFS(targetname), item->pickup_name ) ) )
@@ -650,16 +650,16 @@ void G_DropGametypeItems ( gentity_t* self, int delayPickup )
 
     // drop all custom gametype items
     angle = 0;
-    for ( i = 0 ; i < MAX_GAMETYPE_ITEMS ; i++ ) 
+    for ( i = 0 ; i < MAX_GAMETYPE_ITEMS ; i++ )
     {
         // skip this gametype item if the client doenst have it
-        if ( !(self->client->ps.stats[STAT_GAMETYPE_ITEMS] & (1<<i)) ) 
+        if ( !(self->client->ps.stats[STAT_GAMETYPE_ITEMS] & (1<<i)) )
         {
             continue;
         }
 
         item = BG_FindGametypeItem ( i );
-        if ( !item ) 
+        if ( !item )
         {
             continue;
         }
@@ -670,11 +670,11 @@ void G_DropGametypeItems ( gentity_t* self, int delayPickup )
 
         if ( delayPickup )
         {
-            drop->nextthink = level.time + delayPickup; 
+            drop->nextthink = level.time + delayPickup;
             drop->s.eFlags |= EF_NOPICKUP;
             drop->think = G_EnableGametypeItemPickup;
         }
-        
+
         // TAke it away from the client just in case
         self->client->ps.stats[STAT_GAMETYPE_ITEMS] &= ~(1<<i);
 
@@ -716,7 +716,7 @@ void CheckGametype ( void )
             {
                 continue;
             }
-                
+
             if ( other->client->pers.connected != CON_CONNECTED )
             {
                 continue;
@@ -731,7 +731,7 @@ void CheckGametype ( void )
             return;
         }
     }
- 
+
     // Check for delayed gametype reset
     if ( level.gametypeResetTime )
     {
@@ -792,14 +792,14 @@ void CheckGametype ( void )
 
         if ( level.time > level.gametypeDelayTime )
         {
-            // If everyone is dead on a team then reset the gametype, but only if 
+            // If everyone is dead on a team then reset the gametype, but only if
             // there was someone on that team to begin with.
             if ( !level.teamAliveCount[TEAM_RED] && dead[TEAM_RED] )
-            {           
+            {
                 trap_GT_SendEvent ( GTEV_TEAM_ELIMINATED, level.time, TEAM_RED, 0, 0, 0, 0 );
             }
             else if ( !level.teamAliveCount[TEAM_BLUE] && dead[TEAM_BLUE] )
-            {           
+            {
                 trap_GT_SendEvent ( GTEV_TEAM_ELIMINATED, level.time, TEAM_BLUE, 0, 0, 0, 0 );
             }
 
@@ -807,7 +807,7 @@ void CheckGametype ( void )
             if ( level.time > level.gametypeRoundTime )
             {
                 trap_GT_SendEvent ( GTEV_TIME_EXPIRED, level.time, 0, 0, 0, 0, 0 );
-            } 
+            }
         }
     }
 }
@@ -836,7 +836,7 @@ int G_GametypeCommand ( int cmd, int arg0, int arg1, int arg2, int arg3, int arg
 
         case GTCMD_TEXTMESSAGE:
             trap_SetConfigstring ( CS_GAMETYPE_MESSAGE, va("%i,%s", level.time + 5000, (const char*)arg1 ) );
-            break;      
+            break;
 
         case GTCMD_RADIOMESSAGE:
             G_Voice ( &g_entities[arg0], NULL, SAY_TEAM, (const char*) arg1, qfalse );
@@ -850,9 +850,9 @@ int G_GametypeCommand ( int cmd, int arg0, int arg1, int arg2, int arg3, int arg
             gentity_t* tent;
             tent = G_TempEntity( vec3_origin, EV_GLOBAL_SOUND );
             tent->s.eventParm = arg0;
-            tent->r.svFlags = SVF_BROADCAST;    
+            tent->r.svFlags = SVF_BROADCAST;
             break;
-        }   
+        }
 
         case GTCMD_STARTSOUND:
             G_SoundAtLoc ( (float*)arg1, CHAN_AUTO, arg0 );
@@ -923,7 +923,7 @@ int G_GametypeCommand ( int cmd, int arg0, int arg1, int arg2, int arg3, int arg
         case GTCMD_GIVECLIENTITEM:
         {
             gitem_t* item;
-            
+
             item = BG_FindGametypeItemByID ( arg1 );
             if ( item )
             {
@@ -941,7 +941,7 @@ int G_GametypeCommand ( int cmd, int arg0, int arg1, int arg2, int arg3, int arg
             for ( i = 0, count = 0; i < level.numConnectedClients && count < arg2; i ++ )
             {
                 gclient_t* client = &level.clients[level.sortedClients[i]];
-                
+
                 if ( client->pers.connected != CON_CONNECTED )
                 {
                     continue;
@@ -952,7 +952,7 @@ int G_GametypeCommand ( int cmd, int arg0, int arg1, int arg2, int arg3, int arg
                     *clients = level.sortedClients[i];
                     clients++;
                     count++;
-                }               
+                }
             }
 
             return count;
@@ -961,30 +961,30 @@ int G_GametypeCommand ( int cmd, int arg0, int arg1, int arg2, int arg3, int arg
         case GTCMD_TAKECLIENTITEM:
         {
             gitem_t* item;
-            
+
             item = BG_FindGametypeItemByID ( arg1 );
             if ( item )
             {
                 level.clients[arg0].ps.stats[STAT_GAMETYPE_ITEMS] &= ~(1<<item->giTag);
             }
             break;
-        }           
+        }
 
         case GTCMD_SPAWNITEM:
         {
             gitem_t* item;
-            
+
             item = BG_FindGametypeItemByID ( arg0 );
             if ( item )
             {
                 gentity_t* ent = LaunchItem ( item, (float*)arg1, vec3_origin );
-                if ( ent ) 
+                if ( ent )
                 {
                     VectorCopy ( (float*)arg2, ent->s.angles );
                 }
             }
             break;
-        }           
+        }
 
         case GTCMD_DOESCLIENTHAVEITEM:
         {

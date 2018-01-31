@@ -3,18 +3,18 @@
 
 #include "g_local.h"
 
-qboolean G_SpawnString( const char *key, const char *defaultString, char **out ) 
+qboolean G_SpawnString( const char *key, const char *defaultString, char **out )
 {
     int     i;
 
-    if ( !level.spawning ) 
+    if ( !level.spawning )
     {
         *out = (char *)defaultString;
     }
 
-    for ( i = 0 ; i < level.numSpawnVars ; i++ ) 
+    for ( i = 0 ; i < level.numSpawnVars ; i++ )
     {
-        if ( !Q_stricmp( key, level.spawnVars[i][0] ) ) 
+        if ( !Q_stricmp( key, level.spawnVars[i][0] ) )
         {
             *out = level.spawnVars[i][1];
             return qtrue;
@@ -25,7 +25,7 @@ qboolean G_SpawnString( const char *key, const char *defaultString, char **out )
     return qfalse;
 }
 
-qboolean G_SpawnFloat( const char *key, const char *defaultString, float *out ) 
+qboolean G_SpawnFloat( const char *key, const char *defaultString, float *out )
 {
     char        *s;
     qboolean    present;
@@ -35,7 +35,7 @@ qboolean G_SpawnFloat( const char *key, const char *defaultString, float *out )
     return present;
 }
 
-qboolean G_SpawnInt( const char *key, const char *defaultString, int *out ) 
+qboolean G_SpawnInt( const char *key, const char *defaultString, int *out )
 {
     char        *s;
     qboolean    present;
@@ -45,7 +45,7 @@ qboolean G_SpawnInt( const char *key, const char *defaultString, int *out )
     return present;
 }
 
-qboolean G_SpawnVector( const char *key, const char *defaultString, float *out ) 
+qboolean G_SpawnVector( const char *key, const char *defaultString, float *out )
 {
     char        *s;
     qboolean    present;
@@ -60,9 +60,9 @@ qboolean G_SpawnVector( const char *key, const char *defaultString, float *out )
 //
 // fields are needed for spawning from the entity string
 //
-typedef enum 
+typedef enum
 {
-    F_INT, 
+    F_INT,
     F_FLOAT,
     F_LSTRING,          // string on disk, pointer in memory, TAG_LEVEL
     F_GSTRING,          // string on disk, pointer in memory, TAG_GAME
@@ -84,7 +84,7 @@ typedef struct
 
 } field_t;
 
-field_t fields[] = 
+field_t fields[] =
 {
     {"classname",           FOFS(classname),            F_LSTRING},
     {"origin",              FOFS(s.origin),             F_VECTOR},
@@ -111,7 +111,7 @@ field_t fields[] =
 };
 
 
-typedef struct 
+typedef struct
 {
     char    *name;
     void    (*spawn)(gentity_t *ent);
@@ -172,10 +172,10 @@ void SP_gametype_item               (gentity_t* ent);
 void SP_gametype_trigger            (gentity_t* ent);
 void SP_gametype_player             (gentity_t* ent);
 void SP_mission_player              (gentity_t* ent);
-                                    
+
 void SP_fx_play_effect              (gentity_t* ent);
 
-spawn_t spawns[] = 
+spawn_t spawns[] =
 {
     // info entities don't do anything at all, but provide positional
     // information for things controlled by other processes
@@ -245,7 +245,7 @@ spawn_t spawns[] =
     {"func_breakable_brush",        SP_func_static},
     {"fx_play_effect",              SP_fx_play_effect},
 
-    // The following classnames are instantly removed when spawned.  The RMG 
+    // The following classnames are instantly removed when spawned.  The RMG
     // shares instances with single player which is what causes these things
     // to attempt to spawn
     {"light",                       0},
@@ -274,21 +274,21 @@ Finds the spawn function for the entity and calls it,
 returning qfalse if not found
 ===============
 */
-qboolean G_CallSpawn( gentity_t *ent ) 
+qboolean G_CallSpawn( gentity_t *ent )
 {
     spawn_t *s;
     gitem_t *item;
 
-    if ( !ent->classname ) 
+    if ( !ent->classname )
     {
         Com_Printf ("G_CallSpawn: NULL classname\n");
         return qfalse;
     }
 
     // check item spawn functions
-    for ( item=bg_itemlist+1 ; item->classname ; item++ ) 
+    for ( item=bg_itemlist+1 ; item->classname ; item++ )
     {
-        if ( !strcmp(item->classname, ent->classname) ) 
+        if ( !strcmp(item->classname, ent->classname) )
         {
             // If this is a backpack then handle it specially
             if ( item->giType == IT_BACKPACK )
@@ -316,11 +316,11 @@ qboolean G_CallSpawn( gentity_t *ent )
     }
 
     // check normal spawn functions
-    for ( s=spawns ; s->name ; s++ ) 
+    for ( s=spawns ; s->name ; s++ )
     {
         char* wildcard = strchr ( s->name, '*' );
         int   result;
-        
+
         if ( wildcard )
         {
             result = Q_strncmp ( s->name, ent->classname, wildcard - s->name );
@@ -330,7 +330,7 @@ qboolean G_CallSpawn( gentity_t *ent )
             result = strcmp(s->name, ent->classname);
         }
 
-        if ( !result ) 
+        if ( !result )
         {
             if (s->spawn)
             {   // found it
@@ -343,7 +343,7 @@ qboolean G_CallSpawn( gentity_t *ent )
             }
         }
     }
-    
+
     Com_Printf ("%s doesn't have a spawn function\n", ent->classname);
     return qfalse;
 }
@@ -356,11 +356,11 @@ Builds a copy of the string, translating \n to real linefeeds
 so message texts can be multi-line
 =============
 */
-char *G_NewString( const char *string ) 
+char *G_NewString( const char *string )
 {
     char    *newb, *new_p;
     int     i,l;
-    
+
     l = strlen(string) + 1;
 
     newb = trap_VM_LocalAlloc( l );
@@ -380,7 +380,7 @@ char *G_NewString( const char *string )
             *new_p++ = string[i];
         }
     }
-    
+
     return newb;
 }
 
@@ -461,7 +461,7 @@ qboolean G_IsGametypeInList ( const char* gametype, const char* list )
     }
 
     return qfalse;
-}   
+}
 
 /*
 ===================
@@ -471,18 +471,18 @@ Spawn an entity and fill in all of the level fields from
 level.spawnVars[], then call the class specfic spawn function
 ===================
 */
-void G_SpawnGEntityFromSpawnVars( qboolean inSubBSP ) 
+void G_SpawnGEntityFromSpawnVars( qboolean inSubBSP )
 {
     int         i;
     gentity_t   *ent;
     char        *value;
 
     if (inSubBSP)
-    {   
+    {
         // filter out the unwanted entities
         G_SpawnString("filter", "", &value);
         if (value[0] && Q_stricmp(level.mFilter, value))
-        {   
+        {
             // we are not matching up to the filter, so no spawney
             return;
         }
@@ -491,25 +491,25 @@ void G_SpawnGEntityFromSpawnVars( qboolean inSubBSP )
     // get the next free entity
     ent = G_Spawn();
 
-    for ( i = 0 ; i < level.numSpawnVars ; i++ ) 
+    for ( i = 0 ; i < level.numSpawnVars ; i++ )
     {
         G_ParseField( level.spawnVars[i][0], level.spawnVars[i][1], ent );
     }
 
     // check for "notteam" flag (GT_DM)
-    if ( level.gametypeData->teams ) 
+    if ( level.gametypeData->teams )
     {
         G_SpawnInt( "notteam", "0", &i );
-        if ( i ) 
+        if ( i )
         {
             G_FreeEntity( ent );
             return;
         }
-    } 
-    else 
+    }
+    else
     {
         G_SpawnInt( "notfree", "0", &i );
-        if ( i ) 
+        if ( i )
         {
             G_FreeEntity( ent );
             return;
@@ -517,7 +517,7 @@ void G_SpawnGEntityFromSpawnVars( qboolean inSubBSP )
     }
 
     // Only spawn this entity in the specified gametype
-    if( G_SpawnString( "gametype", NULL, &value ) && value ) 
+    if( G_SpawnString( "gametype", NULL, &value ) && value )
     {
         if ( !G_IsGametypeInList ( level.gametypeData->name, value ) )
         {
@@ -534,7 +534,7 @@ void G_SpawnGEntityFromSpawnVars( qboolean inSubBSP )
                 G_FreeEntity ( ent );
                 return;
             }
-        } 
+        }
     }
 
     // move editor origin to pos
@@ -542,7 +542,7 @@ void G_SpawnGEntityFromSpawnVars( qboolean inSubBSP )
     VectorCopy( ent->s.origin, ent->r.currentOrigin );
 
     // if we didn't get a classname, don't bother spawning anything
-    if ( !G_CallSpawn( ent ) ) 
+    if ( !G_CallSpawn( ent ) )
     {
         G_FreeEntity( ent );
     }
@@ -555,13 +555,13 @@ void G_SpawnGEntityFromSpawnVars( qboolean inSubBSP )
 G_AddSpawnVarToken
 ====================
 */
-char *G_AddSpawnVarToken( const char *string ) 
+char *G_AddSpawnVarToken( const char *string )
 {
     int     l;
     char    *dest;
 
     l = strlen( string );
-    if ( level.numSpawnVarChars + l + 1 > MAX_SPAWN_VARS_CHARS ) 
+    if ( level.numSpawnVarChars + l + 1 > MAX_SPAWN_VARS_CHARS )
     {
         Com_Error( ERR_FATAL, "G_AddSpawnVarToken: MAX_SPAWN_CHARS" );
     }
@@ -724,7 +724,7 @@ level's entity strings into level.spawnVars[]
 This does not actually spawn an entity.
 ====================
 */
-qboolean G_ParseSpawnVars( qboolean inSubBSP ) 
+qboolean G_ParseSpawnVars( qboolean inSubBSP )
 {
     char    keyname[MAX_TOKEN_CHARS];
     char    com_token[MAX_TOKEN_CHARS];
@@ -733,47 +733,47 @@ qboolean G_ParseSpawnVars( qboolean inSubBSP )
     level.numSpawnVarChars = 0;
 
     // parse the opening brace
-    if ( !trap_GetEntityToken( com_token, sizeof( com_token ) ) ) 
+    if ( !trap_GetEntityToken( com_token, sizeof( com_token ) ) )
     {
         // end of spawn string
         return qfalse;
     }
-    
-    if ( com_token[0] != '{' ) 
+
+    if ( com_token[0] != '{' )
     {
         Com_Error( ERR_FATAL, "G_ParseSpawnVars: found %s when expecting {",com_token );
     }
 
     // go through all the key / value pairs
-    while ( 1 ) 
+    while ( 1 )
     {
         // parse key
-        if ( !trap_GetEntityToken( keyname, sizeof( keyname ) ) ) 
+        if ( !trap_GetEntityToken( keyname, sizeof( keyname ) ) )
         {
             Com_Error( ERR_FATAL, "G_ParseSpawnVars: EOF without closing brace" );
         }
 
-        if ( keyname[0] == '}' ) 
+        if ( keyname[0] == '}' )
         {
             break;
         }
-        
-        // parse value  
-        if ( !trap_GetEntityToken( com_token, sizeof( com_token ) ) ) 
+
+        // parse value
+        if ( !trap_GetEntityToken( com_token, sizeof( com_token ) ) )
         {
             Com_Error( ERR_FATAL, "G_ParseSpawnVars: EOF without closing brace" );
         }
 
-        if ( com_token[0] == '}' ) 
+        if ( com_token[0] == '}' )
         {
             Com_Error( ERR_FATAL, "G_ParseSpawnVars: closing brace without data" );
         }
-        
-        if ( level.numSpawnVars == MAX_SPAWN_VARS ) 
+
+        if ( level.numSpawnVars == MAX_SPAWN_VARS )
         {
             Com_Error( ERR_FATAL, "G_ParseSpawnVars: MAX_SPAWN_VARS" );
         }
-        
+
         AddSpawnField(keyname, com_token);
     }
 
@@ -785,7 +785,7 @@ qboolean G_ParseSpawnVars( qboolean inSubBSP )
     return qtrue;
 }
 
-static char *defaultStyles[32][3] = 
+static char *defaultStyles[32][3] =
 {
     {   // 0 normal
         "z",
@@ -963,14 +963,14 @@ Every map should have exactly one worldspawn.
 "message"       Text to print during connection process
 "mission"       Indicates which mission script file should be used to find the scripts for mission mode
 */
-void SP_worldspawn( void ) 
+void SP_worldspawn( void )
 {
     char        *text, temp[32];
     int         i;
     int         lengthRed, lengthBlue, lengthGreen;
 
     G_SpawnString( "classname", "", &text );
-    if ( Q_stricmp( text, "worldspawn" ) ) 
+    if ( Q_stricmp( text, "worldspawn" ) )
     {
         Com_Error( ERR_FATAL, "SP_worldspawn: The first entity isn't 'worldspawn'" );
     }
@@ -1029,13 +1029,13 @@ void SP_worldspawn( void )
 
     // see if we want a warmup time
     trap_SetConfigstring( CS_WARMUP, "" );
-    if ( g_restarted.integer ) 
+    if ( g_restarted.integer )
     {
         trap_Cvar_Set( "g_restarted", "0" );
         level.warmupTime = 0;
-    } 
-    else if ( g_doWarmup.integer ) 
-    { 
+    }
+    else if ( g_doWarmup.integer )
+    {
         // Turn it on
         level.warmupTime = -1;
         trap_SetConfigstring( CS_WARMUP, va("%i", level.warmupTime) );
@@ -1045,7 +1045,7 @@ void SP_worldspawn( void )
     trap_SetConfigstring(CS_LIGHT_STYLES+(LS_STYLES_START*3)+0, defaultStyles[0][0]);
     trap_SetConfigstring(CS_LIGHT_STYLES+(LS_STYLES_START*3)+1, defaultStyles[0][1]);
     trap_SetConfigstring(CS_LIGHT_STYLES+(LS_STYLES_START*3)+2, defaultStyles[0][2]);
-    
+
     for(i=1;i<LS_NUM_STYLES;i++)
     {
         Com_sprintf(temp, sizeof(temp), "ls_%dr", i);
@@ -1065,10 +1065,10 @@ void SP_worldspawn( void )
 
         if (lengthRed != lengthGreen || lengthGreen != lengthBlue)
         {
-            Com_Error(ERR_DROP, "Style %d has inconsistent lengths: R %d, G %d, B %d", 
+            Com_Error(ERR_DROP, "Style %d has inconsistent lengths: R %d, G %d, B %d",
                 i, lengthRed, lengthGreen, lengthBlue);
         }
-    }       
+    }
 }
 
 
@@ -1079,7 +1079,7 @@ G_SpawnEntitiesFromString
 Parses textual entity definitions out of an entstring and spawns gentities.
 ==============
 */
-void G_SpawnEntitiesFromString( qboolean inSubBSP ) 
+void G_SpawnEntitiesFromString( qboolean inSubBSP )
 {
     // allow calls to G_Spawn*()
     level.spawning = qtrue;
@@ -1088,11 +1088,11 @@ void G_SpawnEntitiesFromString( qboolean inSubBSP )
     // the worldspawn is not an actual entity, but it still
     // has a "spawn" function to perform any global setup
     // needed by a level (setting configstrings or cvars, etc)
-    if ( !G_ParseSpawnVars(inSubBSP) ) 
+    if ( !G_ParseSpawnVars(inSubBSP) )
     {
         Com_Error( ERR_FATAL, "SpawnEntities: no entities" );
     }
-    
+
     if (!inSubBSP)
     {
         SP_worldspawn();
@@ -1107,10 +1107,10 @@ void G_SpawnEntitiesFromString( qboolean inSubBSP )
     }
 
     // parse ents
-    while( G_ParseSpawnVars(inSubBSP) ) 
+    while( G_ParseSpawnVars(inSubBSP) )
     {
         G_SpawnGEntityFromSpawnVars(inSubBSP);
-    }   
+    }
 
     if (!inSubBSP)
     {
@@ -1129,7 +1129,7 @@ void SP_model_static ( gentity_t* ent )
     }
 
     G_SetOrigin( ent, ent->s.origin );
-    
+
     VectorCopy(ent->s.angles, ent->r.currentAngles);
     VectorCopy(ent->s.angles, ent->s.apos.trBase );
 

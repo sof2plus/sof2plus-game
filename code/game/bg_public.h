@@ -116,7 +116,7 @@ enum
     CS_INTERMISSION,
     CS_SHADERSTATE,
     CS_BOTINFO,
-    
+
     CS_GAMETYPE_TIMER,
     CS_GAMETYPE_MESSAGE,
     CS_GAMETYPE_REDTEAM,
@@ -143,7 +143,7 @@ enum
 
     CS_MAX                  = CS_HUDICONS + MAX_HUDICONS,
 };
-    
+
 /*
 #define CS_MUSIC                68
 #define CS_MESSAGE              69      // from the map worldspawn's message field
@@ -203,7 +203,7 @@ movement on the server game.
 */
 
 // animations
-typedef enum 
+typedef enum
 {
     BOTH_DEATH_NORMAL,
 
@@ -341,7 +341,7 @@ typedef struct animation_s {
     int     flipflop;           // true if animation should flipflop back to base
 } animation_t;
 
-typedef struct ladder_s 
+typedef struct ladder_s
 {
     vec3_t  origin;
     vec3_t  fwd;
@@ -351,10 +351,10 @@ typedef struct ladder_s
 // flip the togglebit every time an animation
 // changes so a restart of the same anim can be detected
 #define ANIM_TOGGLEBIT              2048        // Note that there are 12 bits (max 4095) for animations.
-#define ITEM_AUTOSWITCHBIT          (1<<31) 
+#define ITEM_AUTOSWITCHBIT          (1<<31)
 #define ITEM_QUIETPICKUP            (1<<30)
 
-typedef enum 
+typedef enum
 {
     PM_NORMAL,          // can accelerate and turn
     PM_NOCLIP,          // noclip movement
@@ -366,7 +366,7 @@ typedef enum
 } pmtype_t;
 
 typedef enum {
-    WEAPON_READY, 
+    WEAPON_READY,
     WEAPON_SPAWNING,
     WEAPON_RAISING,
     WEAPON_DROPPING,
@@ -395,9 +395,9 @@ typedef enum {
 #define PMF_GHOST               0x00000800      // Your a ghost. scarry!!
 #define PMF_LADDER              0x00001000      // On a ladder
 #define PMF_LADDER_JUMP         0x00002000      // Jumped off a ladder
-                                
+
 #define PMF_ZOOMED              0x00004000
-#define PMF_ZOOM_LOCKED         0x00008000      // Zoom mode cant be changed 
+#define PMF_ZOOM_LOCKED         0x00008000      // Zoom mode cant be changed
 #define PMF_ZOOM_REZOOM         0x00010000      // Rezoom after reload done
 #define PMF_ZOOM_DEFER_RELOAD   0x00020000      // Reload after zoomout
 
@@ -409,7 +409,7 @@ typedef enum {
 
 #define PMF_AUTORELOAD          0x00400000      // autoreloading enabled
 
-#define PMF_SIAMESETWINS        0x00800000  
+#define PMF_SIAMESETWINS        0x00800000
 #define PMF_FOLLOWFIRST         0x01000000      // First person following
 
 #define PMF_ALL_TIMES   (PMF_TIME_WATERJUMP|PMF_TIME_LAND|PMF_TIME_KNOCKBACK)
@@ -496,20 +496,20 @@ void Pmove (pmove_t *pmove);
 
 // player_state->stats[] indexes
 // NOTE: may not have more than 16
-typedef enum 
+typedef enum
 {
     STAT_HEALTH,
     STAT_WEAPONS,                   // 16 bit fields
-    STAT_ARMOR,             
+    STAT_ARMOR,
     STAT_DEAD_YAW,                  // look this direction when dead (FIXME: get rid of?)
     STAT_CLIENTS_READY,             // bit mask of clients wishing to exit the intermission (FIXME: configstring?)
     STAT_FROZEN,
     STAT_GOGGLES,                   // Which visual enhancing device they have
-    STAT_GAMETYPE_ITEMS,            // Which gametype items they have   
+    STAT_GAMETYPE_ITEMS,            // Which gametype items they have
     STAT_SEED,                      // seed used to keep weapon firing in sync
     STAT_OUTFIT_GRENADE,            // indicates which greande is chosen in the outfitting
     STAT_USEICON,                   // icon to display when able to use a trigger or item
-    STAT_USETIME,                   // elased time for using 
+    STAT_USETIME,                   // elased time for using
     STAT_USETIME_MAX,               // total time required to use
     STAT_USEWEAPONDROP,             // value to drop weapon out of view when using
 
@@ -520,7 +520,7 @@ typedef enum
 // these fields are the only part of player_state that isn't
 // cleared on respawn
 // NOTE: may not have more than 16
-typedef enum 
+typedef enum
 {
     PERS_SCORE,                     // !!! MUST NOT CHANGE, SERVER AND GAME BOTH REFERENCE !!!
     PERS_RANK,                      // player rank or team rank
@@ -551,10 +551,10 @@ typedef enum
 #define EF_DEAD                 0x00000001      // don't draw a foe marker over players with EF_DEAD
 #define EF_EXPLODE              0x00000002      // ready to explode
 #define EF_TELEPORT_BIT         0x00000004      // toggled every time the origin abruptly changes
-                                
+
 #define EF_PLAYER_EVENT         0x00000008
 #define EF_BOUNCE               0x00000008      // for missiles
-                                
+
 #define EF_BOUNCE_HALF          0x00000010      // bounce and retain half velocity each time
 #define EF_BOUNCE_SCALE         0x00000020      // bounces using the bounce scale
 #define EF_NODRAW               0x00000040      // may have an event, but no model (unspawned items)
@@ -599,7 +599,7 @@ typedef enum
 
 #define EVENT_VALID_MSEC    300
 
-typedef enum 
+typedef enum
 {
     EV_NONE,
 
@@ -676,7 +676,7 @@ typedef enum
 
     // Procedural gore event.
     EV_PROC_GORE,
-    
+
     EV_GAMETYPE_RESTART,            // gametype restarting
     EV_GAME_OVER,                   // game is over
 
@@ -693,7 +693,7 @@ typedef enum
 
 } voice_event_t;
 
-typedef enum 
+typedef enum
 {
     GAME_OVER_TIMELIMIT,
     GAME_OVER_SCORELIMIT,
@@ -723,7 +723,7 @@ typedef enum {
 
 //---------------------------------------------------------
 
-typedef enum 
+typedef enum
 {
     IT_BAD,
     IT_WEAPON,      // Weapon item
@@ -738,7 +738,7 @@ typedef enum
 
 #define MAX_ITEM_MODELS 4
 
-typedef struct gitem_s 
+typedef struct gitem_s
 {
     char        *classname;                     // spawning name
     char        *pickup_sound;
@@ -795,7 +795,7 @@ qboolean    BG_CanItemBeGrabbed( int gametype, const entityState_t *ent, const p
 //
 // entityState_t->eType
 //
-typedef enum 
+typedef enum
 {
     ET_GENERAL,
     ET_PLAYER,
@@ -834,7 +834,7 @@ void        BG_AddPredictableEventToPlayerstate( int newEvent, int eventParm, pl
 
 void        BG_PlayerStateToEntityState( playerState_t *ps, entityState_t *s, qboolean snap );
 void        BG_PlayerStateToEntityStateExtraPolate( playerState_t *ps, entityState_t *s, int time, qboolean snap );
-void        BG_PlayerAngles( vec3_t startAngles, vec3_t legs[3], 
+void        BG_PlayerAngles( vec3_t startAngles, vec3_t legs[3],
                          vec3_t legsAngles, vec3_t lowerTorsoAngles, vec3_t upperTorsoAngles, vec3_t headAngles,
                          int leanOffset, int painTime, int painDirection, int currentTime,
                          animInfo_t* torsoInfo, animInfo_t* legsInfo,
@@ -1024,7 +1024,7 @@ typedef struct SItemTemplate
 
 } TItemTemplate;
 
-typedef struct SInventoryTemplate 
+typedef struct SInventoryTemplate
 {
     const char                  *mName;
     const char                  *mBolt;
@@ -1088,7 +1088,7 @@ typedef struct SIdentity
     TCharacterTemplate  *mCharacter;
     TSkinTemplate       *mSkin;
     qhandle_t           mIcon;
-    
+
 } TIdentity;
 
 extern TCharacterTemplate   *bg_characterTemplates;
@@ -1106,7 +1106,7 @@ TIdentity*          BG_FindTeamIdentity                 ( const char *identityNa
 TCharacterTemplate* BG_FindCharacterTemplate            ( const char *name );
 const char*         BG_GetModelSound                    ( const char *identityName, const char *SoundGroup, int index );
 qboolean            BG_ParseNPCFiles                    ( void );
-int                 BG_ParseSkin                        ( const char* filename, char* pairs, int pairsSize ); 
+int                 BG_ParseSkin                        ( const char* filename, char* pairs, int pairsSize );
 
 qboolean            BG_IsWeaponAvailableForOutfitting   ( weapon_t weapon, int level );
 void                BG_SetAvailableOutfitting           ( const char* available );
@@ -1115,11 +1115,11 @@ void                BG_CompressOutfitting               ( goutfitting_t* outfitt
 int                 BG_ParseOutfittingTemplates         ( qboolean force );
 int                 BG_FindOutfitting                   ( goutfitting_t* outfitting);
 void                BG_ApplyLeanOffset                  ( playerState_t* ps, vec3_t origin );
-                                                        
+
 /*******************************************************************************
  *
  *  Trap calls that are shared in game, cgame, and user interface and accessed
- *  by the bg_ code.  
+ *  by the bg_ code.
  *
  *******************************************************************************/
 

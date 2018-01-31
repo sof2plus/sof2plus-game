@@ -28,7 +28,7 @@ void    trap_Error( const char *fmt ) {
 }
 
 int     trap_Milliseconds( void ) {
-    return syscall( G_MILLISECONDS ); 
+    return syscall( G_MILLISECONDS );
 }
 int     trap_Argc( void ) {
     return syscall( G_ARGC );
@@ -852,17 +852,17 @@ void trap_G2API_CleanGhoul2Models ( void **ghoul2Ptr )
     syscall(G_G2_CLEANMODELS, ghoul2Ptr);
 }
 
-void trap_G2API_CollisionDetect ( 
-    CollisionRecord_t *collRecMap, 
-    void* ghoul2, 
-    const vec3_t angles, 
+void trap_G2API_CollisionDetect (
+    CollisionRecord_t *collRecMap,
+    void* ghoul2,
+    const vec3_t angles,
     const vec3_t position,
-    int frameNumber, 
-    int entNum, 
-    vec3_t rayStart, 
-    vec3_t rayEnd, 
-    vec3_t scale, 
-    int traceFlags, 
+    int frameNumber,
+    int entNum,
+    vec3_t rayStart,
+    vec3_t rayEnd,
+    vec3_t scale,
+    int traceFlags,
     int useLod
     )
 {

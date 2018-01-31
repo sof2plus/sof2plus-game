@@ -35,10 +35,10 @@ An item fires all of its targets when it is picked up.  If the toucher can't car
 "count" override quantity or duration on most items.
 */
 
-gitem_t bg_itemlist[] = 
+gitem_t bg_itemlist[] =
 {
     {
-        NULL,               // classname    
+        NULL,               // classname
         NULL,               // pickup_sound
         {   NULL,           // world_model[0]
             NULL,           // world_model[1]
@@ -58,10 +58,10 @@ gitem_t bg_itemlist[] =
     // Pickups
     //
 
-/*QUAKED pickup_armor_big (0 .6 .6) (-15 -15 -15) (15 15 15) 
+/*QUAKED pickup_armor_big (0 .6 .6) (-15 -15 -15) (15 15 15)
 */
     {
-        "pickup_armor_big", 
+        "pickup_armor_big",
         "sound/player/pickup/armour.wav",
         { "models/pick_ups/armor_large.md3",
         0, 0, 0},
@@ -77,10 +77,10 @@ gitem_t bg_itemlist[] =
 
     },
 
-/*QUAKED pickup_armor_medium (0 .6 .6) (-15 -15 -15) (15 15 15) 
+/*QUAKED pickup_armor_medium (0 .6 .6) (-15 -15 -15) (15 15 15)
 */
     {
-        "pickup_armor_medium", 
+        "pickup_armor_medium",
         "sound/player/pickup/armour.wav",
         { "models/pick_ups/armor_medium.md3",
         0, 0, 0},
@@ -96,10 +96,10 @@ gitem_t bg_itemlist[] =
 
     },
 
-/*QUAKED pickup_armor_small (0 .6 .6) (-15 -15 -15) (15 15 15) 
-*/  
+/*QUAKED pickup_armor_small (0 .6 .6) (-15 -15 -15) (15 15 15)
+*/
     {
-        "pickup_armor_small", 
+        "pickup_armor_small",
         "sound/player/pickup/armour.wav",
         { "models/pick_ups/armor_small.md3",
         0, 0, 0},
@@ -115,12 +115,12 @@ gitem_t bg_itemlist[] =
 
     },
 
-/*QUAKED pickup_health_big (0 .6 .6) (-15 -15 -15) (15 15 15) 
+/*QUAKED pickup_health_big (0 .6 .6) (-15 -15 -15) (15 15 15)
 */
     {
         "pickup_health_big",
         "sound/player/pickup/health.wav",
-        { "models/pick_ups/health_lrg.md3", 
+        { "models/pick_ups/health_lrg.md3",
         0, 0, 0 },
 /* icon */      "gfx/menus/hud/weapon_icons/health_large_icon",
                 "",
@@ -133,12 +133,12 @@ gitem_t bg_itemlist[] =
 /* sounds */ ""
     },
 
-/*QUAKED pickup_health_small (0 .6 .6) (-15 -15 -15) (15 15 15) 
+/*QUAKED pickup_health_small (0 .6 .6) (-15 -15 -15) (15 15 15)
 */
     {
         "pickup_health_small",
         "sound/player/pickup/health.wav",
-        { "models/pick_ups/health_smll.md3", 
+        { "models/pick_ups/health_smll.md3",
         0, 0, 0 },
 /* icon */      "gfx/menus/hud/weapon_icons/health_small_icon",
                 "",
@@ -157,14 +157,14 @@ gitem_t bg_itemlist[] =
 
 
     //
-    // WEAPONS 
+    // WEAPONS
     //
 
 /*Q U A K E D weapon_knife (.3 .3 1) (-15 -15 -15) (15 15 15) suspended
 Don't place this
 */
     {
-        "weapon_knife", 
+        "weapon_knife",
         "sound/weapons/knife/ready.wav",
         { "models/weapons/knife/world/knifeworld.glm",
         0, 0, 0},
@@ -181,13 +181,13 @@ Don't place this
         OUTFITTING_GROUP_KNIFE
     },
 
-/*QUAKED pickup_weapon_US_SOCOM (0 .6 .6) (-15 -15 -15) (15 15 15) 
+/*QUAKED pickup_weapon_US_SOCOM (0 .6 .6) (-15 -15 -15) (15 15 15)
 Pistol, uses 45 rounds
 */
     {
-        "pickup_weapon_US_SOCOM", 
+        "pickup_weapon_US_SOCOM",
         "sound/player/pickup/weapon.wav",
-        { "models/weapons/ussocom/world/ussocomworld.glm", 
+        { "models/weapons/ussocom/world/ussocomworld.glm",
         0, 0, 0},
 /* icon */      "gfx/menus/hud/weapon_icons/ussocom_icon",
                 "*gfx/menus/weapon_renders/ussocom_mp",
@@ -202,13 +202,13 @@ Pistol, uses 45 rounds
         OUTFITTING_GROUP_PISTOL,
     },
 
-/*QUAKED pickup_weapon_M19 (0 .6 .6) (-15 -15 -15) (15 15 15) 
+/*QUAKED pickup_weapon_M19 (0 .6 .6) (-15 -15 -15) (15 15 15)
 Pistol, uses 45 rounds
 */
     {
-        "pickup_weapon_M19", 
+        "pickup_weapon_M19",
         "sound/player/pickup/weapon.wav",
-        { "models/weapons/m1911a1/world/m1911a1world.glm", 
+        { "models/weapons/m1911a1/world/m1911a1world.glm",
         0, 0, 0},
 /* icon */      "gfx/menus/hud/weapon_icons/m1911a1_icon",
                 "*gfx/menus/weapon_renders/m1911a1",
@@ -223,13 +223,13 @@ Pistol, uses 45 rounds
         OUTFITTING_GROUP_PISTOL,
     },
 
-/*QUAKED pickup_weapon_silvertalon (0 .6 .6) (-15 -15 -15) (15 15 15) 
+/*QUAKED pickup_weapon_silvertalon (0 .6 .6) (-15 -15 -15) (15 15 15)
 Pistol, uses 45 rounds
 */
     {
-        "pickup_weapon_silvertalon", 
+        "pickup_weapon_silvertalon",
         "sound/player/pickup/weapon.wav",
-        { "models/weapons/silver_talon/world/silver_talonworld.glm", 
+        { "models/weapons/silver_talon/world/silver_talonworld.glm",
         0, 0, 0},
 /* icon */      "gfx/menus/hud/weapon_icons/silver_talonicon",
                 "*gfx/menus/weapon_renders/silver_talon",
@@ -244,13 +244,13 @@ Pistol, uses 45 rounds
         OUTFITTING_GROUP_PISTOL,
     },
 
-/*QUAKED pickup_weapon_microuzi (0 .6 .6) (-15 -15 -15) (15 15 15) 
+/*QUAKED pickup_weapon_microuzi (0 .6 .6) (-15 -15 -15) (15 15 15)
 Sub-Machinegun, uses 9mm rounds
 */
     {
-        "pickup_weapon_microuzi", 
+        "pickup_weapon_microuzi",
         "sound/player/pickup/weapon.wav",
-        { "models/weapons/microuzi/world/microuziworld.glm", 
+        { "models/weapons/microuzi/world/microuziworld.glm",
         0, 0, 0},
 /* icon */      "gfx/menus/hud/weapon_icons/microuzi_icon",
                 "*gfx/menus/weapon_renders/microuzi",
@@ -265,13 +265,13 @@ Sub-Machinegun, uses 9mm rounds
         OUTFITTING_GROUP_SECONDARY,
     },
 
-/*QUAKED pickup_weapon_M3A1 (0 .6 .6) (-15 -15 -15) (15 15 15) 
+/*QUAKED pickup_weapon_M3A1 (0 .6 .6) (-15 -15 -15) (15 15 15)
 Sub-Machinegun, uses 45 rounds
 */
     {
-        "pickup_weapon_M3A1", 
+        "pickup_weapon_M3A1",
         "sound/player/pickup/weapon.wav",
-        { "models/weapons/m3a1/world/m3a1world.glm", 
+        { "models/weapons/m3a1/world/m3a1world.glm",
         0, 0, 0},
 /* icon */      "gfx/menus/hud/weapon_icons/m3a1_icon",
                 "gfx/menus/weapon_renders/m3a1",
@@ -286,13 +286,13 @@ Sub-Machinegun, uses 45 rounds
         OUTFITTING_GROUP_SECONDARY,
     },
 
-/*QUAKED pickup_weapon_MP5 (0 .6 .6) (-15 -15 -15) (15 15 15) 
+/*QUAKED pickup_weapon_MP5 (0 .6 .6) (-15 -15 -15) (15 15 15)
 Sub-Machinegun, uses 9mm rounds
 */
     {
-        "pickup_weapon_MP5", 
+        "pickup_weapon_MP5",
         "sound/player/pickup/weapon.wav",
-        { "models/weapons/mp5/world/mp5world.glm", 
+        { "models/weapons/mp5/world/mp5world.glm",
         0, 0, 0},
 /* icon */      "gfx/menus/hud/weapon_icons/mp5_icon",
                 "gfx/menus/weapon_renders/mp5",
@@ -307,14 +307,14 @@ Sub-Machinegun, uses 9mm rounds
         OUTFITTING_GROUP_PRIMARY,
     },
 
-/*QUAKED pickup_weapon_USAS_12 (0 .6 .6) (-15 -15 -15) (15 15 15) 
+/*QUAKED pickup_weapon_USAS_12 (0 .6 .6) (-15 -15 -15) (15 15 15)
 Shotgun, uses 12-gauge rounds
 ammo ---------- amount of ammo (defaults to 10)
 */
     {
-        "pickup_weapon_USAS_12", 
+        "pickup_weapon_USAS_12",
         "sound/player/pickup/weapon.wav",
-        { "models/weapons/usas12/world/usas12world.glm", 
+        { "models/weapons/usas12/world/usas12world.glm",
         0, 0, 0},
 /* icon */      "gfx/menus/hud/weapon_icons/usas12_icon",
                 "gfx/menus/weapon_renders/usas12",
@@ -325,17 +325,17 @@ ammo ---------- amount of ammo (defaults to 10)
         WP_USAS_12_SHOTGUN,
 /* precache */ "",
 /* sounds */ "",
-        
+
         OUTFITTING_GROUP_PRIMARY,
     },
 
-/*QUAKED pickup_weapon_M590 (0 .6 .6) (-15 -15 -15) (15 15 15) 
+/*QUAKED pickup_weapon_M590 (0 .6 .6) (-15 -15 -15) (15 15 15)
 Shotgun, uses 12-gauge rounds
 */
     {
-        "pickup_weapon_M590", 
+        "pickup_weapon_M590",
         "sound/player/pickup/weapon.wav",
-        { "models/weapons/m590/world/m590world.glm", 
+        { "models/weapons/m590/world/m590world.glm",
         0, 0, 0},
 /* icon */      "gfx/menus/hud/weapon_icons/m590_icon",
                 "gfx/menus/weapon_renders/m590",
@@ -350,13 +350,13 @@ Shotgun, uses 12-gauge rounds
         OUTFITTING_GROUP_SECONDARY,
     },
 
-/*QUAKED pickup_weapon_MSG90A1 (0 .6 .6) (-15 -15 -15) (15 15 15) 
+/*QUAKED pickup_weapon_MSG90A1 (0 .6 .6) (-15 -15 -15) (15 15 15)
 Sniper Rifle, uses 7.62 rounds
 */
     {
-        "pickup_weapon_MSG90A1", 
+        "pickup_weapon_MSG90A1",
         "sound/player/pickup/weapon.wav",
-        { "models/weapons/msg90a1/world/msg90a1world.glm", 
+        { "models/weapons/msg90a1/world/msg90a1world.glm",
         0, 0, 0},
 /* icon */      "gfx/menus/hud/weapon_icons/msg90a1_icon",
                 "gfx/menus/weapon_renders/msg90a1",
@@ -371,13 +371,13 @@ Sniper Rifle, uses 7.62 rounds
         OUTFITTING_GROUP_PRIMARY,
     },
 
-/*QUAKED pickup_weapon_M4 (0 .6 .6) (-15 -15 -15) (15 15 15) 
+/*QUAKED pickup_weapon_M4 (0 .6 .6) (-15 -15 -15) (15 15 15)
 Assault Rifle, uses 5.56 rounds and 40mm grenades
 */
     {
-        "pickup_weapon_M4", 
+        "pickup_weapon_M4",
         "sound/player/pickup/weapon.wav",
-        { "models/weapons/m4/world/m4world.glm", 
+        { "models/weapons/m4/world/m4world.glm",
         0, 0, 0},
 /* icon */      "gfx/menus/hud/weapon_icons/m4_icon",
                 "gfx/menus/weapon_renders/m4_m203",
@@ -392,13 +392,13 @@ Assault Rifle, uses 5.56 rounds and 40mm grenades
         OUTFITTING_GROUP_PRIMARY,
     },
 
-/*QUAKED pickup_weapon_AK_74 (0 .6 .6) (-15 -15 -15) (15 15 15) 
+/*QUAKED pickup_weapon_AK_74 (0 .6 .6) (-15 -15 -15) (15 15 15)
 Assault Rifle, uses 5.56 rounds
 */
     {
-        "pickup_weapon_AK_74", 
+        "pickup_weapon_AK_74",
         "sound/player/pickup/weapon.wav",
-        { "models/weapons/ak74/world/ak74world.glm", 
+        { "models/weapons/ak74/world/ak74world.glm",
         0, 0, 0},
 /* icon */      "gfx/menus/hud/weapon_icons/ak74_icon",
                 "gfx/menus/weapon_renders/ak74",
@@ -413,13 +413,13 @@ Assault Rifle, uses 5.56 rounds
         OUTFITTING_GROUP_PRIMARY,
     },
 
-/*QUAKED pickup_weapon_SIG551 (0 .6 .6) (-15 -15 -15) (15 15 15) 
+/*QUAKED pickup_weapon_SIG551 (0 .6 .6) (-15 -15 -15) (15 15 15)
 Assault Rifle, uses 5.56 rounds
 */
     {
-        "pickup_weapon_SIG551", 
+        "pickup_weapon_SIG551",
         "sound/player/pickup/weapon.wav",
-        { "models/weapons/sig551/world/sig551world.glm", 
+        { "models/weapons/sig551/world/sig551world.glm",
         0, 0, 0},
 /* icon */      "gfx/menus/hud/weapon_icons/sig551_icon",
                 "gfx/menus/weapon_renders/sig551",
@@ -434,13 +434,13 @@ Assault Rifle, uses 5.56 rounds
         OUTFITTING_GROUP_PRIMARY,
     },
 
-/*QUAKED pickup_weapon_M60 (0 .6 .6) (-15 -15 -15) (15 15 15) 
+/*QUAKED pickup_weapon_M60 (0 .6 .6) (-15 -15 -15) (15 15 15)
 Machinegun, uses 7.62 rounds
 */
     {
-        "pickup_weapon_M60", 
+        "pickup_weapon_M60",
         "sound/player/pickup/weapon.wav",
-        { "models/weapons/m60/world/m60world.glm", 
+        { "models/weapons/m60/world/m60world.glm",
         0, 0, 0},
 /* icon */      "gfx/menus/hud/weapon_icons/m60_icon",
                 "gfx/menus/weapon_renders/m60",
@@ -455,13 +455,13 @@ Machinegun, uses 7.62 rounds
         OUTFITTING_GROUP_PRIMARY,
     },
 
-/*QUAKED pickup_weapon_RPG_7 (0 .6 .6) (-15 -15 -15) (15 15 15) 
+/*QUAKED pickup_weapon_RPG_7 (0 .6 .6) (-15 -15 -15) (15 15 15)
 RPG, uses 40mm rounds
 */
     {
-        "pickup_weapon_RPG_7", 
+        "pickup_weapon_RPG_7",
         "sound/player/pickup/weapon.wav",
-        { "models/weapons/rpg7/world/rpg7world.glm", 
+        { "models/weapons/rpg7/world/rpg7world.glm",
         0, 0, 0},
 /* icon */      "gfx/menus/hud/weapon_icons/rpg7_icon",
                 "gfx/menus/weapon_renders/rpg7",
@@ -472,17 +472,17 @@ RPG, uses 40mm rounds
         WP_RPG7_LAUNCHER,
 /* precache */ "",
 /* sounds */ "",
-        
+
         OUTFITTING_GROUP_PRIMARY,
     },
 
-/*QUAKED pickup_weapon_MM_1 (0 .6 .6) (-15 -15 -15) (15 15 15) 
+/*QUAKED pickup_weapon_MM_1 (0 .6 .6) (-15 -15 -15) (15 15 15)
 Grenade Launcher, uses 40mm rounds
 */
     {
-        "pickup_weapon_MM_1", 
+        "pickup_weapon_MM_1",
         "sound/player/pickup/weapon.wav",
-        { "models/weapons/mm1/world/mm1world.glm", 
+        { "models/weapons/mm1/world/mm1world.glm",
         0, 0, 0},
 /* icon */      "gfx/menus/hud/weapon_icons/mm1_icon",
                 "gfx/menus/weapon_renders/mm1",
@@ -497,13 +497,13 @@ Grenade Launcher, uses 40mm rounds
         OUTFITTING_GROUP_PRIMARY,
     },
 
-/*QUAKED pickup_weapon_M84 (0 .6 .6) (-15 -15 -15) (15 15 15) 
+/*QUAKED pickup_weapon_M84 (0 .6 .6) (-15 -15 -15) (15 15 15)
 Grenade
 */
     {
-        "pickup_weapon_M84", 
+        "pickup_weapon_M84",
         "sound/player/pickup/weapon.wav",
-        { "models/weapons/m84/world/m84world.glm", 
+        { "models/weapons/m84/world/m84world.glm",
         0, 0, 0},
 /* icon */      "gfx/menus/hud/weapon_icons/m84_icon",
                 "*gfx/menus/weapon_renders/m84",
@@ -518,13 +518,13 @@ Grenade
         OUTFITTING_GROUP_GRENADE,
     },
 
-/*QUAKED pickup_weapon_SMOHG92 (0 .6 .6) (-15 -15 -15) (15 15 15) 
+/*QUAKED pickup_weapon_SMOHG92 (0 .6 .6) (-15 -15 -15) (15 15 15)
 Grenade
 */
     {
-        "pickup_weapon_SMOHG92", 
+        "pickup_weapon_SMOHG92",
         "sound/player/pickup/weapon.wav",
-        { "models/weapons/smohg92/world/smohg92world.glm", 
+        { "models/weapons/smohg92/world/smohg92world.glm",
         0, 0, 0},
 /* icon */      "gfx/menus/hud/weapon_icons/smohg92_icon",
                 "*gfx/menus/weapon_renders/smohg92",
@@ -539,13 +539,13 @@ Grenade
         OUTFITTING_GROUP_GRENADE,
     },
 
-/*QUAKED pickup_weapon_AN_M14 (0 .6 .6) (-15 -15 -15) (15 15 15) 
+/*QUAKED pickup_weapon_AN_M14 (0 .6 .6) (-15 -15 -15) (15 15 15)
 Incendiary Grenade
 */
     {
-        "pickup_weapon_AN_M14", 
+        "pickup_weapon_AN_M14",
         "sound/player/pickup/weapon.wav",
-        { "models/weapons/anm14/world/anm14world.glm", 
+        { "models/weapons/anm14/world/anm14world.glm",
         0, 0, 0},
 /* icon */      "gfx/menus/hud/weapon_icons/anm14_icon",
                 "*gfx/menus/weapon_renders/anm14",
@@ -560,13 +560,13 @@ Incendiary Grenade
         OUTFITTING_GROUP_GRENADE,
     },
 
-/*QUAKED pickup_weapon_M15 (0 .6 .6) (-15 -15 -15) (15 15 15) 
+/*QUAKED pickup_weapon_M15 (0 .6 .6) (-15 -15 -15) (15 15 15)
 White Phosphorus Grenade
 */
     {
-        "pickup_weapon_M15", 
+        "pickup_weapon_M15",
         "sound/player/pickup/weapon.wav",
-        { "models/weapons/m15/world/m15world.glm", 
+        { "models/weapons/m15/world/m15world.glm",
         0, 0, 0},
 /* icon */      "gfx/menus/hud/weapon_icons/m15_icon",
                 "*gfx/menus/weapon_renders/m15",
@@ -585,12 +585,12 @@ White Phosphorus Grenade
     // AMMO ITEMS
     //
 
-/*QUAKED pickup_ammo_45 (0 .6 .6) (-15 -15 -15) (15 15 15) 
+/*QUAKED pickup_ammo_45 (0 .6 .6) (-15 -15 -15) (15 15 15)
 */
     {
         "pickup_ammo_45",
         "sound/player/pickup/ammo.wav",
-        { "models/pick_ups/ammo_45_smll.md3", 
+        { "models/pick_ups/ammo_45_smll.md3",
         0, 0, 0},
 /* icon */      "gfx/menus/hud/weapon_icons/ammo_45_icon",
                 "",
@@ -603,12 +603,12 @@ White Phosphorus Grenade
 /* sounds */ "",
     },
 
-/*QUAKED pickup_ammo_9mm (0 .6 .6) (-15 -15 -15) (15 15 15) 
+/*QUAKED pickup_ammo_9mm (0 .6 .6) (-15 -15 -15) (15 15 15)
 */
     {
         "pickup_ammo_9mm",
         "sound/player/pickup/ammo.wav",
-        { "models/pick_ups/ammo_9mm_smll.md3", 
+        { "models/pick_ups/ammo_9mm_smll.md3",
         0, 0, 0},
 /* icon */      "gfx/menus/hud/weapon_icons/ammo_9mm_icon",
                 "",
@@ -621,12 +621,12 @@ White Phosphorus Grenade
 /* sounds */ "",
     },
 
-/*QUAKED pickup_ammo_12gauge (0 .6 .6) (-15 -15 -15) (15 15 15) 
+/*QUAKED pickup_ammo_12gauge (0 .6 .6) (-15 -15 -15) (15 15 15)
 */
     {
         "pickup_ammo_12gauge",
         "sound/player/pickup/ammo.wav",
-        { "models/pick_ups/ammo_shotgun_smll.md3", 
+        { "models/pick_ups/ammo_shotgun_smll.md3",
         0, 0, 0},
 /* icon */      "gfx/menus/hud/weapon_icons/ammo_shotgun_icon",
                 "",
@@ -639,12 +639,12 @@ White Phosphorus Grenade
 /* sounds */ "",
     },
 
-/*QUAKED pickup_ammo_762 (0 .6 .6) (-15 -15 -15) (15 15 15) 
+/*QUAKED pickup_ammo_762 (0 .6 .6) (-15 -15 -15) (15 15 15)
 */
     {
         "pickup_ammo_762",
         "sound/player/pickup/ammo.wav",
-        { "models/pick_ups/ammo_762_smll.md3", 
+        { "models/pick_ups/ammo_762_smll.md3",
         0, 0, 0},
 /* icon */      "gfx/menus/hud/weapon_icons/ammo_762_icon",
                 "",
@@ -657,12 +657,12 @@ White Phosphorus Grenade
 /* sounds */ "",
     },
 
-/*QUAKED pickup_ammo_556 (0 .6 .6) (-15 -15 -15) (15 15 15) 
+/*QUAKED pickup_ammo_556 (0 .6 .6) (-15 -15 -15) (15 15 15)
 */
     {
         "pickup_ammo_556",
         "sound/player/pickup/ammo.wav",
-        { "models/pick_ups/ammo_556_smll.md3", 
+        { "models/pick_ups/ammo_556_smll.md3",
         0, 0, 0},
 /* icon */      "gfx/menus/hud/weapon_icons/ammo_556_icon",
                 "",
@@ -675,12 +675,12 @@ White Phosphorus Grenade
 /* sounds */ "",
     },
 
-/*QUAKED pickup_ammo_40mm (0 .6 .6) (-15 -15 -15) (15 15 15) 
+/*QUAKED pickup_ammo_40mm (0 .6 .6) (-15 -15 -15) (15 15 15)
 */
     {
         "pickup_ammo_40mm",
         "sound/player/pickup/ammo.wav",
-        { "models/pick_ups/ammo_40_smll.md3", 
+        { "models/pick_ups/ammo_40_smll.md3",
         0, 0, 0},
 /* icon */      "gfx/menus/hud/weapon_icons/ammo_40mm_icon",
                 "",
@@ -694,12 +694,12 @@ White Phosphorus Grenade
     },
 
 
-/*QUAKED pickup_ammo_rpg7 (0 .6 .6) (-15 -15 -15) (15 15 15) 
+/*QUAKED pickup_ammo_rpg7 (0 .6 .6) (-15 -15 -15) (15 15 15)
 */
     {
         "pickup_ammo_rpg7",
         "sound/player/pickup/ammo.wav",
-        { "models/pick_ups/ammo_rpg7_smll.md3", 
+        { "models/pick_ups/ammo_rpg7_smll.md3",
         0, 0, 0},
 /* icon */      "gfx/menus/hud/weapon_icons/ammo_rpg_icon",
                 "",
@@ -713,12 +713,12 @@ White Phosphorus Grenade
     },
 
 
-/*QUAKED pickup_backpack (0 .6 .6) (-15 -15 -15) (15 15 15) 
+/*QUAKED pickup_backpack (0 .6 .6) (-15 -15 -15) (15 15 15)
 */
     {   // just a temp place holder
         "pickup_backpack",
         "sound/player/pickup/health.wav",
-        { "models/pick_ups/mp_universal_pickup.md3", 
+        { "models/pick_ups/mp_universal_pickup.md3",
         0, 0, 0},
 /* icon */      "gfx/menus/hud/weapon_icons/mp_universal_pickup",
                 "",
@@ -819,7 +819,7 @@ White Phosphorus Grenade
         0,
         "",
         "",
-        
+
         OUTFITTING_GROUP_ACCESSORY
     },
 
@@ -869,13 +869,13 @@ int     bg_numItems = sizeof(bg_itemlist) / sizeof(bg_itemlist[0]) - 1;
 BG_FindWeaponItem
 ===============
 */
-gitem_t *BG_FindWeaponItem ( weapon_t weapon ) 
+gitem_t *BG_FindWeaponItem ( weapon_t weapon )
 {
     gitem_t *it;
-    
-    for ( it = bg_itemlist + 1 ; it->classname ; it++) 
+
+    for ( it = bg_itemlist + 1 ; it->classname ; it++)
     {
-        if ( it->giType == IT_WEAPON && it->giTag == weapon ) 
+        if ( it->giType == IT_WEAPON && it->giTag == weapon )
         {
             return it;
         }
@@ -890,11 +890,11 @@ gitem_t *BG_FindWeaponItem ( weapon_t weapon )
 BG_FindItem
 ===============
 */
-gitem_t *BG_FindItem( const char *pickupName ) 
+gitem_t *BG_FindItem( const char *pickupName )
 {
     gitem_t *it;
-    
-    for ( it = bg_itemlist + 1 ; it->classname ; it++ ) 
+
+    for ( it = bg_itemlist + 1 ; it->classname ; it++ )
     {
         if ( !Q_stricmp( it->pickup_name, pickupName ) )
         {
@@ -909,11 +909,11 @@ gitem_t *BG_FindItem( const char *pickupName )
 BG_FindClassnameItem
 ===============
 */
-gitem_t *BG_FindClassnameItem ( const char *classname ) 
+gitem_t *BG_FindClassnameItem ( const char *classname )
 {
     gitem_t *it;
-    
-    for ( it = bg_itemlist + 1 ; it->classname ; it++ ) 
+
+    for ( it = bg_itemlist + 1 ; it->classname ; it++ )
     {
         if ( !Q_stricmp( it->classname, classname ) )
         {
@@ -932,19 +932,19 @@ Items can be picked up without actually touching their physical bounds to make
 grabbing them easier
 ============
 */
-qboolean BG_PlayerTouchesItem( playerState_t *ps, entityState_t *item, int atTime ) 
+qboolean BG_PlayerTouchesItem( playerState_t *ps, entityState_t *item, int atTime )
 {
     vec3_t  origin;
 
     BG_EvaluateTrajectory( &item->pos, atTime, origin );
 
     // we are ignoring ducked differences here
-    if ( ps->origin[0] - origin[0] > 36   || 
+    if ( ps->origin[0] - origin[0] > 36   ||
          ps->origin[0] - origin[0] < -36  ||
          ps->origin[1] - origin[1] > 36   ||
          ps->origin[1] - origin[1] < -36  ||
          ps->origin[2] - origin[2] > 55   ||
-         ps->origin[2] - origin[2] < -50     ) 
+         ps->origin[2] - origin[2] < -50     )
     {
         return qfalse;
     }
@@ -960,11 +960,11 @@ Returns false if the item should not be picked up.
 This needs to be the same for client side prediction and server use.
 ================
 */
-qboolean BG_CanItemBeGrabbed( int gametype, const entityState_t *ent, const playerState_t *ps ) 
+qboolean BG_CanItemBeGrabbed( int gametype, const entityState_t *ent, const playerState_t *ps )
 {
     gitem_t *item;
 
-    if ( ent->modelindex < 1 || ent->modelindex >= bg_numItems ) 
+    if ( ent->modelindex < 1 || ent->modelindex >= bg_numItems )
     {
         Com_Error( ERR_DROP, "BG_CanItemBeGrabbed: index out of range" );
     }
@@ -977,7 +977,7 @@ qboolean BG_CanItemBeGrabbed( int gametype, const entityState_t *ent, const play
         return qfalse;
     }
 
-    switch( item->giType ) 
+    switch( item->giType )
     {
         case IT_WEAPON:
 
@@ -1019,7 +1019,7 @@ qboolean BG_CanItemBeGrabbed( int gametype, const entityState_t *ent, const play
                     {
                         continue;
                     }
-                    
+
                     switch ( witem->outfittingGroup )
                     {
                         case OUTFITTING_GROUP_PRIMARY:
@@ -1044,11 +1044,11 @@ qboolean BG_CanItemBeGrabbed( int gametype, const entityState_t *ent, const play
             // If you dont have it then pick it up
             if ( !(ps->stats[STAT_WEAPONS] & (1<<item->giTag) ) )
             {
-                return qtrue;           
+                return qtrue;
             }
 
             // If you already have the weapon and have full ammo, then dont pick it up
-            if ( ps->ammo[weaponData[item->giTag].attack[ATTACK_NORMAL].ammoIndex] >= ammoData[weaponData[item->giTag].attack[ATTACK_NORMAL].ammoIndex].max) 
+            if ( ps->ammo[weaponData[item->giTag].attack[ATTACK_NORMAL].ammoIndex] >= ammoData[weaponData[item->giTag].attack[ATTACK_NORMAL].ammoIndex].max)
             {
                 if ( BG_WeaponHasAlternateAmmo ( item->giTag ) )
                 {
@@ -1059,7 +1059,7 @@ qboolean BG_CanItemBeGrabbed( int gametype, const entityState_t *ent, const play
                 }
                 else
                 {
-                    return qfalse;      
+                    return qfalse;
                 }
             }
 
@@ -1067,7 +1067,7 @@ qboolean BG_CanItemBeGrabbed( int gametype, const entityState_t *ent, const play
 
         case IT_AMMO:
 
-            if ( ps->ammo[item->giTag] >= ammoData[item->giTag].max) 
+            if ( ps->ammo[item->giTag] >= ammoData[item->giTag].max)
             {
                 return qfalse;      // can't hold any more
             }
@@ -1075,7 +1075,7 @@ qboolean BG_CanItemBeGrabbed( int gametype, const entityState_t *ent, const play
 
         case IT_ARMOR:
 
-            if ( ps->stats[STAT_ARMOR] >= MAX_ARMOR ) 
+            if ( ps->stats[STAT_ARMOR] >= MAX_ARMOR )
             {
                 return qfalse;
             }
@@ -1084,9 +1084,9 @@ qboolean BG_CanItemBeGrabbed( int gametype, const entityState_t *ent, const play
 
         case IT_HEALTH:
 
-            if ( item->quantity == 5 || item->quantity == 100 ) 
+            if ( item->quantity == 5 || item->quantity == 100 )
             {
-                if ( ps->stats[STAT_HEALTH] >= MAX_HEALTH ) 
+                if ( ps->stats[STAT_HEALTH] >= MAX_HEALTH )
                 {
                     return qfalse;
                 }
@@ -1094,16 +1094,16 @@ qboolean BG_CanItemBeGrabbed( int gametype, const entityState_t *ent, const play
                 return qtrue;
             }
 
-            if ( ps->stats[STAT_HEALTH] >= MAX_HEALTH ) 
+            if ( ps->stats[STAT_HEALTH] >= MAX_HEALTH )
             {
                 return qfalse;
             }
 
             return qtrue;
-        
+
         case IT_GAMETYPE:
-            
-            // Can only have one of a given item.  This is for when there are 
+
+            // Can only have one of a given item.  This is for when there are
             // multiple items floating around with the same name
             if ( ps->stats[STAT_GAMETYPE_ITEMS] & (1<<item->giTag) )
             {
@@ -1162,8 +1162,8 @@ qboolean BG_CanItemBeGrabbed( int gametype, const entityState_t *ent, const play
                 return qtrue;
             }
 
-            // Grenades are a special case because they can be depleted by just throwing them.  
-            // Therefore we need to check to see if they have any of the grenades indicated in 
+            // Grenades are a special case because they can be depleted by just throwing them.
+            // Therefore we need to check to see if they have any of the grenades indicated in
             // their outfitting
             if ( ps->pm_flags & PMF_LIMITED_INVENTORY )
             {
@@ -1179,7 +1179,7 @@ qboolean BG_CanItemBeGrabbed( int gametype, const entityState_t *ent, const play
 
         default:
 #ifndef Q3_VM
-#ifndef NDEBUG 
+#ifndef NDEBUG
               Com_Printf("BG_CanItemBeGrabbed: unknown enum %d\n", item->giType );
 #endif
 #endif
@@ -1398,13 +1398,13 @@ This is done after each set of usercmd_t on the server,
 and after local prediction on the client
 ========================
 */
-void BG_PlayerStateToEntityState( playerState_t *ps, entityState_t *s, qboolean snap ) 
+void BG_PlayerStateToEntityState( playerState_t *ps, entityState_t *s, qboolean snap )
 {
-    if ( ps->pm_type == PM_INTERMISSION || ps->pm_type == PM_SPECTATOR ) 
+    if ( ps->pm_type == PM_INTERMISSION || ps->pm_type == PM_SPECTATOR )
     {
         s->eType = ET_INVISIBLE;
-    } 
-    else 
+    }
+    else
     {
         s->eType = ET_PLAYER;
     }
@@ -1414,7 +1414,7 @@ void BG_PlayerStateToEntityState( playerState_t *ps, entityState_t *s, qboolean 
     s->pos.trType = TR_INTERPOLATE;
 
     VectorCopy( ps->origin, s->pos.trBase );
-    if ( snap ) 
+    if ( snap )
     {
         SnapVector( s->pos.trBase );
     }
@@ -1423,7 +1423,7 @@ void BG_PlayerStateToEntityState( playerState_t *ps, entityState_t *s, qboolean 
 
     s->apos.trType = TR_INTERPOLATE;
     VectorCopy( ps->viewangles, s->apos.trBase );
-    if ( snap ) 
+    if ( snap )
     {
         SnapVector( s->apos.trBase );
     }
@@ -1436,11 +1436,11 @@ void BG_PlayerStateToEntityState( playerState_t *ps, entityState_t *s, qboolean 
                                         // so corpses can also reference the proper config
     s->eFlags = ps->eFlags;
 
-    if ( ps->stats[STAT_HEALTH] <= 0 || ps->pm_type == PM_DEAD ) 
+    if ( ps->stats[STAT_HEALTH] <= 0 || ps->pm_type == PM_DEAD )
     {
         s->eFlags |= EF_DEAD;
-    } 
-    else 
+    }
+    else
     {
         s->eFlags &= ~EF_DEAD;
     }
@@ -1463,20 +1463,20 @@ void BG_PlayerStateToEntityState( playerState_t *ps, entityState_t *s, qboolean 
         s->eFlags &= (~EF_DUCKED);
     }
 
-    if ( ps->externalEvent ) 
+    if ( ps->externalEvent )
     {
         s->event = ps->externalEvent;
         s->eventParm = ps->externalEventParm;
-    } 
-    else if ( ps->entityEventSequence < ps->eventSequence ) 
+    }
+    else if ( ps->entityEventSequence < ps->eventSequence )
     {
         int     seq;
 
-        if ( ps->entityEventSequence < ps->eventSequence - MAX_PS_EVENTS) 
+        if ( ps->entityEventSequence < ps->eventSequence - MAX_PS_EVENTS)
         {
             ps->entityEventSequence = ps->eventSequence - MAX_PS_EVENTS;
         }
-        
+
         seq = ps->entityEventSequence & (MAX_PS_EVENTS-1);
         s->event = ps->events[ seq ] | ( ( ps->entityEventSequence & 3 ) << 8 );
         s->eventParm = ps->eventParms[ seq ];
@@ -1500,13 +1500,13 @@ This is done after each set of usercmd_t on the server,
 and after local prediction on the client
 ========================
 */
-void BG_PlayerStateToEntityStateExtraPolate( playerState_t *ps, entityState_t *s, int time, qboolean snap ) 
+void BG_PlayerStateToEntityStateExtraPolate( playerState_t *ps, entityState_t *s, int time, qboolean snap )
 {
-    if ( ps->pm_type == PM_INTERMISSION || ps->pm_type == PM_SPECTATOR ) 
+    if ( ps->pm_type == PM_INTERMISSION || ps->pm_type == PM_SPECTATOR )
     {
         s->eType = ET_INVISIBLE;
-    } 
-    else 
+    }
+    else
     {
         s->eType = ET_PLAYER;
     }
@@ -1516,11 +1516,11 @@ void BG_PlayerStateToEntityStateExtraPolate( playerState_t *ps, entityState_t *s
     s->pos.trType = TR_LINEAR_STOP;
 
     VectorCopy( ps->origin, s->pos.trBase );
-    if ( snap ) 
+    if ( snap )
     {
         SnapVector( s->pos.trBase );
     }
-    
+
     // set the trDelta for flag direction and linear prediction
     VectorCopy( ps->velocity, s->pos.trDelta );
     // set the time for linear prediction
@@ -1530,7 +1530,7 @@ void BG_PlayerStateToEntityStateExtraPolate( playerState_t *ps, entityState_t *s
 
     s->apos.trType = TR_INTERPOLATE;
     VectorCopy( ps->viewangles, s->apos.trBase );
-    if ( snap ) 
+    if ( snap )
     {
         SnapVector( s->apos.trBase );
     }
@@ -1543,11 +1543,11 @@ void BG_PlayerStateToEntityStateExtraPolate( playerState_t *ps, entityState_t *s
                                         // so corpses can also reference the proper config
     s->eFlags = ps->eFlags;
 
-    if ( ps->stats[STAT_HEALTH] <= 0 || ps->pm_type == PM_DEAD ) 
+    if ( ps->stats[STAT_HEALTH] <= 0 || ps->pm_type == PM_DEAD )
     {
         s->eFlags |= EF_DEAD;
-    } 
-    else 
+    }
+    else
     {
         s->eFlags &= ~EF_DEAD;
     }
@@ -1570,16 +1570,16 @@ void BG_PlayerStateToEntityStateExtraPolate( playerState_t *ps, entityState_t *s
         s->eFlags &= (~EF_DUCKED);
     }
 
-    if ( ps->externalEvent ) 
+    if ( ps->externalEvent )
     {
         s->event = ps->externalEvent;
         s->eventParm = ps->externalEventParm;
-    } 
-    else if ( ps->entityEventSequence < ps->eventSequence ) 
+    }
+    else if ( ps->entityEventSequence < ps->eventSequence )
     {
         int seq;
 
-        if ( ps->entityEventSequence < ps->eventSequence - MAX_PS_EVENTS) 
+        if ( ps->entityEventSequence < ps->eventSequence - MAX_PS_EVENTS)
         {
             ps->entityEventSequence = ps->eventSequence - MAX_PS_EVENTS;
         }

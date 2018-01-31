@@ -12,7 +12,7 @@ G_BounceMissile
 
 ================
 */
-void G_BounceMissile( gentity_t *ent, trace_t *trace ) 
+void G_BounceMissile( gentity_t *ent, trace_t *trace )
 {
     vec3_t  velocity;
     float   dot;
@@ -30,17 +30,17 @@ void G_BounceMissile( gentity_t *ent, trace_t *trace )
     dot = DotProduct( velocity, trace->plane.normal );
     VectorMA( velocity, -2*dot, trace->plane.normal, ent->s.pos.trDelta );
 
-    if ( ent->s.eFlags & EF_BOUNCE_HALF ) 
+    if ( ent->s.eFlags & EF_BOUNCE_HALF )
     {
         VectorScale( ent->s.pos.trDelta, 0.65, ent->s.pos.trDelta );
         // check for stop
-        if ( trace->plane.normal[2] > 0.2 && VectorLength( ent->s.pos.trDelta ) < 40 ) 
+        if ( trace->plane.normal[2] > 0.2 && VectorLength( ent->s.pos.trDelta ) < 40 )
         {
             G_SetOrigin( ent, trace->endpos );
             return;
         }
     }
-    else if ( ent->s.eFlags & EF_BOUNCE_SCALE ) 
+    else if ( ent->s.eFlags & EF_BOUNCE_SCALE )
     {
         // IF it hit a client then barely bounce off of them since they are "soft"
         if ( trace->entityNum < MAX_CLIENTS )
@@ -56,21 +56,21 @@ void G_BounceMissile( gentity_t *ent, trace_t *trace )
         }
 
         // check for stop
-        if ( trace->plane.normal[2] > 0.2 && VectorLength( ent->s.pos.trDelta ) < 40 ) 
+        if ( trace->plane.normal[2] > 0.2 && VectorLength( ent->s.pos.trDelta ) < 40 )
         {
             G_SetOrigin( ent, trace->endpos );
 
             if ( ent->parent && ent->parent->client )
             {
                 gentity_t* nearby;
-                
+
                 // Find someone on the opposite team near wher ethe grenade landed
-                nearby = G_FindNearbyClient ( trace->endpos, ent->parent->client->sess.team==TEAM_RED?TEAM_BLUE:TEAM_RED, 800, NULL );              
+                nearby = G_FindNearbyClient ( trace->endpos, ent->parent->client->sess.team==TEAM_RED?TEAM_BLUE:TEAM_RED, 800, NULL );
 
                 if ( nearby )
                 {
                     // Make sure there is someone around to hear them scream
-                    nearby = G_FindNearbyClient ( trace->endpos, nearby->client->sess.team, 800, nearby );              
+                    nearby = G_FindNearbyClient ( trace->endpos, nearby->client->sess.team, 800, nearby );
                     G_VoiceGlobal ( nearby, "grenade", qtrue );
                 }
             }
@@ -114,20 +114,20 @@ void G_ExplodeMissile( gentity_t *ent ) {
     ent->r.svFlags |= SVF_BROADCAST;
 
     // splash damage
-    if ( ent->splashDamage ) 
+    if ( ent->splashDamage )
     {
         if (ent->dflags & DAMAGE_AREA_DAMAGE)
-        {   
+        {
             // do damage over time rather than instantly
             G_CreateDamageArea ( ent->r.currentOrigin, ent->parent, ent->splashDamage*0.06f,ent->splashRadius, 8000,ent->methodOfDeath );
 
             // do some instant damage
-            G_RadiusDamage( ent->r.currentOrigin, ent->parent, ent->damage, ent->splashRadius, ent, 
+            G_RadiusDamage( ent->r.currentOrigin, ent->parent, ent->damage, ent->splashRadius, ent,
                             1, ent->dflags, ent->splashMethodOfDeath );
         }
         else
         {   // normal radius of effect damage
-            G_RadiusDamage( ent->r.currentOrigin, ent->parent, ent->splashDamage, ent->splashRadius, ent, 
+            G_RadiusDamage( ent->r.currentOrigin, ent->parent, ent->splashDamage, ent->splashRadius, ent,
                             1, ent->dflags, ent->splashMethodOfDeath );
         }
     }
@@ -155,7 +155,7 @@ void G_RunStuckMissile( gentity_t *ent )
         {
             gentity_t *other = &g_entities[ent->s.groundEntityNum];
 
-            if ( (!VectorCompare( vec3_origin, other->s.pos.trDelta ) && other->s.pos.trType != TR_STATIONARY) || 
+            if ( (!VectorCompare( vec3_origin, other->s.pos.trDelta ) && other->s.pos.trType != TR_STATIONARY) ||
                 (!VectorCompare( vec3_origin, other->s.apos.trDelta ) && other->s.apos.trType != TR_STATIONARY) )
             {//thing I stuck to is moving or rotating now, kill me
                 G_Damage( ent, other, other, NULL, NULL, 99999, 0, MOD_CRUSH, HL_NONE );
@@ -195,7 +195,7 @@ gentity_t* G_CreateMissile( vec3_t org, vec3_t dir, float vel, int life, gentity
     gentity_t   *missile;
 
     missile = G_Spawn();
-    
+
     missile->nextthink = level.time + life;
     missile->think = G_FreeEntity;
     missile->s.eType = ET_MISSILE;
@@ -226,14 +226,14 @@ gentity_t* G_CreateMissile( vec3_t org, vec3_t dir, float vel, int life, gentity
 G_CauseAreaDamage
 ================
 */
-void G_CauseAreaDamage( gentity_t *ent ) 
+void G_CauseAreaDamage( gentity_t *ent )
 {
     G_RadiusDamage ( ent->r.currentOrigin, ent->parent, ent->splashDamage, ent->splashRadius, ent, 3, DAMAGE_NO_TEAMKILL, ent->methodOfDeath );
 
     ent->s.time2--;
 
     if ( ent->s.time2 <= 0 )
-    {   
+    {
         G_FreeEntity ( ent );
         return;
     }
@@ -252,7 +252,7 @@ gentity_t* G_CreateDamageArea ( vec3_t origin, gentity_t* attacker, float damage
     gentity_t   *damageArea;
 
     damageArea = G_Spawn();
-    
+
     damageArea->nextthink = level.time + 350;
     damageArea->think = G_CauseAreaDamage;
     damageArea->s.eType = ET_DAMAGEAREA;
@@ -291,7 +291,7 @@ G_MissileImpact
 */
 extern gentity_t *CreateWeaponPickup(vec3_t pos,weapon_t weapon);
 extern int G_GetHitLocation(gentity_t *target, vec3_t ppoint, vec3_t dir );
-void G_MissileImpact( gentity_t *ent, trace_t *trace ) 
+void G_MissileImpact( gentity_t *ent, trace_t *trace )
 {
     gentity_t       *other;
     vec3_t  velocity;
@@ -301,12 +301,12 @@ void G_MissileImpact( gentity_t *ent, trace_t *trace )
     d = 0;
 
     // check for bounce
-    if ( ( ent->s.eFlags & ( EF_BOUNCE | EF_BOUNCE_HALF | EF_BOUNCE_SCALE ) ) ) 
+    if ( ( ent->s.eFlags & ( EF_BOUNCE | EF_BOUNCE_HALF | EF_BOUNCE_SCALE ) ) )
     {
         G_BounceMissile( ent, trace );
         return;
     }
-    
+
     // impact damage
     if (other->takedamage)
     {
@@ -325,14 +325,14 @@ void G_MissileImpact( gentity_t *ent, trace_t *trace )
             {
                 VectorNormalize ( velocity );
                 location = G_GetHitLocation ( other, ent->r.currentOrigin, velocity );
-                if ( ent->splashDamage ) 
+                if ( ent->splashDamage )
                 {
                     location = G_MultipleDamageLocations(location);
                 }
             }
-        
-            d = G_Damage(other, ent, &g_entities[ent->r.ownerNum], velocity, 
-                     ent->s.origin, ent->damage, ent->dflags, 
+
+            d = G_Damage(other, ent, &g_entities[ent->r.ownerNum], velocity,
+                     ent->s.origin, ent->damage, ent->dflags,
                      ent->methodOfDeath, location );
 
             if ( d && other->client )
@@ -342,7 +342,7 @@ void G_MissileImpact( gentity_t *ent, trace_t *trace )
 
                 // Put some procedural gore on the target.
                 tent = G_TempEntity( ent->r.currentOrigin, EV_EXPLOSION_HIT_FLESH );
-                
+
                 // send entity and direction
                 VectorSubtract(other->r.currentOrigin, ent->r.currentOrigin, hitdir);
                 VectorNormalize(hitdir);
@@ -350,7 +350,7 @@ void G_MissileImpact( gentity_t *ent, trace_t *trace )
                 tent->s.otherEntityNum2 = other->s.number;          // Victim entity number
 
                 // Pack the shot info into the temp end for gore
-                tent->s.time  = ent->s.weapon + ((((int)other->s.apos.trBase[YAW]&0x7FFF) % 360) << 16);        
+                tent->s.time  = ent->s.weapon + ((((int)other->s.apos.trBase[YAW]&0x7FFF) % 360) << 16);
                 if ( ent->s.eFlags & EF_ALT_FIRING )
                 {
                     tent->s.time += (ATTACK_ALTERNATE<<8);
@@ -365,9 +365,9 @@ void G_MissileImpact( gentity_t *ent, trace_t *trace )
     // is it cheaper in bandwidth to just remove this ent and create a new
     // one, rather than changing the missile into the explosion?
 
-    if ( d && other->client ) 
+    if ( d && other->client )
     {
-        G_AddEvent( ent, EV_MISSILE_HIT, 
+        G_AddEvent( ent, EV_MISSILE_HIT,
                     (DirToByte( trace->plane.normal ) << MATERIAL_BITS) | (trace->surfaceFlags & MATERIAL_MASK));
         ent->s.otherEntityNum = other->s.number;
         if( ent->damage )
@@ -375,10 +375,10 @@ void G_MissileImpact( gentity_t *ent, trace_t *trace )
             // FIXME: might be able to use the value from inside G_Damage to avoid recalc???
             ent->s.otherEntityNum2 = G_GetHitLocation ( other, g_entities[ent->r.ownerNum].r.currentOrigin, velocity );
         }
-    } 
-    else 
+    }
+    else
     {
-        G_AddEvent( ent, EV_MISSILE_MISS, 
+        G_AddEvent( ent, EV_MISSILE_MISS,
                     (DirToByte( trace->plane.normal ) << MATERIAL_BITS) | (trace->surfaceFlags & MATERIAL_MASK));
 
         // If missile should stick into impact point (e.g. a thrown knife).
@@ -412,7 +412,7 @@ void G_MissileImpact( gentity_t *ent, trace_t *trace )
                 pickupEnt->nextthink = level.time + 30000;  // Stick around for 30 seconds
 
                 pickupEnt->count = 1;
-    
+
                 pickupEnt->s.eFlags |= EF_ANGLE_OVERRIDE;
                 VectorCopy(pickupEnt->s.angles,pickupEnt->r.currentAngles);
                 VectorCopy(pickupEnt->s.angles,pickupEnt->s.apos.trBase);
@@ -420,7 +420,7 @@ void G_MissileImpact( gentity_t *ent, trace_t *trace )
                 pickupEnt->s.apos.trTime=level.time;
                 pickupEnt->clipmask = ent->clipmask;
                 pickupEnt->s.groundEntityNum = trace->entityNum;
-                trap_LinkEntity(pickupEnt);         
+                trap_LinkEntity(pickupEnt);
             }
         }
     }
@@ -438,20 +438,20 @@ void G_MissileImpact( gentity_t *ent, trace_t *trace )
     G_SetOrigin( ent, trace->endpos );
 
     // splash damage (doesn't apply to person directly hit)
-    if ( ent->splashDamage ) 
+    if ( ent->splashDamage )
     {
         if (ent->dflags & DAMAGE_AREA_DAMAGE)
-        {   
+        {
             // do damage over time rather than instantly
             G_CreateDamageArea ( trace->endpos, ent->parent, ent->splashDamage*0.06f,ent->splashRadius*2, 8000,ent->methodOfDeath );
 
             // do some instant damage
-            G_RadiusDamage( trace->endpos, ent->parent, ent->damage, ent->splashRadius, other, 
+            G_RadiusDamage( trace->endpos, ent->parent, ent->damage, ent->splashRadius, other,
                             1, ent->dflags, ent->splashMethodOfDeath );
         }
         else
         {   // normal radius of effect damage
-            G_RadiusDamage( trace->endpos, ent->parent, ent->splashDamage, ent->splashRadius, 
+            G_RadiusDamage( trace->endpos, ent->parent, ent->splashDamage, ent->splashRadius,
                             other, 1, ent->dflags, ent->splashMethodOfDeath );
         }
     }
@@ -464,7 +464,7 @@ void G_MissileImpact( gentity_t *ent, trace_t *trace )
 G_RunMissile
 ================
 */
-void G_RunMissile( gentity_t *ent ) 
+void G_RunMissile( gentity_t *ent )
 {
     vec3_t      origin;
     trace_t     tr;
@@ -474,11 +474,11 @@ void G_RunMissile( gentity_t *ent )
     BG_EvaluateTrajectory( &ent->s.pos, level.time, origin );
 
     // if this missile bounced off an invulnerability sphere
-    if ( ent->target_ent ) 
+    if ( ent->target_ent )
     {
         passent = ent->target_ent->s.number;
     }
-    else 
+    else
     {
         // ignore interactions with the missile owner
         passent = ent->r.ownerNum;
@@ -503,7 +503,7 @@ void G_RunMissile( gentity_t *ent )
         if ( origin[2] > level.worldMaxs[2] && ent->s.pos.trType != TR_GRAVITY && ent->s.pos.trType != TR_LIGHTGRAVITY)
         {
             G_FreeEntity( ent );
-            return;             
+            return;
         }
 
         trap_Trace( &tr, ent->r.currentOrigin, ent->r.mins, ent->r.maxs, origin, passent, ent->clipmask );
@@ -537,24 +537,24 @@ void G_RunMissile( gentity_t *ent )
 
             break;
         }
-        
-        if ( tr.startsolid || tr.allsolid ) 
+
+        if ( tr.startsolid || tr.allsolid )
         {
             // make sure the tr.entityNum is set to the entity we're stuck in
             trap_Trace( &tr, ent->r.currentOrigin, ent->r.mins, ent->r.maxs, ent->r.currentOrigin, passent, ent->clipmask );
             tr.fraction = 0;
         }
-        else 
+        else
         {
             VectorCopy( tr.endpos, ent->r.currentOrigin );
         }
 
         trap_LinkEntity( ent );
 
-        if ( tr.fraction != 1 ) 
+        if ( tr.fraction != 1 )
         {
             // Hit the sky or moving through something
-            if ( (tr.surfaceFlags & SURF_NOIMPACT) && (tr.surfaceFlags & SURF_SKY) ) 
+            if ( (tr.surfaceFlags & SURF_NOIMPACT) && (tr.surfaceFlags & SURF_SKY) )
             {
                 // Dont kill a missle that hits the sky and has gravity
                 ent->s.eFlags |= EF_INSKY;
@@ -575,7 +575,7 @@ void G_RunMissile( gentity_t *ent )
                 }
 
                 // Exploded
-                if ( ent->s.eType != ET_MISSILE ) 
+                if ( ent->s.eType != ET_MISSILE )
                 {
                     return;
                 }
@@ -589,7 +589,7 @@ void G_RunMissile( gentity_t *ent )
             return;
         }
     }
-    
+
     // If this is a knife then reorient its angles
     if ( ent->s.weapon == WP_KNIFE )
     {
@@ -603,7 +603,7 @@ void G_RunMissile( gentity_t *ent )
         ent->s.angles[ROLL] = 0;
         ent->s.angles[PITCH] = 0;
     }
-    
+
     // check think function after bouncing
     G_RunThink( ent );
 }

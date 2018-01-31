@@ -4,7 +4,7 @@
 
 #include "g_local.h"
 
-typedef struct 
+typedef struct
 {
     char    oldShader[MAX_QPATH];
     char    newShader[MAX_QPATH];
@@ -17,13 +17,13 @@ typedef struct
 int remapCount = 0;
 shaderRemap_t remappedShaders[MAX_SHADER_REMAPS];
 
-void AddRemap(const char *oldShader, const char *newShader, float timeOffset) 
+void AddRemap(const char *oldShader, const char *newShader, float timeOffset)
 {
     int i;
 
-    for (i = 0; i < remapCount; i++) 
+    for (i = 0; i < remapCount; i++)
     {
-        if (Q_stricmp(oldShader, remappedShaders[i].oldShader) == 0) 
+        if (Q_stricmp(oldShader, remappedShaders[i].oldShader) == 0)
         {
             // found it, just update this one
             strcpy(remappedShaders[i].newShader,newShader);
@@ -31,8 +31,8 @@ void AddRemap(const char *oldShader, const char *newShader, float timeOffset)
             return;
         }
     }
-    
-    if (remapCount < MAX_SHADER_REMAPS) 
+
+    if (remapCount < MAX_SHADER_REMAPS)
     {
         strcpy(remappedShaders[remapCount].newShader,newShader);
         strcpy(remappedShaders[remapCount].oldShader,oldShader);
@@ -41,12 +41,12 @@ void AddRemap(const char *oldShader, const char *newShader, float timeOffset)
     }
 }
 
-const char *BuildShaderStateConfig(void) 
+const char *BuildShaderStateConfig(void)
 {
     static char buff[MAX_STRING_CHARS*4];
     char out[(MAX_QPATH * 2) + 5];
     int i;
-  
+
     memset(buff, 0, MAX_STRING_CHARS);
     for (i = 0; i < remapCount; i++) {
         Com_sprintf(out, (MAX_QPATH * 2) + 5, "%s=%s:%5.2f@", remappedShaders[i].oldShader, remappedShaders[i].newShader, remappedShaders[i].timeOffset);
@@ -60,35 +60,35 @@ const char *BuildShaderStateConfig(void)
 G_FindConfigstringIndex
 ================
 */
-int G_FindConfigstringIndex( char *name, int start, int max, qboolean create ) 
+int G_FindConfigstringIndex( char *name, int start, int max, qboolean create )
 {
     int     i;
     char    s[MAX_STRING_CHARS];
 
-    if ( !name || !name[0] ) 
+    if ( !name || !name[0] )
     {
         return 0;
     }
 
-    for ( i=1 ; i<max ; i++ ) 
+    for ( i=1 ; i<max ; i++ )
     {
         trap_GetConfigstring( start + i, s, sizeof( s ) );
-        if ( !s[0] ) 
+        if ( !s[0] )
         {
             break;
         }
-        if ( !strcmp( s, name ) ) 
+        if ( !strcmp( s, name ) )
         {
             return i;
         }
     }
 
-    if ( !create ) 
+    if ( !create )
     {
         return 0;
     }
 
-    if ( i == max ) 
+    if ( i == max )
     {
         Com_Error( ERR_FATAL, "G_FindConfigstringIndex: overflow" );
     }
@@ -98,28 +98,28 @@ int G_FindConfigstringIndex( char *name, int start, int max, qboolean create )
     return i;
 }
 
-int G_ModelIndex( char *name ) 
+int G_ModelIndex( char *name )
 {
     return G_FindConfigstringIndex (name, CS_MODELS, MAX_MODELS, qtrue);
 }
 
-int G_SoundIndex( char *name ) 
+int G_SoundIndex( char *name )
 {
     return G_FindConfigstringIndex (name, CS_SOUNDS, MAX_SOUNDS, qtrue);
 }
 
-int G_AmbientSoundSetIndex( char *name ) 
+int G_AmbientSoundSetIndex( char *name )
 {
     return G_FindConfigstringIndex (name, CS_AMBIENT_SOUNDSETS, MAX_AMBIENT_SOUNDSETS, qtrue);
 }
 
 
-int G_IconIndex( char *name ) 
+int G_IconIndex( char *name )
 {
     return G_FindConfigstringIndex (name, CS_ICONS, MAX_ICONS, qtrue);
 }
 
-int G_EffectIndex( char *name ) 
+int G_EffectIndex( char *name )
 {
     return G_FindConfigstringIndex (name, CS_EFFECTS, MAX_FX, qtrue);
 }
@@ -136,15 +136,15 @@ G_TeamCommand
 Broadcasts a command to only a specific team
 ================
 */
-void G_TeamCommand( team_t team, char *cmd ) 
+void G_TeamCommand( team_t team, char *cmd )
 {
     int     i;
 
-    for ( i = 0 ; i < level.maxclients ; i++ ) 
+    for ( i = 0 ; i < level.maxclients ; i++ )
     {
-        if ( level.clients[i].pers.connected == CON_CONNECTED ) 
+        if ( level.clients[i].pers.connected == CON_CONNECTED )
         {
-            if ( level.clients[i].sess.team == team ) 
+            if ( level.clients[i].sess.team == team )
             {
                 trap_SendServerCommand( i, va("%s", cmd ));
             }
@@ -232,27 +232,27 @@ gentity_t *G_PickTarget (char *targetname)
     return choice[rand() % num_choices];
 }
 
-void G_UseTargetsByName( const char* name, gentity_t* other, gentity_t *activator ) 
+void G_UseTargetsByName( const char* name, gentity_t* other, gentity_t *activator )
 {
     gentity_t* t;
 
     // Look for an entity
     t = NULL;
-    while ( (t = G_Find (t, FOFS(targetname), name)) != NULL ) 
+    while ( (t = G_Find (t, FOFS(targetname), name)) != NULL )
     {
-        if ( t == other ) 
+        if ( t == other )
         {
             Com_Printf ("WARNING: Entity used itself.\n");
-        } 
-        else 
+        }
+        else
         {
-            if ( t->use ) 
+            if ( t->use )
             {
                 t->use (t, other, activator);
             }
         }
-        
-        if ( other && !other->inuse ) 
+
+        if ( other && !other->inuse )
         {
             Com_Printf("entity was removed while using targets\n");
             return;
@@ -271,21 +271,21 @@ match (string)self.target and call their .use function
 
 ==============================
 */
-void G_UseTargets( gentity_t *ent, gentity_t *activator ) 
+void G_UseTargets( gentity_t *ent, gentity_t *activator )
 {
-    if ( !ent ) 
+    if ( !ent )
     {
         return;
     }
 
-    if (ent->targetShaderName && ent->targetShaderNewName) 
+    if (ent->targetShaderName && ent->targetShaderNewName)
     {
         float f = level.time * 0.001;
         AddRemap(ent->targetShaderName, ent->targetShaderNewName, f);
         trap_SetConfigstring(CS_SHADERSTATE, BuildShaderStateConfig());
     }
 
-    if ( !ent->target ) 
+    if ( !ent->target )
     {
         return;
     }
@@ -372,7 +372,7 @@ void G_SetMovedir( vec3_t angles, vec3_t movedir ) {
 
 float vectoyaw( const vec3_t vec ) {
     float   yaw;
-    
+
     if (vec[YAW] == 0 && vec[PITCH] == 0) {
         yaw = 0;
     } else {
@@ -391,7 +391,7 @@ float vectoyaw( const vec3_t vec ) {
     return yaw;
 }
 
-void G_InitGentity( gentity_t *e ) 
+void G_InitGentity( gentity_t *e )
 {
     e->inuse = qtrue;
     e->classname = "noclass";
@@ -414,28 +414,28 @@ instead of being removed and recreated, which can cause interpolated
 angles and bad trails.
 =================
 */
-gentity_t* G_Spawn( void ) 
+gentity_t* G_Spawn( void )
 {
     int         i, force;
     gentity_t   *e;
 
     e = NULL;   // shut up warning
     i = 0;      // shut up warning
-    for ( force = 0 ; force < 2 ; force++ ) 
+    for ( force = 0 ; force < 2 ; force++ )
     {
         // if we go through all entities and can't find one to free,
         // override the normal minimum times before use
         e = &g_entities[MAX_CLIENTS];
-        for ( i = MAX_CLIENTS ; i<level.num_entities ; i++, e++) 
+        for ( i = MAX_CLIENTS ; i<level.num_entities ; i++, e++)
         {
-            if ( e->inuse ) 
+            if ( e->inuse )
             {
                 continue;
             }
 
             // the first couple seconds of server time can involve a lot of
             // freeing and allocating, so relax the replacement policy
-            if ( !force && e->freetime > level.startTime + 2000 && level.time - e->freetime < 1000 ) 
+            if ( !force && e->freetime > level.startTime + 2000 && level.time - e->freetime < 1000 )
             {
                 continue;
             }
@@ -444,28 +444,28 @@ gentity_t* G_Spawn( void )
             G_InitGentity( e );
             return e;
         }
-        
-        if ( i != MAX_GENTITIES ) 
+
+        if ( i != MAX_GENTITIES )
         {
             break;
         }
     }
-    
-    if ( i == ENTITYNUM_MAX_NORMAL ) 
+
+    if ( i == ENTITYNUM_MAX_NORMAL )
     {
-        for (i = 0; i < MAX_GENTITIES; i++) 
+        for (i = 0; i < MAX_GENTITIES; i++)
         {
             Com_Printf("%4i: %s\n", i, g_entities[i].classname);
         }
 
         Com_Error( ERR_FATAL, "G_Spawn: no free entities" );
     }
-    
+
     // open up a new slot
     level.num_entities++;
 
     // let the server system know that there are more entities
-    trap_LocateGameData( level.gentities, level.num_entities, sizeof( gentity_t ), 
+    trap_LocateGameData( level.gentities, level.num_entities, sizeof( gentity_t ),
                          &level.clients[0].ps, sizeof( level.clients[0] ) );
 
     G_InitGentity( e );
@@ -477,19 +477,19 @@ gentity_t* G_Spawn( void )
 G_EntitiesFree
 =================
 */
-qboolean G_EntitiesFree( void ) 
+qboolean G_EntitiesFree( void )
 {
     int         i;
     gentity_t   *e;
 
     e = &g_entities[MAX_CLIENTS];
-    for ( i = MAX_CLIENTS; i < level.num_entities; i++, e++) 
+    for ( i = MAX_CLIENTS; i < level.num_entities; i++, e++)
     {
-        if ( e->inuse ) 
+        if ( e->inuse )
         {
             continue;
         }
-        
+
         // slot available
         return qtrue;
     }
@@ -503,11 +503,11 @@ G_FreeEntity
 Marks the entity as free
 =================
 */
-void G_FreeEntity( gentity_t *ed ) 
+void G_FreeEntity( gentity_t *ed )
 {
     trap_UnlinkEntity (ed);
 
-    if ( ed->neverFree ) 
+    if ( ed->neverFree )
     {
         return;
     }
@@ -554,7 +554,7 @@ The origin will be snapped to save net bandwidth, so care
 must be taken if the origin is right on a surface (snap towards start vector first)
 =================
 */
-gentity_t *G_TempEntity( vec3_t origin, int event ) 
+gentity_t *G_TempEntity( vec3_t origin, int event )
 {
     gentity_t       *e;
     vec3_t      snapped;
@@ -604,10 +604,10 @@ void G_KillBox (gentity_t *ent) {
     VectorAdd( ent->client->ps.origin, ent->r.maxs, maxs );
     num = trap_EntitiesInBox( mins, maxs, touch, MAX_GENTITIES );
 
-    for ( i = 0; i < num ; i++ ) 
+    for ( i = 0; i < num ; i++ )
     {
         hit = &g_entities[touch[i]];
-        if ( !hit->client ) 
+        if ( !hit->client )
         {
             continue;
         }

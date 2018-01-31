@@ -1597,7 +1597,7 @@ int LoadPathData(const char *filename)
 
             nei_num++;
         }
-        
+
         while (fileString[i] != ' ')
         {
             currentVar[i_cv] = fileString[i];

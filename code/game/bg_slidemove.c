@@ -15,7 +15,7 @@ Returns qtrue if the velocity was clipped in some way
 */
 #define MAX_CLIP_PLANES 5
 
-qboolean    PM_SlideMove( qboolean gravity ) 
+qboolean    PM_SlideMove( qboolean gravity )
 {
     int         bumpcount, numbumps;
     vec3_t      dir;
@@ -31,22 +31,22 @@ qboolean    PM_SlideMove( qboolean gravity )
     float       into;
     vec3_t      endVelocity;
     vec3_t      endClipVelocity;
-    
+
     numbumps = 4;
 
     VectorCopy (pm->ps->velocity, primal_velocity);
 
-    if ( gravity ) 
+    if ( gravity )
     {
         VectorCopy( pm->ps->velocity, endVelocity );
         endVelocity[2] -= pm->ps->gravity * pml.frametime;
         pm->ps->velocity[2] = ( pm->ps->velocity[2] + endVelocity[2] ) * 0.5;
         primal_velocity[2] = endVelocity[2];
-        
-        if ( pml.groundPlane ) 
+
+        if ( pml.groundPlane )
         {
             // slide along the ground plane
-            PM_ClipVelocity (pm->ps->velocity, pml.groundTrace.plane.normal, 
+            PM_ClipVelocity (pm->ps->velocity, pml.groundTrace.plane.normal,
                 pm->ps->velocity, OVERCLIP );
         }
     }
@@ -54,12 +54,12 @@ qboolean    PM_SlideMove( qboolean gravity )
     time_left = pml.frametime;
 
     // never turn against the ground plane
-    if ( pml.groundPlane ) 
+    if ( pml.groundPlane )
     {
         numplanes = 1;
         VectorCopy( pml.groundTrace.plane.normal, planes[0] );
-    } 
-    else 
+    }
+    else
     {
         numplanes = 0;
     }
@@ -68,7 +68,7 @@ qboolean    PM_SlideMove( qboolean gravity )
     VectorNormalize2( pm->ps->velocity, planes[numplanes] );
     numplanes++;
 
-    for ( bumpcount=0 ; bumpcount < numbumps ; bumpcount++ ) 
+    for ( bumpcount=0 ; bumpcount < numbumps ; bumpcount++ )
     {
         // calculate position we are trying to move to
         VectorMA( pm->ps->origin, time_left, pm->ps->velocity, end );
@@ -76,20 +76,20 @@ qboolean    PM_SlideMove( qboolean gravity )
         // see if we can make it there
         pm->trace ( &trace, pm->ps->origin, pm->mins, pm->maxs, end, pm->ps->clientNum, pm->tracemask);
 
-        if (trace.allsolid) 
+        if (trace.allsolid)
         {
             // entity is completely trapped in another solid
             pm->ps->velocity[2] = 0;    // don't build up falling damage, but allow sideways acceleration
             return qtrue;
         }
 
-        if (trace.fraction > 0) 
+        if (trace.fraction > 0)
         {
             // actually covered some distance
             VectorCopy (trace.endpos, pm->ps->origin);
         }
 
-        if (trace.fraction == 1) 
+        if (trace.fraction == 1)
         {
              break;     // moved the entire distance
         }
@@ -99,7 +99,7 @@ qboolean    PM_SlideMove( qboolean gravity )
 
         time_left -= time_left * trace.fraction;
 
-        if (numplanes >= MAX_CLIP_PLANES) 
+        if (numplanes >= MAX_CLIP_PLANES)
         {
             // this shouldn't really happen
             VectorClear( pm->ps->velocity );
@@ -111,16 +111,16 @@ qboolean    PM_SlideMove( qboolean gravity )
         // out along it, which fixes some epsilon issues with
         // non-axial planes
         //
-        for ( i = 0 ; i < numplanes ; i++ ) 
+        for ( i = 0 ; i < numplanes ; i++ )
         {
-            if ( DotProduct( trace.plane.normal, planes[i] ) > 0.99 ) 
+            if ( DotProduct( trace.plane.normal, planes[i] ) > 0.99 )
             {
                 VectorAdd( trace.plane.normal, pm->ps->velocity, pm->ps->velocity );
                 break;
             }
         }
 
-        if ( i < numplanes ) 
+        if ( i < numplanes )
         {
             continue;
         }
@@ -133,16 +133,16 @@ qboolean    PM_SlideMove( qboolean gravity )
         //
 
         // find a plane that it enters
-        for ( i = 0 ; i < numplanes ; i++ ) 
+        for ( i = 0 ; i < numplanes ; i++ )
         {
             into = DotProduct( pm->ps->velocity, planes[i] );
-            if ( into >= 0.1 ) 
+            if ( into >= 0.1 )
             {
                 continue;       // move doesn't interact with the plane
             }
 
             // see how hard we are hitting things
-            if ( -into > pml.impactSpeed ) 
+            if ( -into > pml.impactSpeed )
             {
                 pml.impactSpeed = -into;
             }
@@ -154,13 +154,13 @@ qboolean    PM_SlideMove( qboolean gravity )
             PM_ClipVelocity (endVelocity, planes[i], endClipVelocity, OVERCLIP );
 
             // see if there is a second plane that the new move enters
-            for ( j = 0 ; j < numplanes ; j++ ) 
+            for ( j = 0 ; j < numplanes ; j++ )
             {
-                if ( j == i ) 
+                if ( j == i )
                 {
                     continue;
                 }
-                if ( DotProduct( clipVelocity, planes[j] ) >= 0.1 ) 
+                if ( DotProduct( clipVelocity, planes[j] ) >= 0.1 )
                 {
                     continue;       // move doesn't interact with the plane
                 }
@@ -170,7 +170,7 @@ qboolean    PM_SlideMove( qboolean gravity )
                 PM_ClipVelocity( endClipVelocity, planes[j], endClipVelocity, OVERCLIP );
 
                 // see if it goes back into the first clip plane
-                if ( DotProduct( clipVelocity, planes[i] ) >= 0 ) 
+                if ( DotProduct( clipVelocity, planes[i] ) >= 0 )
                 {
                     continue;
                 }
@@ -187,13 +187,13 @@ qboolean    PM_SlideMove( qboolean gravity )
                 VectorScale( dir, d, endClipVelocity );
 
                 // see if there is a third plane the the new move enters
-                for ( k = 0 ; k < numplanes ; k++ ) 
+                for ( k = 0 ; k < numplanes ; k++ )
                 {
-                    if ( k == i || k == j ) 
+                    if ( k == i || k == j )
                     {
                         continue;
                     }
-                    if ( DotProduct( clipVelocity, planes[k] ) >= 0.1 ) 
+                    if ( DotProduct( clipVelocity, planes[k] ) >= 0.1 )
                     {
                         continue;       // move doesn't interact with the plane
                     }
@@ -211,13 +211,13 @@ qboolean    PM_SlideMove( qboolean gravity )
         }
     }
 
-    if ( gravity ) 
+    if ( gravity )
     {
         VectorCopy( endVelocity, pm->ps->velocity );
     }
 
     // don't change velocity if in a timer (FIXME: is this correct?)
-    if ( pm->ps->pm_time ) 
+    if ( pm->ps->pm_time )
     {
         VectorCopy( primal_velocity, pm->ps->velocity );
     }
@@ -231,7 +231,7 @@ PM_StepSlideMove
 
 ==================
 */
-void PM_StepSlideMove( qboolean gravity ) 
+void PM_StepSlideMove( qboolean gravity )
 {
     trace_t     trace;
     vec3_t      down;
@@ -247,10 +247,10 @@ void PM_StepSlideMove( qboolean gravity )
     VectorCopy (pm->ps->origin, start_o);
     VectorCopy (pm->ps->velocity, start_v);
 
-    if ( PM_SlideMove( gravity ) == 0 ) 
+    if ( PM_SlideMove( gravity ) == 0 )
     {
-        // we got exactly where we wanted to go on the first try    
-        return;     
+        // we got exactly where we wanted to go on the first try
+        return;
     }
 
     // Set the standard stepsize
@@ -290,14 +290,14 @@ void PM_StepSlideMove( qboolean gravity )
     pm->maxs[2] += stepsize;
 
     // No stepping up if you have upward velocity
-    if ( pm->ps->velocity[2] > 0 && (trace.fraction == 1.0 || DotProduct(trace.plane.normal, up) < 0.7)) 
+    if ( pm->ps->velocity[2] > 0 && (trace.fraction == 1.0 || DotProduct(trace.plane.normal, up) < 0.7))
     {
         VectorCopy ( save_o, pm->ps->origin );
         VectorCopy ( save_v, pm->ps->velocity );
         return;
     }
 
-    if ( trace.allsolid || trace.startsolid ) 
+    if ( trace.allsolid || trace.startsolid )
     {
         result = qfalse;
     }
@@ -313,7 +313,7 @@ void PM_StepSlideMove( qboolean gravity )
         if ( trace.allsolid || trace.startsolid )
             result = qfalse;
     }
-    
+
     if ( !result )
     {
         VectorCopy ( save_o, pm->ps->origin );
@@ -324,27 +324,27 @@ void PM_StepSlideMove( qboolean gravity )
     delta = pm->ps->origin[2] - start_o[2];
 
     // Shoould we send a step event?
-    if ( delta > 2 ) 
+    if ( delta > 2 )
     {
-        if ( delta < 7 ) 
+        if ( delta < 7 )
         {
             PM_AddEvent( EV_STEP_4 );
-        } 
-        else if ( delta < 11 ) 
+        }
+        else if ( delta < 11 )
         {
             PM_AddEvent( EV_STEP_8 );
-        } 
-        else if ( delta < 15 ) 
+        }
+        else if ( delta < 15 )
         {
             PM_AddEvent( EV_STEP_12 );
-        } 
-        else 
+        }
+        else
         {
             PM_AddEvent( EV_STEP_16 );
         }
     }
-    
-    if ( pm->debugLevel ) 
+
+    if ( pm->debugLevel )
     {
         Com_Printf("%i:stepped\n", c_pmove);
     }

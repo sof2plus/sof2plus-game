@@ -72,12 +72,12 @@ void    Svcmd_EntityList_f (void) {
 }
 
 
-void Svcmd_ExtendTime_f (void) 
+void Svcmd_ExtendTime_f (void)
 {
     char str[MAX_TOKEN_CHARS];
     int  time;
 
-    if ( trap_Argc() < 2 ) 
+    if ( trap_Argc() < 2 )
     {
         Com_Printf("Usage:  extendtime <minutes>\n");
         return;
@@ -108,12 +108,12 @@ void Svcmd_Mute_f ( void )
     char str[MAX_TOKEN_CHARS];
     int  clientnum;
 
-    if ( trap_Argc() < 2 ) 
+    if ( trap_Argc() < 2 )
     {
         Com_Printf("Usage:  mute <clientid>\n");
         return;
     }
-    
+
     trap_Argv( 1, str, sizeof( str ) );
     clientnum = atoi ( str );
 
@@ -138,7 +138,7 @@ void Svcmd_Mute_f ( void )
     else
     {
         Com_Printf("client %d unmuted\n", clientnum );
-    }   
+    }
 }
 
 gclient_t   *ClientForString( const char *s ) {
@@ -185,7 +185,7 @@ Svcmd_ForceTeam_f
 forceteam <player> <team>
 ===================
 */
-void Svcmd_ForceTeam_f( void ) 
+void Svcmd_ForceTeam_f( void )
 {
     gclient_t   *cl;
     char        str[MAX_TOKEN_CHARS];
@@ -193,7 +193,7 @@ void Svcmd_ForceTeam_f( void )
     // find the player
     trap_Argv( 1, str, sizeof( str ) );
     cl = ClientForString( str );
-    if ( !cl ) 
+    if ( !cl )
     {
         return;
     }
@@ -214,7 +214,7 @@ void Svcmd_CancelVote_f ( void )
 {
     level.voteTime = 0;
 
-    trap_SetConfigstring( CS_VOTE_TIME, "" );   
+    trap_SetConfigstring( CS_VOTE_TIME, "" );
 
     trap_SendServerCommand( -1, "print \"Vote cancelled by admin.\n\"" );
 }
@@ -224,19 +224,19 @@ void Svcmd_CancelVote_f ( void )
 ConsoleCommand
 =================
 */
-qboolean ConsoleCommand( void ) 
+qboolean ConsoleCommand( void )
 {
     char cmd[MAX_TOKEN_CHARS];
 
     trap_Argv( 0, cmd, sizeof( cmd ) );
 
-    if ( Q_stricmp (cmd, "entitylist") == 0 ) 
+    if ( Q_stricmp (cmd, "entitylist") == 0 )
     {
         Svcmd_EntityList_f();
         return qtrue;
     }
 
-    if ( Q_stricmp (cmd, "forceteam") == 0 ) 
+    if ( Q_stricmp (cmd, "forceteam") == 0 )
     {
         Svcmd_ForceTeam_f();
         return qtrue;
@@ -250,13 +250,13 @@ qboolean ConsoleCommand( void )
 
 #ifdef _SOF2_BOTS
 
-    if (Q_stricmp (cmd, "addbot") == 0) 
+    if (Q_stricmp (cmd, "addbot") == 0)
     {
         Svcmd_AddBot_f();
         return qtrue;
     }
 
-    if (Q_stricmp (cmd, "botlist") == 0) 
+    if (Q_stricmp (cmd, "botlist") == 0)
     {
         Svcmd_BotList_f();
         return qtrue;
@@ -289,9 +289,9 @@ qboolean ConsoleCommand( void )
         return qtrue;
     }
 
-    if (g_dedicated.integer) 
+    if (g_dedicated.integer)
     {
-        if (Q_stricmp (cmd, "say") == 0) 
+        if (Q_stricmp (cmd, "say") == 0)
         {
             trap_SendServerCommand( -1, va("chat -1 \"server: %s\n\"", ConcatArgs(1) ) );
             return qtrue;

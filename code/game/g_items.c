@@ -28,8 +28,8 @@ extern gentity_t *droppedBlueFlag;
 void Add_Ammo (gentity_t *ent, int ammoindex, int count)
 {
     ent->client->ps.ammo[ammoindex] += count;
-    
-    if ( ent->client->ps.ammo[ammoindex] > ammoData[ammoindex].max ) 
+
+    if ( ent->client->ps.ammo[ammoindex] > ammoData[ammoindex].max )
     {
         ent->client->ps.ammo[ammoindex] = ammoData[ammoindex].max;
     }
@@ -39,11 +39,11 @@ int Pickup_Ammo (gentity_t *ent, gentity_t *other)
 {
     int quantity;
 
-    if ( ent->count ) 
+    if ( ent->count )
     {
         quantity = ent->count;
-    } 
-    else 
+    }
+    else
     {
         quantity = ent->item->quantity;
     }
@@ -56,7 +56,7 @@ int Pickup_Ammo (gentity_t *ent, gentity_t *other)
 //======================================================================
 
 
-int Pickup_Weapon (gentity_t *ent, gentity_t *other, qboolean* autoswitch ) 
+int Pickup_Weapon (gentity_t *ent, gentity_t *other, qboolean* autoswitch )
 {
     int         quantity;
     int         weaponNum = ent->item->giTag;
@@ -64,17 +64,17 @@ int Pickup_Weapon (gentity_t *ent, gentity_t *other, qboolean* autoswitch )
 
     hasAltAmmo = BG_WeaponHasAlternateAmmo ( weaponNum );
 
-    if ( ent->count < 0 ) 
+    if ( ent->count < 0 )
     {
         quantity = 0; // None for you, sir!
-    } 
-    else 
-    {       
-        if ( ent->count ) 
+    }
+    else
+    {
+        if ( ent->count )
         {
             quantity = ent->count;
-        } 
-        else 
+        }
+        else
         {
             quantity = weaponData[weaponNum].attack[ATTACK_NORMAL].clipSize + (weaponData[weaponNum].attack[ATTACK_ALTERNATE].clipSize<<16);
         }
@@ -103,7 +103,7 @@ int Pickup_Weapon (gentity_t *ent, gentity_t *other, qboolean* autoswitch )
             other->client->ps.clip[ATTACK_ALTERNATE][weaponNum] = ((quantity>>16)&0xFF);
             other->client->ps.ammo[weaponData[weaponNum].attack[ATTACK_ALTERNATE].ammoIndex] -= other->client->ps.clip[ATTACK_ALTERNATE][weaponNum];
         }
-        
+
         if ( other->client->ps.weaponstate != WEAPON_CHARGING     &&
              other->client->ps.weaponstate != WEAPON_CHARGING_ALT    )
         {
@@ -131,22 +131,22 @@ int Pickup_Weapon (gentity_t *ent, gentity_t *other, qboolean* autoswitch )
 
 //======================================================================
 
-int Pickup_Health (gentity_t *ent, gentity_t *other) 
+int Pickup_Health (gentity_t *ent, gentity_t *other)
 {
     int         quantity;
 
-    if ( ent->count ) 
+    if ( ent->count )
     {
         quantity = ent->count;
-    } 
-    else 
+    }
+    else
     {
         quantity = ent->item->quantity;
     }
 
     other->health += quantity;
 
-    if (other->health > MAX_HEALTH ) 
+    if (other->health > MAX_HEALTH )
     {
         other->health = MAX_HEALTH;
     }
@@ -158,11 +158,11 @@ int Pickup_Health (gentity_t *ent, gentity_t *other)
 
 //======================================================================
 
-int Pickup_Armor( gentity_t *ent, gentity_t *other ) 
+int Pickup_Armor( gentity_t *ent, gentity_t *other )
 {
     other->client->ps.stats[STAT_ARMOR] += ent->item->quantity;
 
-    if ( other->client->ps.stats[STAT_ARMOR] > MAX_ARMOR ) 
+    if ( other->client->ps.stats[STAT_ARMOR] > MAX_ARMOR )
     {
         other->client->ps.stats[STAT_ARMOR] = MAX_ARMOR;
     }
@@ -172,7 +172,7 @@ int Pickup_Armor( gentity_t *ent, gentity_t *other )
 
 //======================================================================
 
-int Pickup_Gametype (gentity_t *ent, gentity_t *other) 
+int Pickup_Gametype (gentity_t *ent, gentity_t *other)
 {
     other->client->ps.stats[STAT_GAMETYPE_ITEMS] |= (1<<ent->item->giTag);
 
@@ -230,7 +230,7 @@ int Pickup_Backpack ( gentity_t* ent, gentity_t* other )
         weapon_t weapon = ps->stats[STAT_OUTFIT_GRENADE];
 
         // If the client doesnt even have a greande then we need to give them one
-        // and fill their clip.  They should have already been give ammo 
+        // and fill their clip.  They should have already been give ammo
         if ( !(ps->stats[STAT_WEAPONS] & (1<<weapon)) )
         {
             int ammoIndex;
@@ -252,16 +252,16 @@ int Pickup_Backpack ( gentity_t* ent, gentity_t* other )
 RespawnItem
 ===============
 */
-void RespawnItem( gentity_t *ent ) 
+void RespawnItem( gentity_t *ent )
 {
     // randomly select from teamed entities
-    if (ent->team) 
+    if (ent->team)
     {
         gentity_t   *master;
         int count;
         int choice;
 
-        if ( !ent->teammaster ) 
+        if ( !ent->teammaster )
         {
             Com_Error( ERR_FATAL, "RespawnItem: bad teammaster");
         }
@@ -293,7 +293,7 @@ void RespawnItem( gentity_t *ent )
 Touch_Item
 ===============
 */
-void Touch_Item (gentity_t *ent, gentity_t *other, trace_t *trace) 
+void Touch_Item (gentity_t *ent, gentity_t *other, trace_t *trace)
 {
     int         respawn;
     qboolean    predict;
@@ -305,7 +305,7 @@ void Touch_Item (gentity_t *ent, gentity_t *other, trace_t *trace)
 
     // dead people can't pickup
     if (other->health < 1)
-        return;     
+        return;
 
     // See if teh item can be picked up
     if( ent->s.eFlags & EF_NOPICKUP )
@@ -323,7 +323,7 @@ void Touch_Item (gentity_t *ent, gentity_t *other, trace_t *trace)
         }
     }
     // the same pickup rules are used for client side and server side
-    else if ( !BG_CanItemBeGrabbed( level.gametype, &ent->s, &other->client->ps ) ) 
+    else if ( !BG_CanItemBeGrabbed( level.gametype, &ent->s, &other->client->ps ) )
     {
         return;
     }
@@ -337,7 +337,7 @@ void Touch_Item (gentity_t *ent, gentity_t *other, trace_t *trace)
     autoswitch = qfalse;
 
     // call the item-specific pickup function
-    switch( ent->item->giType ) 
+    switch( ent->item->giType )
     {
         case IT_WEAPON:
             respawn = Pickup_Weapon(ent, other, &autoswitch );
@@ -363,7 +363,7 @@ void Touch_Item (gentity_t *ent, gentity_t *other, trace_t *trace)
             return;
     }
 
-    if ( !respawn && !(ent->flags & FL_DROPPED_ITEM) ) 
+    if ( !respawn && !(ent->flags & FL_DROPPED_ITEM) )
     {
         return;
     }
@@ -375,11 +375,11 @@ void Touch_Item (gentity_t *ent, gentity_t *other, trace_t *trace)
     }
 
     // play the normal pickup sound
-    if (predict) 
+    if (predict)
     {
         G_AddPredictableEvent( other, eventID, ent->s.modelindex | (autoswitch?ITEM_AUTOSWITCHBIT:0)  );
-    } 
-    else 
+    }
+    else
     {
         G_AddEvent( other, eventID, ent->s.modelindex | (autoswitch?ITEM_AUTOSWITCHBIT:0)  );
     }
@@ -388,7 +388,7 @@ void Touch_Item (gentity_t *ent, gentity_t *other, trace_t *trace)
     G_UseTargets (ent, other);
 
     // wait of -1 will not respawn
-    if ( ent->wait == -1 ) 
+    if ( ent->wait == -1 )
     {
         ent->r.svFlags |= SVF_NOCLIENT;
         ent->s.eFlags |= EF_NODRAW;
@@ -398,24 +398,24 @@ void Touch_Item (gentity_t *ent, gentity_t *other, trace_t *trace)
     }
 
     // non zero wait overrides respawn time
-    if ( ent->wait ) 
+    if ( ent->wait )
     {
         respawn = ent->wait;
     }
 
     // random can be used to vary the respawn time
-    if ( ent->random ) 
+    if ( ent->random )
     {
         respawn += crandom() * ent->random;
-        
-        if ( respawn < 1 ) 
+
+        if ( respawn < 1 )
         {
             respawn = 1;
         }
     }
 
     // dropped items will not respawn
-    if ( ent->flags & FL_DROPPED_ITEM ) 
+    if ( ent->flags & FL_DROPPED_ITEM )
     {
         ent->freeAfterEvent = qtrue;
     }
@@ -428,14 +428,14 @@ void Touch_Item (gentity_t *ent, gentity_t *other, trace_t *trace)
     ent->r.contents = 0;
 
     // ZOID
-    // A negative respawn times means to never respawn this item (but don't 
+    // A negative respawn times means to never respawn this item (but don't
     // delete it).  This is used by items that are respawned by third party events
-    if ( respawn <= 0 ) 
+    if ( respawn <= 0 )
     {
         ent->nextthink = 0;
         ent->think = 0;
-    } 
-    else 
+    }
+    else
     {
         ent->nextthink = level.time + respawn * 1000;
         ent->think = RespawnItem;
@@ -454,7 +454,7 @@ LaunchItem
 Spawns an item and tosses it forward
 ================
 */
-gentity_t *LaunchItem( gitem_t *item, vec3_t origin, vec3_t velocity ) 
+gentity_t *LaunchItem( gitem_t *item, vec3_t origin, vec3_t velocity )
 {
     gentity_t   *dropped;
 
@@ -509,7 +509,7 @@ G_DropItem
 Spawns an item and tosses it forward
 ================
 */
-gentity_t *G_DropItem( gentity_t *ent, gitem_t *item, float angle ) 
+gentity_t *G_DropItem( gentity_t *ent, gitem_t *item, float angle )
 {
     vec3_t      velocity;
     vec3_t      angles;
@@ -522,7 +522,7 @@ gentity_t *G_DropItem( gentity_t *ent, gitem_t *item, float angle )
     AngleVectors( angles, velocity, NULL, NULL );
     VectorScale( velocity, 100, velocity );
     velocity[2] += 100 + crandom() * 50;
-    
+
     dropped = LaunchItem( item, ent->r.currentOrigin, velocity );
 
     if ( item->giType == IT_GAMETYPE )
@@ -611,7 +611,7 @@ gentity_t* G_DropWeapon ( gentity_t* ent, weapon_t weapon, int pickupDelay )
     gentity_t*  dropped;
     gitem_t*    item;
     vec3_t      angles;
-    
+
     if ( weapon <= WP_KNIFE || weapon >= WP_NUM_WEAPONS )
     {
         return NULL;
@@ -646,7 +646,7 @@ gentity_t* G_DropWeapon ( gentity_t* ent, weapon_t weapon, int pickupDelay )
     // Dont bother if the weapon doesnt have alternate ammo
     if ( BG_WeaponHasAlternateAmmo ( weapon ) )
     {
-        dropped->count += ((ent->client->ps.clip[ATTACK_ALTERNATE][weapon] << 16) & 0xFF0000 ); 
+        dropped->count += ((ent->client->ps.clip[ATTACK_ALTERNATE][weapon] << 16) & 0xFF0000 );
 
         // If the ammo isnt being shared then send it all with the gun
         if ( !G_IsAmmoBeingShared ( ent, weaponData[weapon].attack[ATTACK_ALTERNATE].ammoIndex, weapon ) )
@@ -658,7 +658,7 @@ gentity_t* G_DropWeapon ( gentity_t* ent, weapon_t weapon, int pickupDelay )
 
     // Clear the clips
     ent->client->ps.clip[ATTACK_NORMAL][weapon] = 0;
-    ent->client->ps.clip[ATTACK_ALTERNATE][weapon] = 0; 
+    ent->client->ps.clip[ATTACK_ALTERNATE][weapon] = 0;
 
     // Take the weapon away
     ent->client->ps.stats[STAT_WEAPONS] &= ~(1<<weapon);
@@ -674,14 +674,14 @@ gentity_t* G_DropWeapon ( gentity_t* ent, weapon_t weapon, int pickupDelay )
     // let them pick it up immediately
     else if ( pickupDelay )
     {
-        dropped->nextthink = level.time + 3000; 
+        dropped->nextthink = level.time + 3000;
         dropped->s.eFlags |= EF_NOPICKUP;
         dropped->think = G_EnablePickup;
     }
     // Always need a tad bit of delay on pickup for prediction issues
     else
     {
-        dropped->nextthink = level.time + 200;  
+        dropped->nextthink = level.time + 200;
         dropped->s.eFlags |= EF_NOPICKUP;
         dropped->think = G_EnablePickup;
     }
@@ -705,7 +705,7 @@ Use_Item
 Respawn the item
 ================
 */
-void Use_Item( gentity_t *ent, gentity_t *other, gentity_t *activator ) 
+void Use_Item( gentity_t *ent, gentity_t *other, gentity_t *activator )
 {
     RespawnItem( ent );
 }
@@ -720,7 +720,7 @@ Traces down to find where an item should rest, instead of letting them
 free fall from their spawn points
 ================
 */
-void FinishSpawningItem( gentity_t *ent ) 
+void FinishSpawningItem( gentity_t *ent )
 {
     trace_t     tr;
     vec3_t      dest;
@@ -747,18 +747,18 @@ void FinishSpawningItem( gentity_t *ent )
         ent->s.radius = 60;
     }
 */
-    if ( ent->item->giType != IT_GAMETYPE && (ent->spawnflags & 1) ) 
+    if ( ent->item->giType != IT_GAMETYPE && (ent->spawnflags & 1) )
     {
         // suspended
         G_SetOrigin( ent, ent->s.origin );
-    } 
-    else 
-    {       
+    }
+    else
+    {
         // drop to floor
         VectorSet( src, ent->s.origin[0], ent->s.origin[1], ent->s.origin[2] + 1 );
         VectorSet( dest, ent->s.origin[0], ent->s.origin[1], ent->s.origin[2] - 4096 );
         trap_Trace( &tr, src, ent->r.mins, ent->r.maxs, dest, ent->s.number, MASK_SOLID );
-        if ( tr.startsolid ) 
+        if ( tr.startsolid )
         {
             Com_Printf ("FinishSpawningItem: %s startsolid at %s\n", ent->classname, vtos(ent->s.origin));
             G_FreeEntity( ent );
@@ -795,7 +795,7 @@ qboolean    itemRegistered[MAX_ITEMS];
 ClearRegisteredItems
 ==============
 */
-void ClearRegisteredItems( void ) 
+void ClearRegisteredItems( void )
 {
     memset( itemRegistered, 0, sizeof( itemRegistered ) );
 
@@ -811,9 +811,9 @@ RegisterItem
 The item will be added to the precache list
 ===============
 */
-void RegisterItem( gitem_t *item ) 
+void RegisterItem( gitem_t *item )
 {
-    if ( !item ) 
+    if ( !item )
     {
         Com_Printf( "RegisterItem: NULL" );
     }
@@ -829,26 +829,26 @@ Write the needed items to a config string
 so the client will know which ones to precache
 ===============
 */
-void SaveRegisteredItems( void ) 
+void SaveRegisteredItems( void )
 {
     char    string[MAX_ITEMS+1];
     int     i;
     int     count;
 
     count = 0;
-    for ( i = 0 ; i < bg_numItems ; i++ ) 
+    for ( i = 0 ; i < bg_numItems ; i++ )
     {
-        if ( itemRegistered[i] ) 
+        if ( itemRegistered[i] )
         {
             count++;
             string[i] = '1';
         }
-        else 
+        else
         {
             string[i] = '0';
         }
     }
-    
+
     string[ bg_numItems ] = 0;
 
     Com_Printf( "%i items registered\n", count );
@@ -860,7 +860,7 @@ void SaveRegisteredItems( void )
 G_ItemDisabled
 ============
 */
-qboolean G_ItemDisabled( gitem_t *item ) 
+qboolean G_ItemDisabled( gitem_t *item )
 {
     char name[128];
     int  val;
@@ -894,7 +894,7 @@ Items can't be immediately dropped to floor, because they might
 be on an entity that hasn't spawned yet.
 ============
 */
-void G_SpawnItem (gentity_t *ent, gitem_t *item) 
+void G_SpawnItem (gentity_t *ent, gitem_t *item)
 {
     // Weapons can be disabled
     if ( item->giType == IT_WEAPON )
@@ -903,7 +903,7 @@ void G_SpawnItem (gentity_t *ent, gitem_t *item)
         {
             return;
         }
-    }   
+    }
 
     G_SpawnFloat( "random", "0", &ent->random );
     G_SpawnFloat( "wait", "0", &ent->wait );
@@ -962,7 +962,7 @@ void G_BounceItem( gentity_t *ent, trace_t *trace ) {
 G_RunItem
 ================
 */
-void G_RunItem( gentity_t *ent ) 
+void G_RunItem( gentity_t *ent )
 {
     vec3_t      origin;
     trace_t     tr;
@@ -970,16 +970,16 @@ void G_RunItem( gentity_t *ent )
     int         mask;
 
     // if groundentity has been set to -1, it may have been pushed off an edge
-    if ( ent->s.groundEntityNum == -1 ) 
+    if ( ent->s.groundEntityNum == -1 )
     {
-        if ( ent->s.pos.trType != TR_GRAVITY ) 
+        if ( ent->s.pos.trType != TR_GRAVITY )
         {
             ent->s.pos.trType = TR_GRAVITY;
             ent->s.pos.trTime = level.time;
         }
     }
 
-    if ( ent->s.pos.trType == TR_STATIONARY ) 
+    if ( ent->s.pos.trType == TR_STATIONARY )
     {
         // check think function
         G_RunThink( ent );
@@ -990,11 +990,11 @@ void G_RunItem( gentity_t *ent )
     BG_EvaluateTrajectory( &ent->s.pos, level.time, origin );
 
     // trace a line from the previous position to the current position
-    if ( ent->clipmask ) 
+    if ( ent->clipmask )
     {
         mask = ent->clipmask;
-    } 
-    else 
+    }
+    else
     {
         mask = MASK_PLAYERSOLID & ~CONTENTS_BODY;//MASK_SOLID;
     }
@@ -1003,30 +1003,30 @@ void G_RunItem( gentity_t *ent )
 
     VectorCopy( tr.endpos, ent->r.currentOrigin );
 
-    if ( tr.startsolid ) 
+    if ( tr.startsolid )
     {
         tr.fraction = 0;
     }
 
     // FIXME: avoid this for stationary?
-    trap_LinkEntity( ent ); 
+    trap_LinkEntity( ent );
 
     // check think function
     G_RunThink( ent );
 
-    if ( tr.fraction == 1 ) 
+    if ( tr.fraction == 1 )
     {
         return;
     }
 
     // if it is in a nodrop volume, remove it
     contents = trap_PointContents( ent->r.currentOrigin, -1 );
-    if ( contents & CONTENTS_NODROP ) 
+    if ( contents & CONTENTS_NODROP )
     {
         // Gametype items are reported to the gametype when they are stuck like this
         if ( ent->item && ent->item->giType == IT_GAMETYPE )
         {
-            // Let the gametype handle the problem, if it doenst handle it and return 1 then 
+            // Let the gametype handle the problem, if it doenst handle it and return 1 then
             // just reset the gametype item
             if ( !trap_GT_SendEvent ( GTEV_ITEM_STUCK, level.time, level.gametypeItems[ent->item->giTag].id, 0, 0, 0, 0 ) )
             {
@@ -1045,7 +1045,7 @@ gentity_t *CreateWeaponPickup(vec3_t pos,weapon_t weapon)
 {
     gentity_t   *dropped;
     gitem_t     *item;
-    
+
     if ( weapon < WP_KNIFE || weapon >= WP_NUM_WEAPONS )
     {
         return 0;

@@ -1,6 +1,6 @@
 // Copyright (C) 2000-2001 Raven Software, Inc.
 //
-// g_antilag.c -- handles server side anti-lag 
+// g_antilag.c -- handles server side anti-lag
 
 #include "g_local.h"
 
@@ -17,13 +17,13 @@ void G_UpdateClientAntiLag ( gentity_t* ent )
 
     head = ent->client->antilagHead;
 
-    // If on a new frame snap the head up to the end of the last frame and 
+    // If on a new frame snap the head up to the end of the last frame and
     // add a new head
     if ( ent->client->antilag[head].leveltime < level.time )
     {
         ent->client->antilag[head].time = level.previousTime;
 
-        // Move to the next position 
+        // Move to the next position
         if ( (++ent->client->antilagHead) > MAX_ANTILAG )
         {
             ent->client->antilagHead = 0;
@@ -33,20 +33,20 @@ void G_UpdateClientAntiLag ( gentity_t* ent )
     }
 
     // Bots only move once per frame
-    if ( ent->r.svFlags & SVF_BOT ) 
+    if ( ent->r.svFlags & SVF_BOT )
     {
         newtime = level.time;
-    } 
-    else 
+    }
+    else
     {
-        // calculate the actual server time     
+        // calculate the actual server time
         newtime = level.previousTime + trap_Milliseconds() - level.frameStartTime;
-        
-        if ( newtime > level.time ) 
+
+        if ( newtime > level.time )
         {
             newtime = level.time;
-        } 
-        else if ( newtime <= level.previousTime ) 
+        }
+        else if ( newtime <= level.previousTime )
         {
             newtime = level.previousTime + 1;
         }
@@ -78,7 +78,7 @@ G_UndoClientAntiLag
 */
 void G_UndoClientAntiLag ( gentity_t* ent )
 {
-    // If the client isnt already in the past then 
+    // If the client isnt already in the past then
     // dont bother doing anything
     if ( ent->client->antilagUndo.leveltime != level.time  )
         return;
@@ -220,7 +220,7 @@ void G_UndoAntiLag ( void )
     for ( i = 0; i < level.numConnectedClients; i ++ )
     {
         gentity_t* other = &g_entities[level.sortedClients[i]];
-        
+
         if ( other->client->pers.connected != CON_CONNECTED )
         {
             continue;
@@ -264,7 +264,7 @@ void G_ApplyAntiLag ( gentity_t* ref, qboolean enlargeHitBox )
 
     // Figure out the reference time based on the reference clients server time
     reftime = ref->client->pers.cmd.serverTime;
-    if ( reftime > level.time ) 
+    if ( reftime > level.time )
     {
         reftime = level.time;
     }
@@ -318,7 +318,7 @@ void G_ApplyAntiLag ( gentity_t* ref, qboolean enlargeHitBox )
                 other->r.maxs[2] += 10;
             }
 
-            // Adjust the hit box to account for hands and such 
+            // Adjust the hit box to account for hands and such
             // that are sticking out of the normal bounding box
 
             if ( other->client->ps.pm_flags & PMF_LEANING )
@@ -341,5 +341,5 @@ void G_ApplyAntiLag ( gentity_t* ref, qboolean enlargeHitBox )
 
         // Relink the entity into the world
         trap_LinkEntity ( other );
-    }   
+    }
 }

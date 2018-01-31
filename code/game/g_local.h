@@ -17,7 +17,7 @@
 #define BODY_QUEUE_SIZE             8
 
 #define INFINITE                    1000000
-#define Q3_INFINITE                 16777216 
+#define Q3_INFINITE                 16777216
 
 #define FRAMETIME                   100                 // msec
 
@@ -35,7 +35,7 @@
 #define MAX_SPAWNS                  128
 
 // movers are things like doors, plats, buttons, etc
-typedef enum 
+typedef enum
 {
     MOVER_POS1,
     MOVER_POS2,
@@ -47,7 +47,7 @@ typedef enum
 typedef struct gentity_s gentity_t;
 typedef struct gclient_s gclient_t;
 
-struct gentity_s 
+struct gentity_s
 {
     entityState_t   s;              // communicated by server to clients
     entityShared_t  r;              // shared by both the server system and game
@@ -71,13 +71,13 @@ struct gentity_s
     char        *model;
     char        *model2;
     int         freetime;           // level.time when the object was freed
-    
+
     int         eventTime;          // events will be cleared EVENT_VALID_MSEC after set
     qboolean    freeAfterEvent;
     qboolean    unlinkAfterEvent;
 
     qboolean    physicsObject;      // if true, it can be pushed by movers and fall off edges
-                                    // all game items are physicsObjects, 
+                                    // all game items are physicsObjects,
     float       physicsBounce;      // 1.0 = continuous bounce, 0.0 = no bounce
     int         clipmask;           // brushes with this content value will be collided against
                                     // when moving.  items and corpses do not collide against
@@ -175,7 +175,7 @@ typedef struct gtitem_s
 
 } gtitem_t;
 
-typedef enum 
+typedef enum
 {
     CON_DISCONNECTED,
     CON_CONNECTING,
@@ -183,7 +183,7 @@ typedef enum
 
 } clientConnected_t;
 
-typedef enum 
+typedef enum
 {
     SPECTATOR_NOT,
     SPECTATOR_FREE,
@@ -193,14 +193,14 @@ typedef enum
 
 } spectatorState_t;
 
-typedef enum 
+typedef enum
 {
     TEAM_BEGIN,     // Beginning a team game, spawn at base
     TEAM_ACTIVE     // Now actively playing
 
 } playerTeamStateState_t;
 
-typedef struct 
+typedef struct
 {
     playerTeamStateState_t  state;
 
@@ -229,11 +229,11 @@ typedef struct
 // this is achieved by writing all the data to cvar strings at game shutdown
 // time and reading them back at connection time.  Anything added here
 // MUST be dealt with in G_InitSessionData() / G_ReadSessionData() / G_WriteSessionData()
-typedef struct 
+typedef struct
 {
     team_t              team;                   // current team
     int                 spectatorTime;          // for determining next-in-line to play
-    spectatorState_t    spectatorState;         
+    spectatorState_t    spectatorState;
     qboolean            spectatorFirstPerson;   // First person following?
     int                 spectatorClient;        // for chasecam and follow mode
     int                 score;                  // total score
@@ -255,9 +255,9 @@ typedef struct
 
 // client data that stays across multiple respawns, but is cleared
 // on each level change or team change at ClientBegin()
-typedef struct 
+typedef struct
 {
-    clientConnected_t   connected;  
+    clientConnected_t   connected;
     usercmd_t           cmd;                        // we would lose angles if not persistant
     qboolean            localClient;                // true if "ip" info key is "localhost"
     qboolean            initialSpawn;               // the first spawn should be at a cool location
@@ -306,7 +306,7 @@ typedef struct gantilag_s
 
 // this structure is cleared on each ClientSpawn(),
 // except for 'client->pers' and 'client->sess'
-struct gclient_s 
+struct gclient_s
 {
     // ps MUST be the first element, because the server expects it
     playerState_t   ps;             // communicated by server to clients
@@ -335,7 +335,7 @@ struct gclient_s
     int         damage_knockback;   // impact damage
     vec3_t      damage_from;        // origin for vector calculation
     qboolean    damage_fromWorld;   // if true, don't use the damage_from vector
-    
+
     int         accurateCount;      // for "impressive" reward sound
 
     //
@@ -366,7 +366,7 @@ struct gclient_s
     int             voiceFloodTimer;        // Timer used to forgive voice chat flooding
     int             voiceFloodCount;        // Amount of voice chats that need to be forgivin
     int             voiceFloodPenalty;      // Time when a client can voice chat again
-    
+
     // Anti-lag information
     gantilag_t      antilag[MAX_ANTILAG];
     gantilag_t      antilagUndo;
@@ -397,7 +397,7 @@ struct gclient_s
 
 #define MAX_AUTOKICKLIST        32
 
-typedef struct 
+typedef struct
 {
     struct gclient_s    *clients;       // [maxclients]
 
@@ -422,7 +422,7 @@ typedef struct
     int         framenum;
     int         time;                   // in msec
     int         previousTime;           // so movers can back up when blocked
-    int         frameStartTime;         
+    int         frameStartTime;
 
     int         startTime;              // level.time the map was started
     int         globalVoiceTime;        // last global voice
@@ -588,7 +588,7 @@ void SaveRegisteredItems( void );
 //
 int     G_ModelIndex        ( char *name );
 int     G_SoundIndex        ( char *name );
-int     G_AmbientSoundSetIndex( char *name ); 
+int     G_AmbientSoundSetIndex( char *name );
 int     G_BSPIndex          ( char *name );
 int     G_IconIndex         ( char *name );
 int     G_EffectIndex       ( char *name );

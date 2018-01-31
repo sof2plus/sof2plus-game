@@ -23,13 +23,13 @@ void SP_info_notnull( gentity_t *self )
 TeleportPlayer
 =================================================================================
 */
-void TeleportPlayer ( gentity_t *player, vec3_t origin, vec3_t angles ) 
+void TeleportPlayer ( gentity_t *player, vec3_t origin, vec3_t angles )
 {
     gentity_t   *tent;
 
     // use temp events at source and destination to prevent the effect
     // from getting dropped by a second player event
-    if ( !G_IsClientSpectating ( player->client ) ) 
+    if ( !G_IsClientSpectating ( player->client ) )
     {
         tent = G_TempEntity( player->client->ps.origin, EV_PLAYER_TELEPORT_OUT );
         tent->s.clientNum = player->s.clientNum;
@@ -57,7 +57,7 @@ void TeleportPlayer ( gentity_t *player, vec3_t origin, vec3_t angles )
     SetClientViewAngle( player, angles );
 
     // kill anything at the destination
-    if ( !G_IsClientSpectating ( player->client ) ) 
+    if ( !G_IsClientSpectating ( player->client ) )
     {
         G_KillBox (player);
     }
@@ -68,7 +68,7 @@ void TeleportPlayer ( gentity_t *player, vec3_t origin, vec3_t angles )
     // use the precise origin for linking
     VectorCopy( player->client->ps.origin, player->r.currentOrigin );
 
-    if ( !G_IsClientSpectating ( player->client ) ) 
+    if ( !G_IsClientSpectating ( player->client ) )
     {
         trap_LinkEntity (player);
     }
@@ -80,7 +80,7 @@ Point teleporters at these.
 Now that we don't have teleport destination pads, this is just
 an info_notnull
 */
-void SP_misc_teleporter_dest( gentity_t *ent ) 
+void SP_misc_teleporter_dest( gentity_t *ent )
 {
 }
 
@@ -90,7 +90,7 @@ void SP_misc_teleporter_dest( gentity_t *ent )
 this model is inserted into the bsp file
 "model"     arbitrary .md3 file to display
 */
-void SP_misc_model( gentity_t *ent ) 
+void SP_misc_model( gentity_t *ent )
 {
 #if 0
     ent->s.modelindex = G_ModelIndex( ent->model );
@@ -129,14 +129,14 @@ void SP_misc_G2model( gentity_t *ent ) {
 
 //===========================================================
 
-void locateCamera( gentity_t *ent ) 
+void locateCamera( gentity_t *ent )
 {
     vec3_t      dir;
     gentity_t   *target;
     gentity_t   *owner;
 
     owner = G_PickTarget( ent->target );
-    if ( !owner ) 
+    if ( !owner )
     {
         Com_Printf( "Couldn't find target for misc_partal_surface\n" );
         G_FreeEntity( ent );
@@ -145,22 +145,22 @@ void locateCamera( gentity_t *ent )
     ent->r.ownerNum = owner->s.number;
 
     // frame holds the rotate speed
-    if ( owner->spawnflags & 1 ) 
+    if ( owner->spawnflags & 1 )
     {
         ent->s.frame = 25;
-    } 
-    else if ( owner->spawnflags & 2 ) 
+    }
+    else if ( owner->spawnflags & 2 )
     {
         ent->s.frame = 75;
     }
 
     // swing camera ?
-    if ( owner->spawnflags & 4 ) 
+    if ( owner->spawnflags & 4 )
     {
         // set to 0 for no rotation at all
         ent->s.gametypeitems = 0;
     }
-    else 
+    else
     {
         ent->s.gametypeitems = 1;
     }
@@ -186,7 +186,7 @@ void locateCamera( gentity_t *ent )
 The portal surface nearest this entity will show a view from the targeted misc_portal_camera, or a mirror view if untargeted.
 This must be within 64 world units of the surface!
 */
-void SP_misc_portal_surface(gentity_t *ent) 
+void SP_misc_portal_surface(gentity_t *ent)
 {
     VectorClear( ent->r.mins );
     VectorClear( ent->r.maxs );
@@ -195,11 +195,11 @@ void SP_misc_portal_surface(gentity_t *ent)
     ent->r.svFlags = SVF_PORTAL;
     ent->s.eType = ET_PORTAL;
 
-    if ( !ent->target ) 
+    if ( !ent->target )
     {
         VectorCopy( ent->s.origin, ent->s.origin2 );
-    } 
-    else 
+    }
+    else
     {
         ent->think = locateCamera;
         ent->nextthink = level.time + 100;
@@ -210,7 +210,7 @@ void SP_misc_portal_surface(gentity_t *ent)
 The target for a misc_portal_director.  You can set either angles or target another entity to determine the direction of view.
 "roll" an angle modifier to orient the camera around the target vector;
 */
-void SP_misc_portal_camera(gentity_t *ent) 
+void SP_misc_portal_camera(gentity_t *ent)
 {
     float   roll;
 
@@ -226,7 +226,7 @@ void SP_misc_portal_camera(gentity_t *ent)
 /*QUAKED misc_bsp (1 0 0) (-16 -16 -16) (16 16 16)
 "bspmodel"      arbitrary .bsp file to display
 */
-void SP_misc_bsp(gentity_t *ent) 
+void SP_misc_bsp(gentity_t *ent)
 {
     char    temp[MAX_QPATH];
     char    *out;
@@ -241,7 +241,7 @@ void SP_misc_bsp(gentity_t *ent)
     // don't support rotation any other way
     ent->s.angles[0] = 0.0;
     ent->s.angles[2] = 0.0;
-    
+
     G_SpawnString("bspmodel", "", &out);
 
     ent->s.eFlags = EF_PERMANENT;
@@ -310,7 +310,7 @@ miscentDef - defines which client models spawn on the terrain (file is base/ext_
 densityMap - how dense the client models are packed
 
 */
-void SP_terrain(gentity_t *ent) 
+void SP_terrain(gentity_t *ent)
 {
     char                temp[MAX_INFO_STRING];
     char                final[MAX_QPATH];
@@ -334,7 +334,7 @@ void SP_terrain(gentity_t *ent)
         trap_Cvar_VariableStringBuffer("RMG_terrain", temp, MAX_QPATH);
         Com_sprintf(final, MAX_QPATH, "%s", temp);
         AddSpawnField("terrainDef", temp);
- 
+
         trap_Cvar_VariableStringBuffer("RMG_instances", temp, MAX_QPATH);
         Com_sprintf(final, MAX_QPATH, "%s", temp);
         AddSpawnField("instanceDef", temp);
@@ -388,7 +388,7 @@ void SP_terrain(gentity_t *ent)
     Info_SetValueForKey(temp, "miscentDef", value);
 
     Info_SetValueForKey(temp, "missionType", missionType);
-    
+
     for(i = 0; i < MAX_INSTANCE_TYPES; i++)
     {
         trap_Cvar_VariableStringBuffer(va("RMG_instance%d", i), final, MAX_QPATH);
@@ -431,7 +431,7 @@ void SP_terrain(gentity_t *ent)
     trap_LinkEntity(ent);
 
     // If running RMG then initialize the terrain and handle team skins
-    if ( RMG.integer ) 
+    if ( RMG.integer )
     {
         trap_RMG_Init(terrainID);
 
@@ -470,11 +470,11 @@ void G_DebugCylinderThink ( gentity_t* ent )
 
     VectorCopy ( ent->parent->client->ps.origin, vec1 );
     VectorCopy ( ent->r.currentOrigin, vec2 );
-    
+
     vec1[2] = 0;
     vec2[2] = 0;
 
-    // IF we are too far away then kill it 
+    // IF we are too far away then kill it
     if ( Distance ( vec1, vec2 ) > ent->speed )
     {
         trap_UnlinkEntity ( ent );
@@ -510,12 +510,12 @@ void G_SpawnDebugCylinder ( vec3_t origin, float radius, gentity_t* clientent, f
 
     ent->nextthink = level.time + 1000;
     ent->think = G_DebugCylinderThink;
-    
+
     trap_LinkEntity ( ent );
 }
 
 
-void fx_think( gentity_t *ent ) 
+void fx_think( gentity_t *ent )
 {
     int     time;
 
@@ -534,7 +534,7 @@ void fx_think( gentity_t *ent )
     }
 
     // calc next play time
-    time = (ent->wait + flrand(0.0f, ent->random)) * 1000;  // need it in milliseconds 
+    time = (ent->wait + flrand(0.0f, ent->random)) * 1000;  // need it in milliseconds
 
     ent->think = fx_think;
     ent->nextthink = level.time + time;
@@ -548,7 +548,7 @@ Plays specified effect file
 "wait"      seconds between triggerings, default 0.3
 "random"    wait variance in seconds, default 0
 "target"    direction of effect, default up
-"count"     plays effect this many times then deletes itself, default -1 = infinite 
+"count"     plays effect this many times then deletes itself, default -1 = infinite
 
 
 START_OFF    fx starts off
@@ -579,7 +579,7 @@ void SP_fx_play_effect(gentity_t *ent)
         // find angles
         vectoangles( ent->pos1, ent->r.currentAngles );
         // copy over to other angles
-        VectorCopy( ent->r.currentAngles, ent->s.angles );  
+        VectorCopy( ent->r.currentAngles, ent->s.angles );
         VectorCopy( ent->r.currentAngles, ent->s.apos.trBase );
     }
     else
