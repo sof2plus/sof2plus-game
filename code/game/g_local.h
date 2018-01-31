@@ -6,7 +6,7 @@
 #include "bg_public.h"
 #include "g_public.h"
 #include "../gametype/gt_public.h"
-#include "../ghoul2/g2.h"
+#include "../ghoul2/g2_local.h"
 
 //==================================================================
 

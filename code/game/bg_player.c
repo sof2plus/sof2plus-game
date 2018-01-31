@@ -5,24 +5,7 @@
 #include "q_shared.h"
 #include "bg_public.h"
 #include "bg_local.h"
-
-#include "..\ghoul2\g2.h"
-
-#include "../cgame/animtable.h"
-
-#ifdef QAGAME
 #include "g_local.h"
-#endif
-
-#ifdef UI_EXPORTS
-#include "../ui/ui_local.h"
-#endif
-
-#ifndef UI_EXPORTS
-#ifndef QAGAME
-#include "../cgame/cg_local.h"
-#endif
-#endif
 
 TCharacterTemplate      *bg_characterTemplates = NULL;
 TItemTemplate           *bg_itemTemplates      = NULL;
