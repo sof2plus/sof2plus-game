@@ -2,7 +2,7 @@
 //
 // bg_weapons.c - weapon data loading
 
-#include "q_shared.h"
+#include "../qcommon/q_shared.h"
 #include "bg_public.h"
 #include "bg_local.h"
 #include "g_local.h"
@@ -624,7 +624,7 @@ static void BG_FindWeaponFrames(TAnimInfoWeapon *animInfo, int choice)
             // and extension            
             trap_GPG_GetName ( group, temp );
             name = COM_SkipPath ( temp );
-            COM_StripExtension ( name, temp );
+            COM_StripExtension ( name, temp, sizeof(temp) );
 
             if ( Q_stricmp ( temp, animInfo->mAnim[choice] ) == 0 )
             {

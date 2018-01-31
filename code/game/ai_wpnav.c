@@ -3,7 +3,7 @@
 // ai_wpnav.c
 
 #include "g_local.h"
-#include "q_shared.h"
+#include "../qcommon/q_shared.h"
 #include "botlib.h"
 #include "ai_main.h"
 

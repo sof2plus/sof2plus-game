@@ -596,11 +596,11 @@ void G_InitGame( int levelTime, int randomSeed, int restart )
     {
         if ( g_logSync.integer ) 
         {
-            trap_FS_FOpenFile( g_log.string, &level.logFile, FS_APPEND_SYNC_TEXT );
-        } 
-        else 
+            trap_FS_FOpenFile( g_log.string, &level.logFile, FS_APPEND_SYNC );
+        }
+        else
         {
-            trap_FS_FOpenFile( g_log.string, &level.logFile, FS_APPEND_TEXT );
+            trap_FS_FOpenFile( g_log.string, &level.logFile, FS_APPEND );
         }
         
         if ( !level.logFile ) 
