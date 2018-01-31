@@ -1,42 +1,51 @@
 #ifndef _INV_H_
 #define _INV_H_
 
-#define INVENTORY_NONE              0
+#define INVENTORY_NONE                  0
 //pickups
-#define INVENTORY_ARMOR             1
-#define INVENTORY_HEALTH            2
+#define INVENTORY_ARMOR                 1
+#define INVENTORY_HEALTH                2
 //items
-#define INVENTORY_SEEKER            3
-#define INVENTORY_MEDPAC            4
-#define INVENTORY_DATAPAD           5
-#define INVENTORY_BINOCULARS        6
-#define INVENTORY_SENTRY_GUN        7
-#define INVENTORY_GOGGLES           8
+#define INVENTORY_SEEKER                3
+#define INVENTORY_MEDPAC                4
+#define INVENTORY_DATAPAD               5
+#define INVENTORY_BINOCULARS            6
+#define INVENTORY_SENTRY_GUN            7
+#define INVENTORY_GOGGLES               8
 //weapons
-#define INVENTORY_STUN_BATON        9
-#define INVENTORY_SABER             10
-#define INVENTORY_M1911A1_PISTOL    11
-#define INVENTORY_BLASTER           12
-#define INVENTORY_DISRUPTOR         13
-#define INVENTORY_BOWCASTER         14
-#define INVENTORY_REPEATER          15
-#define INVENTORY_DEMP2             16
-#define INVENTORY_FLECHETTE         17
-#define INVENTORY_ROCKET_LAUNCHER   18
-#define INVENTORY_THERMAL           19
-#define INVENTORY_TRIP_MINE         20
-#define INVENTORY_DET_PACK          21
+#define INVENTORY_STUN_BATON            9
+#define INVENTORY_SABER                 10
+#define INVENTORY_M1911A1_PISTOL        11
+#define INVENTORY_BLASTER               12
+#define INVENTORY_DISRUPTOR             13
+#define INVENTORY_BOWCASTER             14
+#define INVENTORY_REPEATER              15
+#define INVENTORY_DEMP2                 16
+#define INVENTORY_FLECHETTE             17
+#define INVENTORY_ROCKET_LAUNCHER       18
+#define INVENTORY_THERMAL               19
+#define INVENTORY_TRIP_MINE             20
+#define INVENTORY_DET_PACK              21
 //ammo
-#define INVENTORY_AMMO_FORCE        22
-#define INVENTORY_AMMO_BLASTER      23
-#define INVENTORY_AMMO_BOLTS        24
-#define INVENTORY_AMMO_ROCKETS      25
+#define INVENTORY_AMMO_FORCE            22
+#define INVENTORY_AMMO_BLASTER          23
+#define INVENTORY_AMMO_BOLTS            24
+#define INVENTORY_AMMO_ROCKETS          25
 
 //enemy stuff
-#define ENEMY_HORIZONTAL_DIST       200
-#define ENEMY_HEIGHT                201
-#define NUM_VISIBLE_ENEMIES         202
-#define NUM_VISIBLE_TEAMMATES       203
+#define ENEMY_HORIZONTAL_DIST           200
+#define ENEMY_HEIGHT                    201
+#define NUM_VISIBLE_ENEMIES             202
+#define NUM_VISIBLE_TEAMMATES           203
+
+//outfitting
+#define OUTFITTING_GROUP_PRIMARY        0
+#define OUTFITTING_GROUP_SECONDARY      1
+#define OUTFITTING_GROUP_PISTOL         2
+#define OUTFITTING_GROUP_GRENADE        3
+#define OUTFITTING_GROUP_ACCESSORY      4
+#define OUTFITTING_GROUP_MAX            5
+#define OUTFITTING_GROUP_KNIFE          6
 
 // NOTENOTE Update this so that it is in sync.
 //item numbers (make sure they are in sync with bg_itemlist in bg_misc.c)

@@ -2,8 +2,6 @@
 //
 #include "g_local.h"
 
-#include "../../ui/menudef.h"
-
 int AcceptBotCommand(char *cmd, gentity_t *pl);
 
 /*
