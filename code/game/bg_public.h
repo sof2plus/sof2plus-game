@@ -11,38 +11,7 @@
 #include "bg_weapons.h"
 #include "inv.h"
 
-//#define   GAME_VERSION        "sof2mp-0.01"   sent on 11/26/2001
-//#define   GAME_VERSION        "sof2mp-0.02"   sent on 12/10/2001
-//#define   GAME_VERSION        "sof2mp-0.03"   sent on 12/16/2001
-//#define   GAME_VERSION        "sof2mp-0.081"  sent on 1/15/2002
-//#define   GAME_VERSION        "sof2mp-0.09"   sent on 1/24/2002
-//#define   GAME_VERSION        "sof2mp-0.10"   sent on 1/31/2002
-//#define   GAME_VERSION        "sof2mp-0.11"   sent on 2/7/2002
-//#define   GAME_VERSION        "sof2mp-0.12"   sent on 2/14/2002
-//#define   GAME_VERSION        "sof2mp-0.13"   sent on 2/21/2002
-//#define   GAME_VERSION        "sof2mp-0.13b"  public beta #1 on 3/1/3002
-//#define   GAME_VERSION        "sof2mp-0.14"   sent on 3/4/2002
-//#define   GAME_VERSION        "sof2mp-0.15"   sent on 3/11/2002
-//#define   GAME_VERSION        "sof2mp-0.15b"  public beta #2 on 3/13/2002
-//#define   GAME_VERSION        "sof2mp-0.16"   sent on 3/18/2002
-//#define   GAME_VERSION        "sof2mp-0.16b"  public beta #3 on 3/20/2002
-//#define   GAME_VERSION        "sof2mp-0.17"   sent on 3/24/2002
-//#define   GAME_VERSION        "sof2mp-1.01t"  sent on 3/28/2002
-//#define   GAME_VERSION        "sof2mp-0.18"   sent on 4/1/2002 - April Fools!
-//#define   GAME_VERSION        "sof2mp-1.02t"  sent on 4/5/2002
-//#define   GAME_VERSION        "sof2mp-0.19"   sent on 4/8/2002
-//#define   GAME_VERSION        "sof2mp-0.20"   sent on 4/15/2002 - Tax Day!
-//#define   GAME_VERSION        "sof2mp-0.21"   sent on 4/22/2002
-//#define   GAME_VERSION        "sof2mp-1.00.22"    sent on 4/26/2002
-//#define   GAME_VERSION        "sof2mp-1.00.23"    sent on 4/27/2002
-#ifdef GERMAN_BUILD
-//  #define GAME_VERSION        "sof2mp-1.00g"
-    #define GAME_VERSION        "sof2mp-1.02g"
-#else
-//  #define GAME_VERSION        "sof2mp-1.00"
-//  #define GAME_VERSION        "sof2mp-1.02"
-    #define GAME_VERSION        "sof2mp-1.03" // 1.03 CHANGE - Update version number
-#endif
+#define GAME_VERSION        "sof2mp-1.03"
 
 #define DEFAULT_GRAVITY     800
 #define ARMOR_PROTECTION    0.55
@@ -87,16 +56,10 @@
 // from the server to all connected clients.
 //
 
-// CS_SERVERINFO and CS_SYSTEMINFO are defined in q_shared.h
-
-#define CS_PLAYERS              2
+// CS_SERVERINFO, CS_SYSTEMINFO and CS_PLAYERS are defined in q_shared.h
 
 enum
 {
-//  CS_SERVERINFO,
-//  CS_SYSTEMINFO,
-//  CS_PLAYERS,
-
     CS_MUSIC = CS_CUSTOM,
 
     CS_MESSAGE,
@@ -142,47 +105,6 @@ enum
 
     CS_MAX                  = CS_HUDICONS + MAX_HUDICONS,
 };
-
-/*
-#define CS_MUSIC                68
-#define CS_MESSAGE              69      // from the map worldspawn's message field
-#define CS_MOTD                 4       // g_motd string for server message of the day
-#define CS_WARMUP               5       // server time when the match will be restarted
-#define CS_VOTE_TIME            8
-#define CS_VOTE_STRING          9
-#define CS_VOTE_YES             10
-#define CS_VOTE_NO              11
-#define CS_VOTE_NEEDED          12
-
-#define CS_GAME_VERSION         16
-#define CS_LEVEL_START_TIME     17      // so the timer only shows the current level
-#define CS_INTERMISSION         18      // when 1, scorelimit/timelimit has been hit and intermission will start in a second or two
-#define CS_SHADERSTATE          19
-#define CS_BOTINFO              20
-
-#define CS_GAMETYPE_TIMER       21      // currently visible timer
-#define CS_GAMETYPE_MESSAGE     22      // Last gametype message
-#define CS_GAMETYPE_REDTEAM     23      // red team group name
-#define CS_GAMETYPE_BLUETEAM    24      // blue team group name
-
-#define CS_ITEMS                28      // string of 0's and 1's that tell which items are present
-
-// these are also in be_aas_def.h - argh (rjr)
-#define CS_MODELS               32
-#define CS_SOUNDS               (CS_MODELS+MAX_MODELS)
-#define CS_CHARSKINS            (CS_PLAYERS+MAX_CLIENTS)
-#define CS_LOCATIONS            (CS_CHARSKINS+MAX_CHARSKINS)
-#define CS_LADDERS              (CS_LOCATIONS + MAX_LOCATIONS)
-#define CS_BSP_MODELS           (CS_LADDERS + MAX_LADDERS)
-#define CS_TERRAINS             (CS_BSP_MODELS + MAX_SUB_BSP)
-#define CS_EFFECTS              (CS_PARTICLES+MAX_LOCATIONS)
-#define CS_LIGHT_STYLES         (CS_EFFECTS + MAX_FX)
-#define CS_ICONS                (CS_LIGHT_STYLES + (MAX_LIGHT_STYLES*3))
-#define CS_TEAM_INFO            (CS_ICONS+MAX_ICONS)
-#define CS_AMBIENT_SOUNDSETS    (CS_TEAM_INFO+TEAM_NUM_TEAMS)
-
-#define CS_MAX                  (CS_AMBIENT_SOUNDSETS+MAX_AMBIENT_SOUNDSETS)
-*/
 
 #if (CS_MAX) > MAX_CONFIGSTRINGS
 #error overflow: (CS_MAX) > MAX_CONFIGSTRINGS
@@ -328,8 +250,6 @@ typedef enum
 
 } animNumber_t;
 
-
-
 typedef struct animation_s {
     int     firstFrame;
     int     numFrames;
@@ -423,7 +343,6 @@ typedef enum {
 #define PMD_ALTATTACK           0x0010
 #define PMD_GOGGLES             0x0020
 
-
 #define MAXTOUCH    32
 
 typedef struct {
@@ -463,28 +382,12 @@ typedef struct {
     void        (*trace)( trace_t *results, const vec3_t start, const vec3_t mins, const vec3_t maxs, const vec3_t end, int passEntityNum, int contentMask );
     int         (*pointcontents)( const vec3_t point, int passEntityNum );
 
-//  pmove_pers_t    pm_pers;
-
     int         weaponAnimIdx;
     char        weaponAnim[MAX_QPATH];
     char        weaponEndAnim[MAX_QPATH];
-#if _Debug
-    int         isClient;
-#endif
 } pmove_t;
 
 extern  pmove_t     *pm;
-
-#define SETANIM_TORSO 1
-#define SETANIM_LEGS  2
-#define SETANIM_BOTH  SETANIM_TORSO|SETANIM_LEGS//3
-
-#define SETANIM_FLAG_NORMAL     0//Only set if timer is 0
-#define SETANIM_FLAG_OVERRIDE   1//Override previous
-#define SETANIM_FLAG_HOLD       2//Set the new timer
-#define SETANIM_FLAG_RESTART    4//Allow restarting the anim if playing the same one (weapon fires)
-#define SETANIM_FLAG_HOLDLESS   8//Set the new timer
-
 
 // if a full pmove isn't done on the client, you can just update the angles
 void PM_UpdateViewAngles( playerState_t *ps, const usercmd_t *cmd );
@@ -577,11 +480,6 @@ typedef enum
 
 #define EF_DUCKED               0x00100000      // ducked?
 #define EF_INVULNERABLE         0x00200000      // cant be shot
-
-// reward sounds (stored in ps->persistant[PERS_PLAYEREVENTS])
-#define PLAYEREVENT_DENIEDREWARD        0x0001
-#define PLAYEREVENT_GAUNTLETREWARD      0x0002
-#define PLAYEREVENT_HOLYSHIT            0x0004
 
 // entityState_t->event values
 // entity events are for effects that take place reletive
@@ -775,7 +673,6 @@ gitem_t*    BG_FindGametypeItemByID ( int itemid );
 
 qboolean    BG_CanItemBeGrabbed( int gametype, const entityState_t *ent, const playerState_t *ps );
 
-
 // g_dmflags->integer flags
 #define DF_NO_FALLING           8
 #define DF_FIXED_FOV            16
@@ -789,7 +686,6 @@ qboolean    BG_CanItemBeGrabbed( int gametype, const entityState_t *ent, const p
 #define MASK_WATER              (CONTENTS_WATER)
 #define MASK_OPAQUE             (CONTENTS_SOLID|CONTENTS_TERRAIN|CONTENTS_SLIME|CONTENTS_LAVA)
 #define MASK_SHOT               (CONTENTS_SOLID|CONTENTS_TERRAIN|CONTENTS_BODY|CONTENTS_SHOTCLIP)
-
 
 //
 // entityState_t->eType
@@ -906,37 +802,6 @@ typedef enum
 
 #define GORE_NONE       0x80000000
 
-/*
-typedef enum
-{
-    HL_NONE,
-
-    HL_FOOT_RT,
-    HL_FOOT_LT,
-    HL_LEG_UPPER_RT,
-    HL_LEG_UPPER_LT,
-    HL_LEG_LOWER_RT,
-    HL_LEG_LOWER_LT,
-    HL_HAND_RT,
-
-    HL_HAND_LT,
-    HL_ARM_RT,
-    HL_ARM_LT,
-    HL_HEAD,
-    HL_WAIST,
-
-    HL_BACK_RT,
-    HL_BACK_LT,
-    HL_BACK,
-    HL_CHEST_RT,
-    HL_CHEST_LT,
-
-    HL_CHEST,
-    HL_NECK,
-
-    HL_DEBUG
-} hitLocation_t;
-*/
 
 /*******************************************************************************
  *
