@@ -927,14 +927,14 @@ Ghoul2 Insert End
 */
 
 // CGenericParser2 (void *) routines
-TGenericParser2 trap_GP_Parse(char **dataPtr, qboolean cleanFirst, qboolean writeable)
+TGenericParser2 trap_GP_Parse(char **dataPtr)
 {
-    return (TGenericParser2)syscall(G_GP_PARSE, dataPtr, cleanFirst, writeable);
+    return (TGenericParser2)syscall(G_GP_PARSE, dataPtr);
 }
 
-TGenericParser2 trap_GP_ParseFile(char *fileName, qboolean cleanFirst, qboolean writeable)
+TGenericParser2 trap_GP_ParseFile(char *fileName)
 {
-    return (TGenericParser2)syscall(G_GP_PARSE_FILE, fileName, cleanFirst, writeable);
+    return (TGenericParser2)syscall(G_GP_PARSE_FILE, fileName);
 }
 
 void trap_GP_Clean(TGenericParser2 GP2)
@@ -954,9 +954,9 @@ TGPGroup trap_GP_GetBaseParseGroup(TGenericParser2 GP2)
 
 
 // CGPGroup (void *) routines
-qboolean trap_GPG_GetName(TGPGroup GPG, char *Value)
+qboolean trap_GPG_GetName(TGPGroup GPG, char *dest, int destSize)
 {
-    return (qboolean)syscall(G_GPG_GET_NAME, GPG, Value);
+    return (qboolean)syscall(G_GPG_GET_NAME, GPG, dest, destSize);
 }
 
 TGPGroup trap_GPG_GetNext(TGPGroup GPG)
@@ -1004,16 +1004,16 @@ TGPValue trap_GPG_FindPair(TGPGroup GPG, const char *key)
     return (TGPValue)syscall(G_GPG_FIND_PAIR, GPG, key);
 }
 
-qboolean trap_GPG_FindPairValue(TGPGroup GPG, const char *key, const char *defaultVal, char *Value)
+qboolean trap_GPG_FindPairValue(TGPGroup GPG, const char *key, const char *defaultVal, char *dest, int destSize)
 {
-    return (qboolean)syscall(G_GPG_FIND_PAIRVALUE, GPG, key, defaultVal, Value);
+    return (qboolean)syscall(G_GPG_FIND_PAIRVALUE, GPG, key, defaultVal, dest, destSize);
 }
 
 
 // CGPValue (void *) routines
-qboolean trap_GPV_GetName(TGPValue GPV, char *Value)
+qboolean trap_GPV_GetName(TGPValue GPV, char *dest, int destSize)
 {
-    return (qboolean)syscall(G_GPV_GET_NAME, GPV, Value);
+    return (qboolean)syscall(G_GPV_GET_NAME, GPV, dest, destSize);
 }
 
 TGPValue trap_GPV_GetNext(TGPValue GPV)
@@ -1036,9 +1036,9 @@ qboolean trap_GPV_IsList(TGPValue GPV)
     return (qboolean)syscall(G_GPV_IS_LIST, GPV);
 }
 
-qboolean trap_GPV_GetTopValue(TGPValue GPV, char *Value)
+qboolean trap_GPV_GetTopValue(TGPValue GPV, char *dest, int destSize)
 {
-    return (qboolean)syscall(G_GPV_GET_TOP_VALUE, GPV, Value);
+    return (qboolean)syscall(G_GPV_GET_TOP_VALUE, GPV, dest, destSize);
 }
 
 TGPValue trap_GPV_GetList(TGPValue GPV)

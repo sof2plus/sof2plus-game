@@ -170,7 +170,7 @@ TInventoryTemplate *BG_ParseInventory ( TGPGroup group )
     subGroup = trap_GPG_GetSubGroups( group );
     while(subGroup)
     {
-        trap_GPG_GetName ( subGroup, temp );
+        trap_GPG_GetName ( subGroup, temp, sizeof(temp) );
 
         // If the group name isnt item then 'Item' then its not an inventory item
         if ( Q_stricmp ( temp, "Item") == 0)
@@ -178,14 +178,14 @@ TInventoryTemplate *BG_ParseInventory ( TGPGroup group )
             inv = (TInventoryTemplate *)trap_VM_LocalAlloc ( sizeof(*inv));
 
             // Name of the item
-            trap_GPG_FindPairValue ( subGroup, "Name||Name1", "", temp );
+            trap_GPG_FindPairValue ( subGroup, "Name||Name1", "", temp, sizeof(temp) );
             inv->mName = trap_VM_LocalStringAlloc ( temp );
 
             // Bolt for the item
-            trap_GPG_FindPairValue ( subGroup, "Bolt", "", temp );
+            trap_GPG_FindPairValue ( subGroup, "Bolt", "", temp, sizeof(temp) );
             inv->mBolt = trap_VM_LocalStringAlloc ( temp );
 
-            trap_GPG_FindPairValue ( subGroup, "mp_onback||onback", "no", temp );
+            trap_GPG_FindPairValue ( subGroup, "mp_onback||onback", "no", temp, sizeof(temp) );
             if ( !Q_stricmp ( temp, "yes" ) )
             {
                 inv->mOnBack = qtrue;
@@ -225,7 +225,7 @@ TSkinTemplate *BG_ParseSkins( TCharacterTemplate* character, TGPGroup group )
     character->mSkins = NULL;
 
     // Parse the skin file first
-    trap_GPG_FindPairValue ( group, "SkinFile", "", temp );
+    trap_GPG_FindPairValue ( group, "SkinFile", "", temp, sizeof(temp) );
     if ( temp[0] )
     {
         skin = (TSkinTemplate *) trap_VM_LocalAlloc ( sizeof(*skin) );
@@ -239,7 +239,7 @@ TSkinTemplate *BG_ParseSkins( TCharacterTemplate* character, TGPGroup group )
     subGroup = trap_GPG_GetSubGroups ( group );
     while(subGroup)
     {
-        trap_GPG_GetName ( subGroup, temp );
+        trap_GPG_GetName ( subGroup, temp, sizeof(temp) );
 
         // If the groups name isnt 'Skin' then skip it
         if ( Q_stricmp( temp, "Skin") == 0 )
@@ -248,7 +248,7 @@ TSkinTemplate *BG_ParseSkins( TCharacterTemplate* character, TGPGroup group )
             skin = (TSkinTemplate *) trap_VM_LocalAlloc ( sizeof(*skin) );
 
             // Grab the skin filename
-            trap_GPG_FindPairValue ( subGroup, "File", "", temp );
+            trap_GPG_FindPairValue ( subGroup, "File", "", temp, sizeof(temp) );
             skin->mSkin = trap_VM_LocalStringAlloc ( temp );
 
 #ifdef SPECIAL_PRE_CACHE
@@ -285,7 +285,7 @@ TSkinTemplate *BG_ParseSkins( TCharacterTemplate* character, TGPGroup group )
                 identity->mCharacter = character;
                 identity->mSkin      = skin;
 
-                trap_GPG_FindPairValue ( subGroup, "mp_identity", "", temp );
+                trap_GPG_FindPairValue ( subGroup, "mp_identity", "", temp, sizeof(temp) );
                 if ( !temp[0] )
                 {
                     identity->mName = trap_VM_LocalStringAlloc ( va("%s/%s", character->mName, skin->mSkin ) );
@@ -296,7 +296,7 @@ TSkinTemplate *BG_ParseSkins( TCharacterTemplate* character, TGPGroup group )
                 }
 
                 // Team name?
-                trap_GPG_FindPairValue ( subGroup, "mp_team", "", temp );
+                trap_GPG_FindPairValue ( subGroup, "mp_team", "", temp, sizeof(temp) );
                 if ( temp[0] )
                 {
                     identity->mTeam = trap_VM_LocalStringAlloc ( temp );
@@ -348,7 +348,7 @@ TModelSounds *BG_ParseModelSounds( TGPGroup group )
         top = sounds;
 
         // Grab the sounds name
-        trap_GPV_GetName ( pairs, temp );
+        trap_GPV_GetName ( pairs, temp, sizeof(temp) );
         sounds->mName = trap_VM_LocalStringAlloc ( temp );
 
         // Start with no sounds
@@ -364,7 +364,7 @@ TModelSounds *BG_ParseModelSounds( TGPGroup group )
             while ( list && sounds->mCount < MAX_MODEL_SOUNDS )
             {
                 // Add the sound to the list
-                trap_GPV_GetName ( list, temp );
+                trap_GPV_GetName ( list, temp, sizeof(temp) );
                 sounds->mSounds[sounds->mCount++] = trap_VM_LocalStringAlloc ( temp );
 
                 list = trap_GPV_GetNext ( list );
@@ -396,7 +396,7 @@ qboolean BG_ParseItemFile ( void )
     TGenericParser2 ItemFile;
 
     // Create the generic parser so the item file can be parsed
-    ItemFile = trap_GP_ParseFile( "ext_data/sof2.item", qtrue, qfalse );
+    ItemFile = trap_GP_ParseFile( "ext_data/sof2.item" );
     if ( !ItemFile )
     {
         return qfalse;
@@ -406,12 +406,12 @@ qboolean BG_ParseItemFile ( void )
     subGroup = trap_GPG_GetSubGroups ( baseGroup );
     while(subGroup)
     {
-        trap_GPG_GetName ( subGroup, temp );
+        trap_GPG_GetName ( subGroup, temp, sizeof(temp) );
 
         if (Q_stricmp( temp, "item") == 0)
         {
             // Is this item used for deathmatch?
-            trap_GPG_FindPairValue ( subGroup, "Deathmatch", "yes", temp );
+            trap_GPG_FindPairValue ( subGroup, "Deathmatch", "yes", temp, sizeof(temp) );
             if (Q_stricmp( temp, "no") == 0)
             {
                 subGroup = trap_GPG_GetNext ( subGroup );
@@ -424,11 +424,11 @@ qboolean BG_ParseItemFile ( void )
             bg_itemTemplates = item;
 
             // Name of the item
-            trap_GPG_FindPairValue ( subGroup, "Name", "", temp );
+            trap_GPG_FindPairValue ( subGroup, "Name", "", temp, sizeof(temp) );
             item->mName = trap_VM_LocalStringAlloc ( temp );
 
             // Model for the item
-            trap_GPG_FindPairValue ( subGroup, "Model", "", temp );
+            trap_GPG_FindPairValue ( subGroup, "Model", "", temp, sizeof(temp) );
             if ( temp[0] )
             {
                 item->mModel = trap_VM_LocalStringAlloc ( temp );
@@ -437,7 +437,7 @@ qboolean BG_ParseItemFile ( void )
             pairs = trap_GPG_GetPairs ( subGroup );
             while(pairs)
             {
-                trap_GPV_GetName ( pairs, temp );
+                trap_GPV_GetName ( pairs, temp, sizeof(temp) );
 
                 // Surface off?
                 if ( Q_stricmpn ( temp, "offsurf", 7) == 0)
@@ -448,7 +448,7 @@ qboolean BG_ParseItemFile ( void )
                     item->mOffList = surf;
 
                     // Name of the surface to turn off
-                    trap_GPV_GetTopValue ( pairs, temp );
+                    trap_GPV_GetTopValue ( pairs, temp, sizeof(temp) );
                     surf->mName = trap_VM_LocalStringAlloc ( temp );
                 }
                 // Surface on?
@@ -460,7 +460,7 @@ qboolean BG_ParseItemFile ( void )
                     item->mOnList = surf;
 
                     // Name of the surface to turn off
-                    trap_GPV_GetTopValue ( pairs, temp );
+                    trap_GPV_GetTopValue ( pairs, temp, sizeof(temp) );
                     surf->mName = trap_VM_LocalStringAlloc ( temp );
                 }
 
@@ -647,7 +647,7 @@ qboolean BG_ParseNPCFiles ( void )
         Com_sprintf(fileName, sizeof(fileName),"NPCs/%s", fileptr );
 
         // Create the generic parser so the item file can be parsed
-        NPCFile = trap_GP_ParseFile( fileName, qtrue, qfalse );
+        NPCFile = trap_GP_ParseFile( fileName );
         if ( !NPCFile )
         {
             continue;
@@ -658,7 +658,7 @@ qboolean BG_ParseNPCFiles ( void )
 
         while(subGroup)
         {
-            trap_GPG_GetName ( subGroup, temp );
+            trap_GPG_GetName ( subGroup, temp, sizeof(temp) );
 
             // Look for a parent template if this is the group info
             if ( Q_stricmp( temp, "GroupInfo") == 0)
@@ -666,7 +666,7 @@ qboolean BG_ParseNPCFiles ( void )
                 currentParent = NULL;
 
                 // Is there a parent template?
-                trap_GPG_FindPairValue ( subGroup, "ParentTemplate", "", temp );
+                trap_GPG_FindPairValue ( subGroup, "ParentTemplate", "", temp, sizeof(temp) );
                 if ( temp[0] )
                 {
                     currentParent = trap_VM_LocalStringAlloc ( temp );
@@ -681,7 +681,7 @@ qboolean BG_ParseNPCFiles ( void )
                 bg_characterTemplates = newTemplate;
 
                 // Exclude from deathmatch?
-                trap_GPG_FindPairValue ( subGroup, "DeathMatch", "yes", temp );
+                trap_GPG_FindPairValue ( subGroup, "DeathMatch", "yes", temp, sizeof(temp) );
                 if ( Q_stricmp( temp, "no") == 0)
                 {
                     newTemplate->mDeathmatch = qfalse;
@@ -692,21 +692,21 @@ qboolean BG_ParseNPCFiles ( void )
                 }
 
                 // Template name
-                trap_GPG_FindPairValue ( subGroup, "Name", "", temp );
+                trap_GPG_FindPairValue ( subGroup, "Name", "", temp, sizeof(temp) );
                 if ( temp[0] )
                 {
                     newTemplate->mName = trap_VM_LocalStringAlloc ( temp );
                 }
 
                 // Template formal name
-                trap_GPG_FindPairValue ( subGroup, "FormalName", "", temp );
+                trap_GPG_FindPairValue ( subGroup, "FormalName", "", temp, sizeof(temp) );
                 if ( temp[0] )
                 {
                     newTemplate->mFormalName = trap_VM_LocalStringAlloc ( temp );
                 }
 
                 // Template model
-                trap_GPG_FindPairValue ( subGroup, "Model", "", temp );
+                trap_GPG_FindPairValue ( subGroup, "Model", "", temp, sizeof(temp) );
                 if ( temp[0] )
                 {
                     newTemplate->mModel = trap_VM_LocalStringAlloc ( temp );
@@ -934,7 +934,7 @@ int BG_ParseSkin ( const char* filename, char* pairs, int pairsSize )
     int             numPairs;
 
     // Open the skin file
-    skinFile = trap_GP_ParseFile( (char*)filename, qtrue, qfalse );
+    skinFile = trap_GP_ParseFile( (char*)filename );
     if ( !skinFile )
     {
         return 0;
@@ -948,7 +948,7 @@ int BG_ParseSkin ( const char* filename, char* pairs, int pairsSize )
 
     while(group)
     {
-        trap_GPG_GetName ( group, name );
+        trap_GPG_GetName ( group, name, sizeof(name) );
 
         // Parse the material
         if ( Q_stricmp ( name, "material") == 0)
@@ -956,15 +956,15 @@ int BG_ParseSkin ( const char* filename, char* pairs, int pairsSize )
             char    matName[MAX_QPATH];
             char    shaderName[MAX_QPATH];
 
-            trap_GPG_FindPairValue ( group, "name", "", matName );
+            trap_GPG_FindPairValue ( group, "name", "", matName, sizeof(matName) );
 
             sub = trap_GPG_FindSubGroup ( group, "group");
             if (sub)
             {
-                trap_GPG_FindPairValue ( sub, "shader1", "", shaderName );
+                trap_GPG_FindPairValue ( sub, "shader1", "", shaderName, sizeof(shaderName) );
                 if (!shaderName[0])
                 {
-                    trap_GPG_FindPairValue ( sub, "texture1", "", shaderName );
+                    trap_GPG_FindPairValue ( sub, "texture1", "", shaderName, sizeof(shaderName) );
                 }
             }
 
@@ -1563,7 +1563,7 @@ qboolean BG_ParseOutfittingTemplate ( const char* fileName, goutfitting_t* outfi
     memset ( outfitting, 0, sizeof(goutfitting_t) );
 
     // Create the generic parser so the item file can be parsed
-    file = trap_GP_ParseFile( (char*)fileName, qtrue, qfalse );
+    file = trap_GP_ParseFile( (char*)fileName );
     if ( !file )
     {
         return qfalse;
@@ -1579,7 +1579,7 @@ qboolean BG_ParseOutfittingTemplate ( const char* fileName, goutfitting_t* outfi
     }
 
     // Get the name of the template
-    trap_GPG_FindPairValue ( subGroup, "displayName", fileName, outfitting->name );
+    trap_GPG_FindPairValue ( subGroup, "displayName", fileName, outfitting->name, sizeof(outfitting->name) );
 
     // Sub group named "items"
     pairs = trap_GPG_FindPair ( subGroup, "items" );
@@ -1593,7 +1593,7 @@ qboolean BG_ParseOutfittingTemplate ( const char* fileName, goutfitting_t* outfi
         {
             gitem_t*    item;
 
-            trap_GPV_GetName ( list, temp );
+            trap_GPV_GetName ( list, temp, sizeof(temp) );
 
             item = BG_FindItem ( temp );
             if ( item )
@@ -1628,7 +1628,7 @@ qboolean BG_ParseOutfittingTemplate ( const char* fileName, goutfitting_t* outfi
             gitem_t*    item;
             int         i;
 
-            trap_GPV_GetName ( list, temp );
+            trap_GPV_GetName ( list, temp, sizeof(temp) );
 
             // Lookup the weapon number
             for( i = WP_NONE + 1, item=NULL; i < WP_NUM_WEAPONS; i++ )

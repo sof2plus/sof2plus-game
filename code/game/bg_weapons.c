@@ -85,7 +85,7 @@ static qboolean BG_ParseAmmoStats(ammo_t ammoNum, void *group)
     Q_strlwr ( ammo->name );
 
     // Get the scale of the gore for this bullet
-    trap_GPG_FindPairValue(group, "mp_goreScale||goreScale", "1", tmpStr );
+    trap_GPG_FindPairValue(group, "mp_goreScale||goreScale", "1", tmpStr, sizeof(tmpStr) );
     ammo->goreScale = atof ( tmpStr );
 
     // Max ammo will be filled in by the weapon parsing
@@ -101,7 +101,7 @@ qboolean BG_InitAmmoStats(void)
     ammoData[AMMO_NONE].goreScale = 0.0f;
     ammoData[AMMO_NONE].name = "none";
 
-    GP2 = trap_GP_ParseFile("ext_data/sof2.ammo", qtrue, qfalse);
+    GP2 = trap_GP_ParseFile("ext_data/sof2.ammo" );
     if (!GP2)
     {
         return qfalse;
@@ -119,13 +119,13 @@ qboolean BG_InitAmmoStats(void)
         while(topSubs)
         {
             char name[256];
-            trap_GPG_GetName(topSubs, name);
+            trap_GPG_GetName(topSubs, name, sizeof(name));
             if (Q_stricmp(name, "ammo") != 0)
             {
                 continue;
             }
 
-            trap_GPG_FindPairValue(topSubs, "name", "", name);
+            trap_GPG_FindPairValue(topSubs, "name", "", name, sizeof(name));
             if ( !Q_stricmp ( name, realName ) )
             {
                 BG_ParseAmmoStats(i, topSubs );
@@ -159,7 +159,7 @@ static qboolean BG_ParseAttackStats ( int weaponNum, attackData_t* attack, void 
     }
 
     // Zoom information
-    trap_GPG_FindPairValue(attacksub, "action", "", tmpStr);
+    trap_GPG_FindPairValue(attacksub, "action", "", tmpStr, sizeof(tmpStr));
     if ( !Q_stricmp ( tmpStr, "toggleZoom" ) )
     {
         weaponData_t *weapon;
@@ -178,8 +178,8 @@ static qboolean BG_ParseAttackStats ( int weaponNum, attackData_t* attack, void 
         zoomlvl = 0;
         while(value)
         {
-            trap_GPV_GetName ( value, weapon->zoom[zoomlvl].name );
-            trap_GPV_GetTopValue(value, tmpStr );
+            trap_GPV_GetName ( value, weapon->zoom[zoomlvl].name, sizeof(weapon->zoom[zoomlvl].name) );
+            trap_GPV_GetTopValue(value, tmpStr, sizeof(tmpStr) );
 
             weapon->zoom[zoomlvl].fov = atoi ( tmpStr );
 
@@ -191,27 +191,27 @@ static qboolean BG_ParseAttackStats ( int weaponNum, attackData_t* attack, void 
     }
 
     // Assign a melee attribute if there is one
-    trap_GPG_FindPairValue(attacksub, "mp_melee||melee", "none", tmpStr );
+    trap_GPG_FindPairValue(attacksub, "mp_melee||melee", "none", tmpStr, sizeof(tmpStr) );
     if ( Q_stricmp ( tmpStr, "none" ) )
     {
         Q_strlwr ( tmpStr );
         attack->melee = trap_VM_LocalStringAlloc ( tmpStr );
     }
 
-    trap_GPG_FindPairValue(attacksub, "name", "NONE", attack->name);
-    trap_GPG_FindPairValue(attacksub, "hudIcon", "NONE", attack->icon);
+    trap_GPG_FindPairValue(attacksub, "name", "NONE", attack->name, sizeof(attack->name));
+    trap_GPG_FindPairValue(attacksub, "hudIcon", "NONE", attack->icon, sizeof(attack->icon));
 
     if ( pickupsDisabled )
     {
-        trap_GPG_FindPairValue(attacksub, "mp_ammoType_outfitting", "", tmpStr);
+        trap_GPG_FindPairValue(attacksub, "mp_ammoType_outfitting", "", tmpStr, sizeof(tmpStr));
         if ( !tmpStr[0] )
         {
-            trap_GPG_FindPairValue(attacksub, "mp_ammoType||ammoType", "none", tmpStr);
+            trap_GPG_FindPairValue(attacksub, "mp_ammoType||ammoType", "none", tmpStr, sizeof(tmpStr));
         }
     }
     else
     {
-        trap_GPG_FindPairValue(attacksub, "mp_ammoType||ammoType", "none", tmpStr);
+        trap_GPG_FindPairValue(attacksub, "mp_ammoType||ammoType", "none", tmpStr, sizeof(tmpStr));
     }
 
     attack->ammoIndex = AMMO_NONE;
@@ -232,41 +232,41 @@ static qboolean BG_ParseAttackStats ( int weaponNum, attackData_t* attack, void 
 #endif
 
     // Parse the weapon animations
-    trap_GPG_FindPairValue( attacksub, "mp_animFire", "TORSO_ATTACK_PISTOL", tmpStr );
+    trap_GPG_FindPairValue(attacksub, "mp_animFire", "TORSO_ATTACK_PISTOL", tmpStr, sizeof(tmpStr));
     attack->animFire = GetIDForString ( bg_animTable, tmpStr );
-    trap_GPG_FindPairValue( attacksub, "mp_animFireZoomed", "", tmpStr );
+    trap_GPG_FindPairValue(attacksub, "mp_animFireZoomed", "", tmpStr, sizeof(tmpStr));
     attack->animFireZoomed = GetIDForString ( bg_animTable, tmpStr );
 
-    trap_GPG_FindPairValue(attacksub, "mp_range||range", "8192", tmpStr);
+    trap_GPG_FindPairValue(attacksub, "mp_range||range", "8192", tmpStr, sizeof(tmpStr));
     attack->rV.range = atoi(tmpStr);
-    trap_GPG_FindPairValue(attacksub, "mp_radius||radius", "0", tmpStr);
+    trap_GPG_FindPairValue(attacksub, "mp_radius||radius", "0", tmpStr, sizeof(tmpStr));
     attack->splashRadius = atoi(tmpStr);
-    trap_GPG_FindPairValue(attacksub, "mp_fireDelay||fireDelay", "0", tmpStr);
+    trap_GPG_FindPairValue(attacksub, "mp_fireDelay||fireDelay", "0", tmpStr, sizeof(tmpStr));
     attack->fireDelay = atoi(tmpStr);
-    trap_GPG_FindPairValue(attacksub, "mp_clipSize||clipSize", "0", tmpStr);
+    trap_GPG_FindPairValue(attacksub, "mp_clipSize||clipSize", "0", tmpStr, sizeof(tmpStr));
     attack->clipSize = atoi(tmpStr);
-    trap_GPG_FindPairValue(attacksub, "mp_fireAmount||fireAmount", "1", tmpStr);
+    trap_GPG_FindPairValue(attacksub, "mp_fireAmount||fireAmount", "1", tmpStr, sizeof(tmpStr));
     attack->fireAmount = atoi(tmpStr);
-    trap_GPG_FindPairValue(attacksub, "mp_fireFromClip||fireFromClip", "1", tmpStr);
+    trap_GPG_FindPairValue(attacksub, "mp_fireFromClip||fireFromClip", "1", tmpStr, sizeof(tmpStr));
     attack->fireFromClip = atoi(tmpStr);
-    trap_GPG_FindPairValue(attacksub, "mp_damage||damage", "0", tmpStr);
+    trap_GPG_FindPairValue(attacksub, "mp_damage||damage", "0", tmpStr, sizeof(tmpStr));
     attack->damage = atoi(tmpStr);
-    trap_GPG_FindPairValue(attacksub, "mp_inaccuracy||inaccuracy", "0", tmpStr);
+    trap_GPG_FindPairValue(attacksub, "mp_inaccuracy||inaccuracy", "0", tmpStr, sizeof(tmpStr));
     attack->inaccuracy = (int)(atof(tmpStr)*1000.0f);
-    trap_GPG_FindPairValue(attacksub, "mp_zoominaccuracy", "0", tmpStr);
+    trap_GPG_FindPairValue(attacksub, "mp_zoominaccuracy", "0", tmpStr, sizeof(tmpStr));
     attack->zoomInaccuracy = (int)(atof(tmpStr)*1000.0f);
-    trap_GPG_FindPairValue(attacksub, "mp_maxInaccuracy||maxInaccuracy", "0", tmpStr);
+    trap_GPG_FindPairValue(attacksub, "mp_maxInaccuracy||maxInaccuracy", "0", tmpStr, sizeof(tmpStr));
     attack->maxInaccuracy = (int)(atof(tmpStr)*1000.0f);
-    trap_GPG_FindPairValue(attacksub, "mp_gore||gore", "YES", tmpStr);
-    attack->gore = (Q_stricmp ( tmpStr, "YES" )?qfalse:qtrue);
+    trap_GPG_FindPairValue(attacksub, "mp_gore||gore", "YES", tmpStr, sizeof(tmpStr));
+    attack->gore = (Q_stricmp(tmpStr, "YES") ? qfalse : qtrue);
 
-    trap_GPG_FindPairValue(attacksub,"mp_extraClips", "0", tmpStr );
-    attack->extraClips = atoi ( tmpStr );
+    trap_GPG_FindPairValue(attacksub, "mp_extraClips", "0", tmpStr, sizeof(tmpStr));
+    attack->extraClips = atoi(tmpStr);
 
     // max ammo is the combination of all guns that share the ammo
     ammoData[attack->ammoIndex].max += attack->clipSize * attack->extraClips;
 
-    trap_GPG_FindPairValue(attacksub,"mp_kickAngles||kickAngles", "0 0 0 0 0 0", tmpStr);
+    trap_GPG_FindPairValue(attacksub,"mp_kickAngles||kickAngles", "0 0 0 0 0 0", tmpStr, sizeof(tmpStr));
     sscanf( tmpStr, "%f %f %f %f %f %f",
             &attack->minKickAngles[0],
             &attack->maxKickAngles[0],
@@ -277,27 +277,27 @@ static qboolean BG_ParseAttackStats ( int weaponNum, attackData_t* attack, void 
 
     if (0 == attack->inaccuracy)
     {
-        trap_GPG_FindPairValue(attacksub, "mp_spread||spread", "0", tmpStr);
+        trap_GPG_FindPairValue(attacksub, "mp_spread||spread", "0", tmpStr, sizeof(tmpStr));
         attack->inaccuracy = atof(tmpStr);
     }
-    trap_GPG_FindPairValue(attacksub, "mp_pellets||pellets", "1", tmpStr);
+    trap_GPG_FindPairValue(attacksub, "mp_pellets||pellets", "1", tmpStr, sizeof(tmpStr));
     attack->pellets = atof(tmpStr);
     attack->mod = (meansOfDeath_t)weaponNum;
 
-    trap_GPG_FindPairValue(attacksub, "mp_lockFlashToBarrel||lockFlashToBarrel", "true", tmpStr);
+    trap_GPG_FindPairValue(attacksub, "mp_lockFlashToBarrel||lockFlashToBarrel", "true", tmpStr, sizeof(tmpStr));
     if (0 == Q_stricmp(tmpStr, "false"))
     {
         attack->weaponFlags |= UNLOCK_MUZZLEFLASH;
     }
     // load effects, sounds
-    trap_GPG_FindPairValue(attacksub, "muzzleFlash", "", attack->muzzleEffect);
-    trap_GPG_FindPairValue(attacksub, "3rdPersonMuzzleFlash", "", attack->muzzleEffectInWorld);
-    trap_GPG_FindPairValue(attacksub, "EjectBone", "", attack->ejectBone);
-    trap_GPG_FindPairValue(attacksub, "ShellCasingEject", "", attack->shellEject);
-    trap_GPG_FindPairValue(attacksub, "TracerEffect", "", attack->tracerEffect);
+    trap_GPG_FindPairValue(attacksub, "muzzleFlash", "", attack->muzzleEffect, sizeof(attack->muzzleEffect));
+    trap_GPG_FindPairValue(attacksub, "3rdPersonMuzzleFlash", "", attack->muzzleEffectInWorld, sizeof(attack->muzzleEffectInWorld));
+    trap_GPG_FindPairValue(attacksub, "EjectBone", "", attack->ejectBone, sizeof(attack->ejectBone));
+    trap_GPG_FindPairValue(attacksub, "ShellCasingEject", "", attack->shellEject, sizeof(attack->shellEject));
+    trap_GPG_FindPairValue(attacksub, "TracerEffect", "", attack->tracerEffect, sizeof(attack->tracerEffect));
 
     // Some alt attacks have special bones they need their muzzle flashes attached to
-    trap_GPG_FindPairValue ( attacksub, "mp_muzzleFlashBone", "", attack->muzzleEffectBone );
+    trap_GPG_FindPairValue ( attacksub, "mp_muzzleFlashBone", "", attack->muzzleEffectBone, sizeof(attack->muzzleEffectBone) );
 
     sub = trap_GPG_FindSubGroup(attacksub, "fireModes");
     if (sub)
@@ -306,7 +306,7 @@ static qboolean BG_ParseAttackStats ( int weaponNum, attackData_t* attack, void 
 
         for ( i = 0; i < 5; i ++ )
         {
-            trap_GPG_FindPairValue ( sub, va("mp_mode%i||mode%i", i, i ), "", tmpStr );
+            trap_GPG_FindPairValue ( sub, va("mp_mode%i||mode%i", i, i ), "", tmpStr, sizeof(tmpStr) );
             if ( !tmpStr[0] )
             {
                 continue;
@@ -332,15 +332,15 @@ static qboolean BG_ParseAttackStats ( int weaponNum, attackData_t* attack, void 
     {
         attack->weaponFlags |= PROJECTILE_FIRE;
 
-        trap_GPG_FindPairValue(sub, "gravity", "1", tmpStr);
+        trap_GPG_FindPairValue(sub, "gravity", "1", tmpStr, sizeof(tmpStr));
         if (0 < atof(tmpStr))
             attack->weaponFlags |= PROJECTILE_GRAVITY;
 
-        trap_GPG_FindPairValue(sub, "detonation", "0", tmpStr);
+        trap_GPG_FindPairValue(sub, "detonation", "0", tmpStr, sizeof(tmpStr));
         if (0 == Q_stricmp(tmpStr,"timer"))
             attack->weaponFlags |= PROJECTILE_TIMED;
 
-        trap_GPG_FindPairValue(sub, "mp_bounce||bounce", "0", tmpStr );
+        trap_GPG_FindPairValue(sub, "mp_bounce||bounce", "0", tmpStr, sizeof(tmpStr) );
         attack->bounceScale = atof ( tmpStr );
 
         switch ( weaponNum )
@@ -358,16 +358,16 @@ static qboolean BG_ParseAttackStats ( int weaponNum, attackData_t* attack, void 
                 }
                 break;
         }
-        trap_GPG_FindPairValue(sub, "mp_speed||speed", "0", tmpStr);
+        trap_GPG_FindPairValue(sub, "mp_speed||speed", "0", tmpStr, sizeof(tmpStr));
         attack->rV.velocity = atoi(tmpStr);
-        trap_GPG_FindPairValue(sub, "mp_timer||timer", "10", tmpStr);
+        trap_GPG_FindPairValue(sub, "mp_timer||timer", "10", tmpStr, sizeof(tmpStr));
         attack->projectileLifetime = (int)(atof(tmpStr) * 1000);
 
         // 'trail' effect
-        trap_GPG_FindPairValue(sub, "mp_effect||effect", "", attack->tracerEffect);
-        trap_GPG_FindPairValue(sub, "model", "", attack->missileG2Model);
-        trap_GPG_FindPairValue(sub, "mp_explosionEffect||explosionEffect", "", attack->explosionEffect);
-        trap_GPG_FindPairValue(sub, "mp_explosionSound||explosionSound", "", attack->explosionSound);
+        trap_GPG_FindPairValue(sub, "mp_effect||effect", "", attack->tracerEffect, sizeof(attack->tracerEffect));
+        trap_GPG_FindPairValue(sub, "model", "", attack->missileG2Model, sizeof(attack->missileG2Model));
+        trap_GPG_FindPairValue(sub, "mp_explosionEffect||explosionEffect", "", attack->explosionEffect, sizeof(attack->explosionEffect));
+        trap_GPG_FindPairValue(sub, "mp_explosionSound||explosionSound", "", attack->explosionSound, sizeof(attack->explosionSound));
     }
 
     return qtrue;
@@ -382,30 +382,30 @@ static qboolean BG_ParseWeaponStats(weapon_t weaponNum, void *group, qboolean pi
     memset(weapon, 0, sizeof(weaponData_t));
 
     weapon->classname = bg_weaponNames[weaponNum];
-    trap_GPG_FindPairValue(group, "category", "0", tmpStr);
+    trap_GPG_FindPairValue(group, "category", "0", tmpStr, sizeof(tmpStr));
     weapon->category = atoi(tmpStr);
 
-    trap_GPG_FindPairValue(group, "safe", "false", tmpStr);
+    trap_GPG_FindPairValue(group, "safe", "false", tmpStr, sizeof(tmpStr));
     weapon->safe = !Q_stricmp(tmpStr, "true");
 
-    trap_GPG_FindPairValue(group, "model", "", weapon->worldModel);
+    trap_GPG_FindPairValue(group, "model", "", weapon->worldModel, sizeof(weapon->worldModel));
 
-    trap_GPG_FindPairValue(group, "menuImage", "", weapon->menuImage);
+    trap_GPG_FindPairValue(group, "menuImage", "", weapon->menuImage, sizeof(weapon->menuImage));
 
     // Grab the animations
-    trap_GPG_FindPairValue( group, "mp_animRaise", "TORSO_RAISE", tmpStr );
+    trap_GPG_FindPairValue( group, "mp_animRaise", "TORSO_RAISE", tmpStr, sizeof(tmpStr) );
     weapon->animRaise = GetIDForString ( bg_animTable, tmpStr );
-    trap_GPG_FindPairValue( group, "mp_animDrop", "TORSO_DROP", tmpStr );
+    trap_GPG_FindPairValue( group, "mp_animDrop", "TORSO_DROP", tmpStr, sizeof(tmpStr) );
     weapon->animDrop = GetIDForString ( bg_animTable, tmpStr );
-    trap_GPG_FindPairValue( group, "mp_animIdle", "TORSO_IDLE_PISTOL", tmpStr );
+    trap_GPG_FindPairValue( group, "mp_animIdle", "TORSO_IDLE_PISTOL", tmpStr, sizeof(tmpStr) );
     weapon->animIdle = GetIDForString ( bg_animTable, tmpStr );
-    trap_GPG_FindPairValue( group, "mp_animIdleZoomed", "", tmpStr );
+    trap_GPG_FindPairValue( group, "mp_animIdleZoomed", "", tmpStr, sizeof(tmpStr) );
     weapon->animIdleZoomed = GetIDForString ( bg_animTable, tmpStr );
-    trap_GPG_FindPairValue( group, "mp_animReload", "", tmpStr );
+    trap_GPG_FindPairValue( group, "mp_animReload", "", tmpStr, sizeof(tmpStr) );
     weapon->animReload = GetIDForString ( bg_animTable, tmpStr );
-    trap_GPG_FindPairValue( group, "mp_animReloadStart", "", tmpStr );
+    trap_GPG_FindPairValue( group, "mp_animReloadStart", "", tmpStr, sizeof(tmpStr) );
     weapon->animReloadStart = GetIDForString ( bg_animTable, tmpStr );
-    trap_GPG_FindPairValue( group, "mp_animReloadEnd", "", tmpStr );
+    trap_GPG_FindPairValue( group, "mp_animReloadEnd", "", tmpStr, sizeof(tmpStr) );
     weapon->animReloadEnd = GetIDForString ( bg_animTable, tmpStr );
 
     // primary attack
@@ -423,7 +423,7 @@ qboolean BG_InitWeaponStats( qboolean pickupsDisabled )
     char        name[256];
     int         i;
 
-    GP2 = trap_GP_ParseFile("ext_data/sof2.wpn", qtrue, qfalse);
+    GP2 = trap_GP_ParseFile("ext_data/sof2.wpn");
     if (!GP2)
     {
         return qfalse;
@@ -433,10 +433,10 @@ qboolean BG_InitWeaponStats( qboolean pickupsDisabled )
     topSubs = trap_GPG_GetSubGroups(topGroup);
     while(topSubs)
     {
-        trap_GPG_GetName(topSubs, name);
+        trap_GPG_GetName(topSubs, name, sizeof(name));
         if (Q_stricmp(name, "weapon") == 0)
         {
-            trap_GPG_FindPairValue(topSubs, "name", "", name);
+            trap_GPG_FindPairValue(topSubs, "name", "", name, sizeof(name));
             for(i=0;i<WP_NUM_WEAPONS;i++)
             {
                 if (Q_stricmp(bg_weaponNames[i], name) == 0)
@@ -482,10 +482,10 @@ static char *BG_BuildSideSurfaceList(void *group, char *pattern, char *sideSurfa
     value = trap_GPG_GetPairs(group);
     while((value)&&(i<MAX_SIDE_SURFACES))
     {
-        trap_GPV_GetName(value, fieldName);
+        trap_GPV_GetName(value, fieldName, sizeof(fieldName));
         if (Q_stricmpn(fieldName, pattern, length) == 0)
         {
-            trap_GPV_GetTopValue(value, fieldValue);
+            trap_GPV_GetTopValue(value, fieldValue, sizeof(fieldValue));
             data = trap_VM_LocalAllocUnaligned(strlen(fieldValue)+1);
             strcpy(data, fieldValue);
             sideSurfaces[i]=data;
@@ -513,10 +513,10 @@ static char *BG_BuildList(void *group, char *pattern)
     value = trap_GPG_GetPairs(group);
     while(value)
     {
-        trap_GPV_GetName(value, fieldName);
+        trap_GPV_GetName(value, fieldName, sizeof(fieldName));
         if (Q_stricmpn(fieldName, pattern, length) == 0)
         {
-            trap_GPV_GetTopValue(value, fieldValue);
+            trap_GPV_GetTopValue(value, fieldValue, sizeof(fieldValue));
             data = trap_VM_LocalAllocUnaligned(strlen(fieldValue)+1);
             strcpy(data, fieldValue);
         }
@@ -538,7 +538,7 @@ static int  numInitialFiles = 0;
 
 static  qboolean BG_OpenWeaponFrames(const char *name)
 {
-    weaponFrames[numWeaponFiles] = trap_GP_ParseFile((char *)name, qtrue, qfalse);
+    weaponFrames[numWeaponFiles] = trap_GP_ParseFile((char *)name);
 
     if (!weaponFrames)
     {
@@ -562,15 +562,15 @@ static TNoteTrack *BG_FindNoteTracks(void *group)
     sub = trap_GPG_GetSubGroups(group);
     while(sub)
     {
-        trap_GPG_GetName(sub, name);
+        trap_GPG_GetName(sub, name, sizeof(name));
         if (Q_stricmp(name, "notetrack") == 0)
         {
             current = (TNoteTrack *)trap_VM_LocalAlloc(sizeof(*current));
             memset(current, 0, sizeof(*current));
 
             // last character is automatically 0 cuz of the memset
-            trap_GPG_FindPairValue(sub, "note", "", current->mNote);
-            trap_GPG_FindPairValue(sub, "frame", "-1", name);
+            trap_GPG_FindPairValue(sub, "note", "", current->mNote, sizeof(current->mNote));
+            trap_GPG_FindPairValue(sub, "frame", "-1", name, sizeof(name));
             current->mFrame = atoi(name);
 
             last=insert=head;
@@ -622,7 +622,7 @@ static void BG_FindWeaponFrames(TAnimInfoWeapon *animInfo, int choice)
 
             // Get the name and break it down to just the filename without
             // and extension
-            trap_GPG_GetName ( group, temp );
+            trap_GPG_GetName ( group, temp, sizeof(temp) );
             name = COM_SkipPath ( temp );
             COM_StripExtension ( name, temp, sizeof(temp) );
 
@@ -636,11 +636,11 @@ static void BG_FindWeaponFrames(TAnimInfoWeapon *animInfo, int choice)
 
         if (group)
         {
-            trap_GPG_FindPairValue(group, "startframe", "0", temp);
+            trap_GPG_FindPairValue(group, "startframe", "0", temp, sizeof(temp));
             animInfo->mStartFrame[choice] = atoi(temp);
-            trap_GPG_FindPairValue(group, "duration", "0", temp);
+            trap_GPG_FindPairValue(group, "duration", "0", temp, sizeof(temp));
             animInfo->mNumFrames[choice] = atoi(temp);
-            trap_GPG_FindPairValue(group, "fps", "0", temp);
+            trap_GPG_FindPairValue(group, "fps", "0", temp, sizeof(temp));
             animInfo->mFPS[choice] = atoi(temp);
             animInfo->mNoteTracks[choice] = BG_FindNoteTracks(group);
             return;
@@ -682,13 +682,13 @@ static qboolean BG_ParseAnimGroup(weapon_t weapon, void *animGroup)
     anim->mNext = weaponParseInfo[weapon].mAnimList;
     weaponParseInfo[weapon].mAnimList = anim;
 
-    trap_GPG_FindPairValue(animGroup, "name", "", anim->mName);
-    trap_GPG_FindPairValue(animGroup, "mp_muzzle||muzzle", "", anim->mMuzzle);
+    trap_GPG_FindPairValue(animGroup, "name", "", anim->mName, sizeof(anim->mName));
+    trap_GPG_FindPairValue(animGroup, "mp_muzzle||muzzle", "", anim->mMuzzle, sizeof(anim->mMuzzle));
 
     sub = trap_GPG_GetSubGroups(animGroup);
     while(sub)
     {
-        trap_GPG_GetName(sub, name);
+        trap_GPG_GetName(sub, name, sizeof(name));
         if (Q_stricmp(name, "info") == 0)
         {
             info = (TAnimInfoWeapon *)trap_VM_LocalAlloc(sizeof(*info));
@@ -698,8 +698,8 @@ static qboolean BG_ParseAnimGroup(weapon_t weapon, void *animGroup)
             anim->mInfos = info;
 
             info->mNumChoices = 0;
-            trap_GPG_FindPairValue(sub, "name", "", info->mName);
-            trap_GPG_FindPairValue(sub, "type", "", info->mType);
+            trap_GPG_FindPairValue(sub, "name", "", info->mName, sizeof(info->mName));
+            trap_GPG_FindPairValue(sub, "type", "", info->mType, sizeof(info->mType));
 
             // Cache for later
             if ( !Q_stricmp ( info->mType, "weaponmodel" ) )
@@ -709,14 +709,14 @@ static qboolean BG_ParseAnimGroup(weapon_t weapon, void *animGroup)
 
             // We first look for a multiplayer specific speed. If we don't
             // find a valid speed, use the single player speed instead.
-            trap_GPG_FindPairValue(sub, "mp_speed||speed", "0", temp);
+            trap_GPG_FindPairValue(sub, "mp_speed||speed", "0", temp, sizeof(temp));
             info->mSpeed = atof(temp);
             if(!info->mSpeed)
             {
-                trap_GPG_FindPairValue(sub, "mp_speed||speed", "1", temp);
+                trap_GPG_FindPairValue(sub, "mp_speed||speed", "1", temp, sizeof(temp));
                 info->mSpeed = atof(temp);
             }
-            trap_GPG_FindPairValue(sub, "lodbias", "0", temp);
+            trap_GPG_FindPairValue(sub, "lodbias", "0", temp, sizeof(temp));
             info->mLODBias = atoi(temp);
 
             for(i=0;i<=MAX_WEAPON_ANIM_CHOICES;i++)
@@ -729,7 +729,7 @@ static qboolean BG_ParseAnimGroup(weapon_t weapon, void *animGroup)
                 {
                     Com_sprintf(temp, sizeof(temp), "anim%d||animNoLerp%d", i, i);
                 }
-                trap_GPG_FindPairValue(sub, temp, "", value);
+                trap_GPG_FindPairValue(sub, temp, "", value, sizeof(value));
                 if (value[0] && info->mNumChoices < MAX_WEAPON_ANIM_CHOICES)
                 {
                     info->mAnim[info->mNumChoices] = (char *)trap_VM_LocalAlloc(strlen(value)+1);
@@ -743,7 +743,7 @@ static qboolean BG_ParseAnimGroup(weapon_t weapon, void *animGroup)
                     {
                         Com_sprintf(temp, sizeof(temp), "transition%d", i);
                     }
-                    trap_GPG_FindPairValue(sub, temp, "", value);
+                    trap_GPG_FindPairValue(sub, temp, "", value, sizeof(value));
                     if (value[0])
                     {
                         info->mTransition[info->mNumChoices] = (char *)trap_VM_LocalAlloc(strlen(value)+1);
@@ -758,7 +758,7 @@ static qboolean BG_ParseAnimGroup(weapon_t weapon, void *animGroup)
                     {
                         Com_sprintf(temp, sizeof(temp), "end%d", i);
                     }
-                    trap_GPG_FindPairValue(sub, temp, "", value);
+                    trap_GPG_FindPairValue(sub, temp, "", value, sizeof(value));
                     if (value[0])
                     {
                         info->mEnd[info->mNumChoices] = (char *)trap_VM_LocalAlloc(strlen(value)+1);
@@ -785,12 +785,12 @@ static TBoltonWeapon *BG_ParseBolton(void *boltonGroup)
     bolton = (TBoltonWeapon *)trap_VM_LocalAlloc(sizeof(*bolton));
     memset(bolton, 0, sizeof(*bolton));
 
-    trap_GPG_FindPairValue(boltonGroup, "name", "", bolton->mName);
-    trap_GPG_FindPairValue(boltonGroup, "model", "", bolton->mModel);
-    trap_GPG_FindPairValue(boltonGroup, "parent", "", bolton->mParent);
-    trap_GPG_FindPairValue(boltonGroup, "bolttobone", "", bolton->mBoltToBone);
+    trap_GPG_FindPairValue(boltonGroup, "name", "", bolton->mName, sizeof(bolton->mName));
+    trap_GPG_FindPairValue(boltonGroup, "model", "", bolton->mModel, sizeof(bolton->mModel));
+    trap_GPG_FindPairValue(boltonGroup, "parent", "", bolton->mParent, sizeof(bolton->mParent));
+    trap_GPG_FindPairValue(boltonGroup, "bolttobone", "", bolton->mBoltToBone, sizeof(bolton->mBoltToBone));
 
-    trap_GPG_FindPairValue(boltonGroup, "frames", "", temp);
+    trap_GPG_FindPairValue(boltonGroup, "frames", "", temp, sizeof(temp));
     BG_OpenWeaponFrames(temp);
 
     sub = trap_GPG_FindSubGroup(boltonGroup, "rightside");
@@ -802,11 +802,11 @@ static TBoltonWeapon *BG_ParseBolton(void *boltonGroup)
     sub = trap_GPG_FindSubGroup(boltonGroup, "joint");
     if (sub)
     {
-        trap_GPG_FindPairValue(sub, "bone", "", bolton->mJointBone);
-        trap_GPG_FindPairValue(sub, "parentBone", "", bolton->mJointParentBone);
-        trap_GPG_FindPairValue(sub, "fwd", "", bolton->mJointForward);
-        trap_GPG_FindPairValue(sub, "right", "", bolton->mJointRight);
-        trap_GPG_FindPairValue(sub, "up", "", bolton->mJointUp);
+        trap_GPG_FindPairValue(sub, "bone", "", bolton->mJointBone, sizeof(bolton->mJointBone));
+        trap_GPG_FindPairValue(sub, "parentBone", "", bolton->mJointParentBone, sizeof(bolton->mJointParentBone));
+        trap_GPG_FindPairValue(sub, "fwd", "", bolton->mJointForward, sizeof(bolton->mJointForward));
+        trap_GPG_FindPairValue(sub, "right", "", bolton->mJointRight, sizeof(bolton->mJointRight));
+        trap_GPG_FindPairValue(sub, "up", "", bolton->mJointUp, sizeof(bolton->mJointUp));
     }
 
     return bolton;
@@ -819,35 +819,35 @@ static qboolean BG_ParseWeaponGroup(TWeaponModel *weapon, void *weaponGroup)
     TOptionalWeapon *option;
     char            temp[256];
 
-    trap_GPG_FindPairValue(weaponGroup, "name", "", weapon->mName);
-    trap_GPG_FindPairValue(weaponGroup, "model", "", weapon->mModel);
+    trap_GPG_FindPairValue(weaponGroup, "name", "", weapon->mName, sizeof(weapon->mName));
+    trap_GPG_FindPairValue(weaponGroup, "model", "", weapon->mModel, sizeof(weapon->mModel));
 
-    trap_GPG_FindPairValue(weaponGroup, "frames", "", temp);
+    trap_GPG_FindPairValue(weaponGroup, "frames", "", temp, sizeof(temp));
     BG_OpenWeaponFrames(temp);
 
     sub = trap_GPG_GetSubGroups(weaponGroup);
     while(sub)
     {
-        trap_GPG_GetName(sub, name);
+        trap_GPG_GetName(sub, name, sizeof(name));
         if (Q_stricmp(name, "buffer") == 0)
         {
-            trap_GPG_FindPairValue(sub, "name", "", weapon->mBufferName);
-            trap_GPG_FindPairValue(sub, "model", "", weapon->mBufferModel);
-            trap_GPG_FindPairValue(sub, "bolttobone", "", weapon->mBufferBoltToBone);
-            trap_GPG_FindPairValue(sub, "mp_muzzle||muzzle", "", weapon->mBufferMuzzle);
-            trap_GPG_FindPairValue(sub, "mp_altmuzzle", "", weapon->mBufferAltMuzzle);
+            trap_GPG_FindPairValue(sub, "name", "", weapon->mBufferName, sizeof(weapon->mBufferName));
+            trap_GPG_FindPairValue(sub, "model", "", weapon->mBufferModel, sizeof(weapon->mBufferModel));
+            trap_GPG_FindPairValue(sub, "bolttobone", "", weapon->mBufferBoltToBone, sizeof(weapon->mBufferBoltToBone));
+            trap_GPG_FindPairValue(sub, "mp_muzzle||muzzle", "", weapon->mBufferMuzzle, sizeof(weapon->mBufferMuzzle));
+            trap_GPG_FindPairValue(sub, "mp_altmuzzle", "", weapon->mBufferAltMuzzle, sizeof(weapon->mBufferAltMuzzle));
         }
         else if (Q_stricmp(name, "hands") == 0)
         {
             hand = trap_GPG_FindSubGroup(sub, "left");
             if (hand)
             {
-                trap_GPG_FindPairValue(hand, "bolttobone", "", weapon->mLeftHandsBoltToBone);
+                trap_GPG_FindPairValue(hand, "bolttobone", "", weapon->mLeftHandsBoltToBone, sizeof(weapon->mLeftHandsBoltToBone));
             }
             hand = trap_GPG_FindSubGroup(sub, "right");
             if (hand)
             {
-                trap_GPG_FindPairValue(hand, "bolttobone", "", weapon->mRightHandsBoltToBone);
+                trap_GPG_FindPairValue(hand, "bolttobone", "", weapon->mRightHandsBoltToBone, sizeof(weapon->mRightHandsBoltToBone));
             }
         }
         else if (Q_stricmp(name, "bolton") == 0)
@@ -870,8 +870,8 @@ static qboolean BG_ParseWeaponGroup(TWeaponModel *weapon, void *weaponGroup)
         {
             option = (TOptionalWeapon *)trap_VM_LocalAlloc(sizeof(*option));
             memset(option, 0, sizeof(*option));
-            trap_GPG_FindPairValue(sub, "name", "", option->mName);
-            trap_GPG_FindPairValue(sub, "muzzle", "", option->mMuzzle);
+            trap_GPG_FindPairValue(sub, "name", "", option->mName, sizeof(option->mName));
+            trap_GPG_FindPairValue(sub, "muzzle", "", option->mMuzzle, sizeof(option->mMuzzle));
             BG_BuildSideSurfaceList(sub, "surface", option->mSurfaces);
             option->mNext=weapon->mOptionalList;
             weapon->mOptionalList=option;
@@ -906,21 +906,21 @@ static qboolean BG_ParseWeapon(weapon_t weapon, void *group)
 
     memset(&weaponParseInfo[weapon], 0, sizeof(TWeaponParseInfo));
     weaponParseInfo[weapon].mName = bg_weaponNames[weapon];
-    trap_GPG_FindPairValue(group, "foreshorten", "0.0", temp);
+    trap_GPG_FindPairValue(group, "foreshorten", "0.0", temp, sizeof(temp));
     weaponParseInfo[weapon].mForeshorten = atof(temp);
 
     sub = trap_GPG_GetSubGroups(group);
     while(sub)
     {
-        trap_GPG_GetName(sub, name);
+        trap_GPG_GetName(sub, name, sizeof(name));
 
         if (Q_stricmp(name, "viewoffset") == 0)
         {
-            trap_GPG_FindPairValue(sub, "forward", "0.0", temp);
+            trap_GPG_FindPairValue(sub, "forward", "0.0", temp, sizeof(temp));
             weaponParseInfo[weapon].mViewOffset[0] = atof(temp);
-            trap_GPG_FindPairValue(sub, "right", "0.0", temp);
+            trap_GPG_FindPairValue(sub, "right", "0.0", temp, sizeof(temp));
             weaponParseInfo[weapon].mViewOffset[1] = atof(temp);
-            trap_GPG_FindPairValue(sub, "up", "0.0", temp);
+            trap_GPG_FindPairValue(sub, "up", "0.0", temp, sizeof(temp));
             weaponParseInfo[weapon].mViewOffset[2] = atof(temp);
         }
         else if (Q_stricmp(name, "sounds") == 0)
@@ -928,11 +928,11 @@ static qboolean BG_ParseWeapon(weapon_t weapon, void *group)
             soundName = trap_GPG_GetSubGroups(sub);
             for(i=0;soundName && (i < MAX_WEAPON_SOUNDS);i++)
             {
-                trap_GPG_GetName(soundName, weaponParseInfo[weapon].mSoundNames[i]);
+                trap_GPG_GetName(soundName, weaponParseInfo[weapon].mSoundNames[i], sizeof(weaponParseInfo[weapon].mSoundNames[i]));
                 soundValue = trap_GPG_GetPairs(soundName);
                 for(j=0;soundValue && (j<MAX_WEAPON_SOUND_SLOTS);j++)
                 {
-                    trap_GPV_GetTopValue(soundValue, weaponParseInfo[weapon].mSounds[i][j]);
+                    trap_GPV_GetTopValue(soundValue, weaponParseInfo[weapon].mSounds[i][j], sizeof(weaponParseInfo[weapon].mSounds[i][j]));
                     soundValue = trap_GPV_GetNext(soundValue);
                 }
 
@@ -944,12 +944,14 @@ static qboolean BG_ParseWeapon(weapon_t weapon, void *group)
             surfaceCallbackName = trap_GPG_GetSubGroups(sub);
             for(i=0;surfaceCallbackName && (i < MAX_SURFACE_CALLBACKS);i++)
             {
-                trap_GPG_GetName(surfaceCallbackName, weaponParseInfo[weapon].mSurfaceCallbacks[i].mName);
+                trap_GPG_GetName(surfaceCallbackName, weaponParseInfo[weapon].mSurfaceCallbacks[i].mName,
+                    sizeof(weaponParseInfo[weapon].mSurfaceCallbacks[i].mName));
                 surfaceCallbackValue = trap_GPG_GetPairs(surfaceCallbackName);
                 for(j=0;surfaceCallbackValue && (j<MAX_CALLBACK_SURFACES);j++)
                 {
-                    trap_GPG_GetName(surfaceCallbackValue, weaponParseInfo[weapon].mSurfaceCallbacks[i].mOnOffSurfaces[j].mName);
-                    trap_GPV_GetTopValue(surfaceCallbackValue, onOffVal);
+                    trap_GPG_GetName(surfaceCallbackValue, weaponParseInfo[weapon].mSurfaceCallbacks[i].mOnOffSurfaces[j].mName,
+                        sizeof(weaponParseInfo[weapon].mSurfaceCallbacks[i].mOnOffSurfaces[j].mName));
+                    trap_GPV_GetTopValue(surfaceCallbackValue, onOffVal, sizeof(onOffVal));
                     assert(onOffVal);
                     weaponParseInfo[weapon].mSurfaceCallbacks[i].mOnOffSurfaces[j].mStatus=(!Q_stricmp(onOffVal,"on"))?1:0;
                     surfaceCallbackValue=trap_GPV_GetNext(surfaceCallbackValue);
@@ -997,7 +999,7 @@ qboolean BG_ParseInviewFile( qboolean pickupsDisabled )
     char        name[256], temp[256];
     int         i;
 
-    GP2 = trap_GP_ParseFile("inview/sof2.inview", qtrue, qfalse);
+    GP2 = trap_GP_ParseFile("inview/sof2.inview");
     if (!GP2)
     {
         return qfalse;
@@ -1010,14 +1012,14 @@ qboolean BG_ParseInviewFile( qboolean pickupsDisabled )
     topSubs = trap_GPG_GetSubGroups(topGroup);
     while(topSubs)
     {
-        trap_GPG_GetName(topSubs, name);
+        trap_GPG_GetName(topSubs, name, sizeof(name));
         if (Q_stricmp(name, "hands") == 0)
         {
             group = trap_GPG_FindSubGroup(topSubs, "left");
             if (group)
             {
-                trap_GPG_FindPairValue(group, "model", "", weaponLeftHand);
-                trap_GPG_FindPairValue(group, "frames", "", temp);
+                trap_GPG_FindPairValue(group, "model", "", weaponLeftHand, sizeof(weaponLeftHand));
+                trap_GPG_FindPairValue(group, "frames", "", temp, sizeof(temp));
                 if (BG_OpenWeaponFrames(temp))
                 {
                     numInitialFiles++;
@@ -1026,8 +1028,8 @@ qboolean BG_ParseInviewFile( qboolean pickupsDisabled )
             group = trap_GPG_FindSubGroup(topSubs, "right");
             if (group)
             {
-                trap_GPG_FindPairValue(group, "model", "", weaponRightHand);
-                trap_GPG_FindPairValue(group, "frames", "", temp);
+                trap_GPG_FindPairValue(group, "model", "", weaponRightHand, sizeof(weaponRightHand));
+                trap_GPG_FindPairValue(group, "frames", "", temp, sizeof(temp));
                 if (BG_OpenWeaponFrames(temp))
                 {
                     numInitialFiles++;
@@ -1039,7 +1041,7 @@ qboolean BG_ParseInviewFile( qboolean pickupsDisabled )
         }
         else if (Q_stricmp(name, "weapon") == 0)
         {
-            trap_GPG_FindPairValue(topSubs, "name", "", name);
+            trap_GPG_FindPairValue(topSubs, "name", "", name, sizeof(name));
             for(i=0;i<WP_NUM_WEAPONS;i++)
             {
                 if (Q_stricmp(bg_weaponNames[i], name) == 0)

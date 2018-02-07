@@ -992,32 +992,32 @@ typedef void    *TGPGroup;
 typedef void    *TGPValue;
 
 // CGenericParser2 (void *) routines
-TGenericParser2     trap_GP_Parse                   ( char **dataPtr, qboolean cleanFirst, qboolean writeable );
-TGenericParser2     trap_GP_ParseFile               ( char *fileName, qboolean cleanFirst, qboolean writeable );
+TGenericParser2     trap_GP_Parse                   ( char **dataPtr );
+TGenericParser2     trap_GP_ParseFile               ( char *fileName );
 void                trap_GP_Clean                   ( TGenericParser2 GP2 );
 void                trap_GP_Delete                  ( TGenericParser2 *GP2 );
 TGPGroup            trap_GP_GetBaseParseGroup       ( TGenericParser2 GP2 );
 
 // CGPGroup (void *) routines
-qboolean            trap_GPG_GetName                ( TGPGroup GPG, char *Value);
-TGPGroup            trap_GPG_GetNext                ( TGPGroup GPG);
-TGPGroup            trap_GPG_GetInOrderNext         ( TGPGroup GPG);
-TGPGroup            trap_GPG_GetInOrderPrevious     ( TGPGroup GPG);
-TGPValue            trap_GPG_GetPairs               ( TGPGroup GPG);
-TGPGroup            trap_GPG_GetInOrderPairs        ( TGPGroup GPG);
-TGPGroup            trap_GPG_GetSubGroups           ( TGPGroup GPG);
-TGPGroup            trap_GPG_GetInOrderSubGroups    ( TGPGroup GPG);
-TGPGroup            trap_GPG_FindSubGroup           ( TGPGroup GPG, const char *name);
-TGPValue            trap_GPG_FindPair               ( TGPGroup GPG, const char *key);
-qboolean            trap_GPG_FindPairValue          ( TGPGroup GPG, const char *key, const char *defaultVal, char *Value);
+qboolean            trap_GPG_GetName                ( TGPGroup GPG, char *dest, int destSize );
+TGPGroup            trap_GPG_GetNext                ( TGPGroup GPG );
+TGPGroup            trap_GPG_GetInOrderNext         ( TGPGroup GPG );
+TGPGroup            trap_GPG_GetInOrderPrevious     ( TGPGroup GPG );
+TGPValue            trap_GPG_GetPairs               ( TGPGroup GPG );
+TGPGroup            trap_GPG_GetInOrderPairs        ( TGPGroup GPG );
+TGPGroup            trap_GPG_GetSubGroups           ( TGPGroup GPG );
+TGPGroup            trap_GPG_GetInOrderSubGroups    ( TGPGroup GPG );
+TGPGroup            trap_GPG_FindSubGroup           ( TGPGroup GPG, const char *name );
+TGPValue            trap_GPG_FindPair               ( TGPGroup GPG, const char *key );
+qboolean            trap_GPG_FindPairValue          ( TGPGroup GPG, const char *key, const char *defaultVal, char *dest, int destSize );
 
 // CGPValue (void *) routines
-qboolean            trap_GPV_GetName                ( TGPValue GPV, char *Value);
-TGPValue            trap_GPV_GetNext                ( TGPValue GPV);
+qboolean            trap_GPV_GetName                ( TGPValue GPV, char *dest, int destSize );
+TGPValue            trap_GPV_GetNext                ( TGPValue GPV );
 TGPValue            trap_GPV_GetInOrderNext         ( TGPValue GPV );
 TGPValue            trap_GPV_GetInOrderPrevious     ( TGPValue GPV );
 qboolean            trap_GPV_IsList                 ( TGPValue GPV );
-qboolean            trap_GPV_GetTopValue            ( TGPValue GPV, char *Value );
+qboolean            trap_GPV_GetTopValue            ( TGPValue GPV, char *dest, int destSize );
 TGPValue            trap_GPV_GetList                ( TGPValue GPV );
 
 extern int          trap_FS_GetFileList             ( const char *path, const char *extension, char *listbuf, int bufsize );

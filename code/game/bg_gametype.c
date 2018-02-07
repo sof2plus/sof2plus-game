@@ -33,10 +33,10 @@ static qboolean BG_ParseGametypePhotos ( int gametypeIndex, TGPGroup group )
 
     while ( photo )
     {
-        trap_GPG_GetName ( photo, temp );
+        trap_GPG_GetName ( photo, temp, sizeof(temp) );
         bg_gametypeData[gametypeIndex].photos[index].name = trap_VM_LocalStringAlloc ( temp );
 
-        trap_GPG_FindPairValue ( photo, "displayname", "unknown", temp );
+        trap_GPG_FindPairValue ( photo, "displayname", "unknown", temp, sizeof(temp) );
         bg_gametypeData[gametypeIndex].photos[index].displayName = trap_VM_LocalStringAlloc ( temp );
 
         index++;
@@ -67,7 +67,7 @@ static qboolean BG_ParseGametypeInfo ( int gametypeIndex )
     gametype = &bg_gametypeData[gametypeIndex];
 
     // Open the gametype's script file
-    GP2 = trap_GP_ParseFile( (char*)gametype->script, qtrue, qfalse);
+    GP2 = trap_GP_ParseFile( (char*)gametype->script );
     if (!GP2)
     {
         return qfalse;
@@ -88,7 +88,7 @@ static qboolean BG_ParseGametypeInfo ( int gametypeIndex )
     }
 
     // Parse out the name of the gametype
-    trap_GPG_FindPairValue ( gtGroup, "displayname", "", temp );
+    trap_GPG_FindPairValue ( gtGroup, "displayname", "", temp, sizeof(temp) );
     if ( !temp[0] )
     {
         return qfalse;
@@ -96,35 +96,35 @@ static qboolean BG_ParseGametypeInfo ( int gametypeIndex )
     gametype->displayName = trap_VM_LocalStringAlloc ( temp );
 
     // Description
-    trap_GPG_FindPairValue ( gtGroup, "description", "", temp );
+    trap_GPG_FindPairValue ( gtGroup, "description", "", temp, sizeof(temp) );
     if ( temp[0] )
     {
         gametype->description = trap_VM_LocalStringAlloc ( temp );
     }
 
     // Are pickups enabled?
-    trap_GPG_FindPairValue ( gtGroup, "pickups", "yes", temp );
+    trap_GPG_FindPairValue ( gtGroup, "pickups", "yes", temp, sizeof(temp) );
     if ( !Q_stricmp ( temp, "no" ) )
     {
         gametype->pickupsDisabled = qtrue;
     }
 
     // Are teams enabled?
-    trap_GPG_FindPairValue ( gtGroup, "teams", "yes", temp );
+    trap_GPG_FindPairValue ( gtGroup, "teams", "yes", temp, sizeof(temp) );
     if ( !Q_stricmp ( temp, "yes" ) )
     {
         gametype->teams = qtrue;
     }
 
     // Display kills
-    trap_GPG_FindPairValue ( gtGroup, "showkills", "no", temp );
+    trap_GPG_FindPairValue ( gtGroup, "showkills", "no", temp, sizeof(temp) );
     if ( !Q_stricmp ( temp, "yes" ) )
     {
         gametype->showKills = qtrue;
     }
 
     // Look for the respawn type
-    trap_GPG_FindPairValue ( gtGroup, "respawn", "normal", temp );
+    trap_GPG_FindPairValue ( gtGroup, "respawn", "normal", temp, sizeof(temp) );
     if ( !Q_stricmp ( temp, "none" ) )
     {
         gametype->respawnType = RT_NONE;
@@ -139,14 +139,14 @@ static qboolean BG_ParseGametypeInfo ( int gametypeIndex )
     }
 
     // A gametype can be based off another gametype which means it uses all the gametypes entities
-    trap_GPG_FindPairValue ( gtGroup, "basegametype", "", temp );
+    trap_GPG_FindPairValue ( gtGroup, "basegametype", "", temp, sizeof(temp) );
     if ( temp[0] )
     {
         gametype->basegametype = trap_VM_LocalStringAlloc ( temp );
     }
 
     // What percentage doest he backpack replenish?
-    trap_GPG_FindPairValue ( gtGroup, "backpack", "0", temp );
+    trap_GPG_FindPairValue ( gtGroup, "backpack", "0", temp, sizeof(temp) );
     gametype->backpack = atoi(temp);
 
     // Get the photo information for objectives dialog

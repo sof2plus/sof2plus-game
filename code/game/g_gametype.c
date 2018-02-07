@@ -533,7 +533,7 @@ qboolean G_ParseGametypeItems ( TGPGroup* itemsGroup )
         gitem_t*   item;
 
         // Parse out the pickup name
-        trap_GPG_GetName ( itemGroup, temp );
+        trap_GPG_GetName ( itemGroup, temp, sizeof(temp) );
 
         item = BG_FindItem ( temp );
         if ( !item )
@@ -583,7 +583,7 @@ qboolean G_ParseGametypeFile ( void )
     trap_SetConfigstring ( CS_GAMETYPE_MESSAGE, "0,0" );
 
     // Open the given gametype file
-    GP2 = trap_GP_ParseFile ( (char*)level.gametypeData->script, qtrue, qfalse );
+    GP2 = trap_GP_ParseFile ( (char*)level.gametypeData->script );
     if (!GP2)
     {
         return qfalse;
@@ -599,7 +599,7 @@ qboolean G_ParseGametypeFile ( void )
     }
 
     // Look for the respawn type
-    trap_GPG_FindPairValue ( gametypeGroup, "respawn", "normal", value );
+    trap_GPG_FindPairValue ( gametypeGroup, "respawn", "normal", value, sizeof(value) );
     if ( !Q_stricmp ( value, "none" ) )
     {
         level.gametypeData->respawnType = RT_NONE;
