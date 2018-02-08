@@ -1876,7 +1876,7 @@ void G_ShutdownGhoul ( void )
         return;
     }
 
-    trap_G2API_CleanGhoul2Models ( &level.serverGhoul2 );
+    trap_G2API_RemoveGhoul2Model ( &level.serverGhoul2 );
     level.serverGhoul2 = NULL;
 }
 

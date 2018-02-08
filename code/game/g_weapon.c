@@ -129,14 +129,14 @@ void G_TraceBullet ( weapon_t weapon, trace_t* tr, G2Trace_t G2Trace, vec3_t sta
             traceEnt = &g_entities[ tr->entityNum ];
 
             anim = &level.ghoulAnimations[traceEnt->client->legs.anim&(~ANIM_TOGGLEBIT)];
-            trap_G2API_SetBoneAnim(level.serverGhoul2, 0, "model_root", anim->firstFrame, anim->firstFrame + anim->numFrames, BONE_ANIM_OVERRIDE_LOOP, 50.0f / anim->frameLerp, traceEnt->client->legs.animTime, -1, 0);
+            trap_G2API_SetBoneAnim(level.serverGhoul2, "model_root", anim->firstFrame, anim->firstFrame + anim->numFrames, BONE_ANIM_OVERRIDE_LOOP, 50.0f / anim->frameLerp, -1);
 
             anim = &level.ghoulAnimations[traceEnt->client->torso.anim&(~ANIM_TOGGLEBIT)];
-            trap_G2API_SetBoneAnim(level.serverGhoul2, 0, "lower_lumbar", anim->firstFrame, anim->firstFrame + anim->numFrames, BONE_ANIM_OVERRIDE_LOOP, 50.0f / anim->frameLerp, traceEnt->client->torso.animTime, -1, 0);
+            trap_G2API_SetBoneAnim(level.serverGhoul2, "lower_lumbar", anim->firstFrame, anim->firstFrame + anim->numFrames, BONE_ANIM_OVERRIDE_LOOP, 50.0f / anim->frameLerp, -1);
 
-            trap_G2API_SetBoneAngles( level.serverGhoul2, 0, "upper_lumbar", traceEnt->client->ghoulUpperTorsoAngles, BONE_ANGLES_POSTMULT, POSITIVE_X, NEGATIVE_Y, NEGATIVE_Z, 0, 0, level.time );
-            trap_G2API_SetBoneAngles( level.serverGhoul2, 0, "lower_lumbar", traceEnt->client->ghoulLowerTorsoAngles, BONE_ANGLES_POSTMULT, POSITIVE_X, NEGATIVE_Y, NEGATIVE_Z, 0, 0, level.time );
-            trap_G2API_SetBoneAngles( level.serverGhoul2, 0, "cranium",      traceEnt->client->ghoulHeadAngles, BONE_ANGLES_POSTMULT, POSITIVE_Z, NEGATIVE_Y, POSITIVE_X, 0,0, level.time );
+            trap_G2API_SetBoneAngles( level.serverGhoul2, "upper_lumbar", traceEnt->client->ghoulUpperTorsoAngles, BONE_ANGLES_POSTMULT, POSITIVE_X, NEGATIVE_Y, NEGATIVE_Z );
+            trap_G2API_SetBoneAngles( level.serverGhoul2, "lower_lumbar", traceEnt->client->ghoulLowerTorsoAngles, BONE_ANGLES_POSTMULT, POSITIVE_X, NEGATIVE_Y, NEGATIVE_Z );
+            trap_G2API_SetBoneAngles( level.serverGhoul2, "cranium",      traceEnt->client->ghoulHeadAngles, BONE_ANGLES_POSTMULT, POSITIVE_Z, NEGATIVE_Y, POSITIVE_X );
 
             trap_G2API_CollisionDetect ( G2Trace, level.serverGhoul2, traceEnt->client->ghoulLegsAngles, traceEnt->r.currentOrigin, level.time, traceEnt->s.number, start, end, vec3_identity, 0, 2 );
 
@@ -769,7 +769,7 @@ void* G_InitHitModel ( void )
     // Initialize the ghoul2 model
     trap_G2API_InitGhoul2Model ( &ghoul2,
                                  "models/characters/average_sleeves/average_sleeves.glm",
-                                 0, 0, 0, (1<<4), 2 );
+                                 0, 2 );
 
     // Verify it
     if ( !ghoul2 )
@@ -781,16 +781,16 @@ void* G_InitHitModel ( void )
     numPairs = BG_ParseSkin ( "models/characters/skins/col_rebel_h1.g2skin", temp, sizeof(temp) );
     if ( !numPairs )
     {
-        trap_G2API_CleanGhoul2Models ( &ghoul2 );
+        trap_G2API_RemoveGhoul2Model ( &ghoul2 );
         return NULL;
     }
 
     // Register the skin and attach it to the ghoul model
     handle = trap_G2API_RegisterSkin( "hitmodel", numPairs, temp );
-    trap_G2API_SetSkin( ghoul2, 0, handle );
+    trap_G2API_SetSkin( ghoul2, handle );
 
     // Read in the animations for this model
-    trap_G2API_GetAnimFileNameIndex( ghoul2, 0, temp );
+    trap_G2API_GetAnimFileName( ghoul2, temp, sizeof(temp) );
     BG_ParseAnimationFile ( va("%s_mp.cfg", temp), level.ghoulAnimations );
 
     // Hand the hit model back

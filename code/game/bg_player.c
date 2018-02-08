@@ -1250,10 +1250,10 @@ void BG_PlayerAngles (
         AnglesToAxis( legsAngles, legs );
 
         // Apply the rotations
-        trap_G2API_SetBoneAngles(ghoul2, 0, "upper_lumbar", upperTorsoAngles, BONE_ANGLES_POSTMULT, POSITIVE_X, NEGATIVE_Y, NEGATIVE_Z, 0, 0, currentTime);
+        trap_G2API_SetBoneAngles(ghoul2, "upper_lumbar", upperTorsoAngles, BONE_ANGLES_POSTMULT, POSITIVE_X, NEGATIVE_Y, NEGATIVE_Z);
 
-        trap_G2API_SetBoneAngles(ghoul2, 0, "lower_lumbar", lowerTorsoAngles, BONE_ANGLES_POSTMULT, POSITIVE_X, NEGATIVE_Y, NEGATIVE_Z, 0, 0, currentTime);
-        trap_G2API_SetBoneAngles(ghoul2, 0, "cranium", headAngles, BONE_ANGLES_POSTMULT, POSITIVE_Z, NEGATIVE_Y, POSITIVE_X, 0,0, currentTime);
+        trap_G2API_SetBoneAngles(ghoul2, "lower_lumbar", lowerTorsoAngles, BONE_ANGLES_POSTMULT, POSITIVE_X, NEGATIVE_Y, NEGATIVE_Z);
+        trap_G2API_SetBoneAngles(ghoul2, "cranium", headAngles, BONE_ANGLES_POSTMULT, POSITIVE_Z, NEGATIVE_Y, POSITIVE_X);
     }
 }
 

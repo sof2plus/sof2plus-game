@@ -804,128 +804,62 @@ void trap_PC_RemoveAllGlobalDefines ( void )
     syscall ( BOTLIB_PC_REMOVE_ALL_GLOBAL_DEFINES );
 }
 
-// CG Specific API calls
-void trap_G2_ListModelSurfaces(void *ghlInfo)
+//=============== Ghoul II functionality ================
+
+void trap_G2API_ListModelBones(void *ghoul2)
 {
-    syscall( G_G2_LISTSURFACES, ghlInfo);
+    syscall(G_G2_LISTBONES, ghoul2);
 }
 
-void trap_G2_ListModelBones(void *ghlInfo, int frame)
+void trap_G2API_ListModelSurfaces(void *ghoul2)
 {
-    syscall( G_G2_LISTBONES, ghlInfo, frame);
+    syscall(G_G2_LISTSURFACES, ghoul2);
 }
 
-void trap_G2_SetGhoul2ModelIndexes(void *ghoul2, qhandle_t *modelList, qhandle_t *skinList)
+int trap_G2API_InitGhoul2Model(void **ghoul2, const char *fileName, qhandle_t customSkin, int lodBias)
 {
-    syscall( G_G2_SETMODELS, ghoul2, modelList, skinList);
+    return syscall(G_G2_INITGHOUL2MODEL, ghoul2, fileName, customSkin, lodBias);
 }
 
-qboolean trap_G2_HaveWeGhoul2Models(    void *ghoul2)
+qboolean trap_G2API_RemoveGhoul2Model(void **ghoul2)
 {
-    return (qboolean)(syscall(G_G2_HAVEWEGHOULMODELS, ghoul2));
+    return syscall(G_G2_REMOVEGHOUL2MODEL, ghoul2);
 }
 
-int trap_G2API_AddBolt(void *ghoul2, const int modelIndex, const char *boneName)
+qboolean trap_G2API_SetBoneAngles(void *ghoul2, const char *boneName, const vec3_t angles, const int flags,
+                                  const int up, const int right, const int forward)
 {
-    return (int) (syscall(G_G2_ADDBOLT, ghoul2, modelIndex, boneName));
+    return syscall(G_G2_ANGLEOVERRIDE, ghoul2, boneName, angles, flags, up, right, forward);
 }
 
-void trap_G2API_SetBoltInfo(void *ghoul2, int modelIndex, int boltInfo)
+qboolean trap_G2API_SetBoneAnim(void *ghoul2, const char *boneName, const int startFrame, const int endFrame,
+                                const int flags, const float animSpeed, const float setFrame )
 {
-    syscall(G_G2_SETBOLTINFO, ghoul2, modelIndex, boltInfo);
+    return syscall(G_G2_PLAYANIM, ghoul2, boneName, startFrame, endFrame, flags, PASSFLOAT(animSpeed), PASSFLOAT(setFrame));
 }
 
-qboolean trap_G2API_GetBoltMatrix(void *ghoul2, const int modelIndex, const int boltIndex, mdxaBone_t *matrix,
-                                const vec3_t angles, const vec3_t position, const int frameNum, qhandle_t *modelList, vec3_t scale)
+qboolean trap_G2API_GetAnimFileName(void *ghoul2, char *dest, int destSize)
 {
-    return (qboolean)(syscall(G_G2_GETBOLT, ghoul2, modelIndex, boltIndex, matrix, angles, position, frameNum, modelList, scale));
+    return syscall(G_G2_GETANIMFILENAME, ghoul2, dest, destSize);
 }
 
-int trap_G2API_InitGhoul2Model(void **ghoul2Ptr, const char *fileName, int modelIndex, qhandle_t customSkin,
-                          qhandle_t customShader, int modelFlags, int lodBias)
+void trap_G2API_CollisionDetect(CollisionRecord_t *collRecMap, void *ghoul2, const vec3_t angles, const vec3_t position,
+                                int frameNumber, int entNum, vec3_t rayStart, vec3_t rayEnd, vec3_t scale, int traceFlags, int useLod)
 {
-    return syscall(G_G2_INITGHOUL2MODEL, ghoul2Ptr, fileName, modelIndex, customSkin, customShader, modelFlags, lodBias);
+    syscall (G_G2_COLLISIONDETECT, collRecMap, ghoul2, angles, position, frameNumber, entNum, rayStart, rayEnd, scale, traceFlags, useLod);
 }
 
-void trap_G2API_CleanGhoul2Models ( void **ghoul2Ptr )
+qhandle_t trap_G2API_RegisterSkin(const char *skinName, int numPairs, const char *skinPairs)
 {
-    syscall(G_G2_CLEANMODELS, ghoul2Ptr);
+    return syscall(G_G2_REGISTERSKIN, skinName, numPairs, skinPairs);
 }
 
-void trap_G2API_CollisionDetect (
-    CollisionRecord_t *collRecMap,
-    void* ghoul2,
-    const vec3_t angles,
-    const vec3_t position,
-    int frameNumber,
-    int entNum,
-    vec3_t rayStart,
-    vec3_t rayEnd,
-    vec3_t scale,
-    int traceFlags,
-    int useLod
-    )
+qboolean trap_G2API_SetSkin(void *ghoul2, qhandle_t customSkin)
 {
-    syscall ( G_G2_COLLISIONDETECT, collRecMap, ghoul2, angles, position, frameNumber, entNum, rayStart, rayEnd, scale, traceFlags, useLod );
+    return syscall(G_G2_SETSKIN, ghoul2, customSkin);
 }
 
-qhandle_t trap_G2API_RegisterSkin ( const char *skinName, int numPairs, const char *skinPairs)
-{
-    return syscall(G_G2_REGISTERSKIN, skinName, numPairs, skinPairs );
-}
-
-qboolean trap_G2API_SetSkin ( void* ghoul2, int modelIndex, qhandle_t customSkin)
-{
-    return syscall(G_G2_SETSKIN, ghoul2, modelIndex, customSkin );
-}
-
-qboolean trap_G2API_GetAnimFileNameIndex ( void* ghoul2, qhandle_t modelIndex, const char* filename )
-{
-    return syscall(G_G2_GETANIMFILENAMEINDEX, ghoul2, modelIndex, filename );
-}
-
-qboolean trap_G2API_SetBoneAngles(void *ghoul2, int modelIndex, const char *boneName, const vec3_t angles, const int flags,
-                                const int up, const int right, const int forward, qhandle_t *modelList,
-                                int blendTime , int currentTime )
-{
-    return (syscall(G_G2_ANGLEOVERRIDE, ghoul2, modelIndex, boneName, angles, flags, up, right, forward, modelList, blendTime, currentTime));
-}
-
-qboolean trap_G2API_SetBoneAnim(void *ghoul2, const int modelIndex, const char *boneName, const int startFrame, const int endFrame,
-                              const int flags, const float animSpeed, const int currentTime, const float setFrame , const int blendTime )
-{
-    return syscall(G_G2_PLAYANIM, ghoul2, modelIndex, boneName, startFrame, endFrame, flags, PASSFLOAT(animSpeed), currentTime, PASSFLOAT(setFrame), blendTime);
-}
-
-char *trap_G2API_GetGLAName(void *ghoul2, int modelIndex)
-{
-    return (char *)syscall(G_G2_GETGLANAME, ghoul2, modelIndex);
-}
-
-int trap_G2API_CopyGhoul2Instance(void *g2From, void *g2To, int modelIndex)
-{
-    return syscall(G_G2_COPYGHOUL2INSTANCE, g2From, g2To, modelIndex);
-}
-
-int trap_G2API_CopySpecificGhoul2Model(void *g2From, int modelFrom, void *g2To, int modelTo)
-{
-    return syscall(G_G2_COPYSPECIFICGHOUL2MODEL, g2From, modelFrom, g2To, modelTo);
-}
-
-void trap_G2API_DuplicateGhoul2Instance(void *g2From, void **g2To)
-{
-    syscall(G_G2_DUPLICATEGHOUL2INSTANCE, g2From, g2To);
-}
-
-qboolean trap_G2API_RemoveGhoul2Model(void **ghlInfo, int modelIndex)
-{
-    return syscall(G_G2_REMOVEGHOUL2MODEL, ghlInfo, modelIndex);
-}
-
-/*
-Ghoul2 Insert End
-*/
-
+//======== Generic Parser 2 (GP2) functionality =========
 // CGenericParser2 (void *) routines
 TGenericParser2 trap_GP_Parse(char **dataPtr)
 {

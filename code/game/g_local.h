@@ -636,39 +636,25 @@ void G_SetOrigin( gentity_t *ent, vec3_t origin );
 void AddRemap(const char *oldShader, const char *newShader, float timeOffset);
 const char *BuildShaderStateConfig(void);
 
-// CG specific API access
+//=============== Ghoul II functionality ================
+void        trap_G2API_ListModelBones       ( void *ghoul2 );
+void        trap_G2API_ListModelSurfaces    ( void *ghoul2 );
 
-void        trap_G2API_CleanGhoul2Models    ( void **ghoul2Ptr );
-void        trap_G2API_CollisionDetect      ( CollisionRecord_t *collRecMap, void* ghoul2, const vec3_t angles, const vec3_t position,int frameNumber, int entNum, vec3_t rayStart, vec3_t rayEnd, vec3_t scale, int traceFlags, int useLod );
-qhandle_t   trap_G2API_RegisterSkin         ( const char *skinName, int numPairs, const char *skinPairs);
-qboolean    trap_G2API_SetSkin              ( void* ghoul2, int modelIndex, qhandle_t customSkin);
-qboolean    trap_G2API_GetAnimFileNameIndex ( void* ghoul2, qhandle_t modelIndex, const char* name );
+int         trap_G2API_InitGhoul2Model      ( void **ghoul2, const char *fileName, qhandle_t customSkin, int lodBias );
+qboolean    trap_G2API_RemoveGhoul2Model    ( void **ghoul2 );
 
-void        trap_G2_ListModelSurfaces(void *ghlInfo);
-void        trap_G2_ListModelBones(void *ghlInfo, int frame);
-int         trap_G2API_AddBolt(void *ghoul2, const int modelIndex, const char *boneName);
-void        trap_G2API_SetBoltInfo(void *ghoul2, int modelIndex, int boltInfo);
-qboolean    trap_G2API_RemoveBolt(void *ghlInfo, const int modelIndex, const int index);
-qboolean    trap_G2API_AttachG2Model(void *ghoul2From, int modelFrom, void *ghoul2To, int toBoltIndex, int toModel);
-void        trap_G2_SetGhoul2ModelIndexes(void *ghoul2, qhandle_t *modelList, qhandle_t *skinList);
-qboolean    trap_G2_HaveWeGhoul2Models(void *ghoul2);
-qboolean    trap_G2API_GetBoltMatrix(void *ghoul2, const int modelIndex, const int boltIndex, mdxaBone_t *matrix,
-                                const vec3_t angles, const vec3_t position, const int frameNum, qhandle_t *modelList, vec3_t scale);
-int         trap_G2API_InitGhoul2Model(void **ghoul2Ptr, const char *fileName, int modelIndex, qhandle_t customSkin,
-                          qhandle_t customShader, int modelFlags, int lodBias);
+qboolean    trap_G2API_SetBoneAngles        ( void *ghoul2, const char *boneName, const vec3_t angles, const int flags,
+                                              const int up, const int right, const int forward );
+qboolean    trap_G2API_SetBoneAnim          ( void *ghoul2, const char *boneName, const int startFrame, const int endFrame,
+                                              const int flags, const float animSpeed, const float setFrame );
 
-int         trap_G2API_CopyGhoul2Instance(void *g2From, void *g2To, int modelIndex);
-int         trap_G2API_CopySpecificGhoul2Model(void *g2From, int modelFrom, void *g2To, int modelTo);
-void        trap_G2API_DuplicateGhoul2Instance(void *g2From, void **g2To);
-qboolean    trap_G2API_RemoveGhoul2Model(void **ghlInfo, int modelIndex);
+qboolean    trap_G2API_GetAnimFileName      ( void* ghoul2, char *dest, int destSize );
 
-qboolean    trap_G2API_SetBoneAngles(void *ghoul2, int modelIndex, const char *boneName, const vec3_t angles, const int flags,
-                                const int up, const int right, const int forward, qhandle_t *modelList,
-                                int blendTime , int currentTime );
-char        *trap_G2API_GetGLAName(void *ghoul2, int modelIndex);
-qboolean    trap_G2API_SetBoneAnim(void *ghoul2, const int modelIndex, const char *boneName, const int startFrame, const int endFrame,
-                              const int flags, const float animSpeed, const int currentTime, const float setFrame , const int blendTime );
+void        trap_G2API_CollisionDetect      ( CollisionRecord_t *collRecMap, void* ghoul2, const vec3_t angles, const vec3_t position,
+                                              int frameNumber, int entNum, vec3_t rayStart, vec3_t rayEnd, vec3_t scale, int traceFlags, int useLod );
 
+qhandle_t   trap_G2API_RegisterSkin         ( const char *skinName, int numPairs, const char *skinPairs );
+qboolean    trap_G2API_SetSkin              ( void *ghoul2, qhandle_t customSkin );
 
 //
 // g_combat.c
