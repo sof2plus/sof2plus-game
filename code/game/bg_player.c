@@ -6,6 +6,7 @@
 #include "bg_public.h"
 #include "bg_local.h"
 #include "g_local.h"
+#include "animtable.h"
 
 TCharacterTemplate      *bg_characterTemplates = NULL;
 TItemTemplate           *bg_itemTemplates      = NULL;
