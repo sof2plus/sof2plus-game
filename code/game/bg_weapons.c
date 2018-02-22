@@ -81,7 +81,7 @@ static qboolean BG_ParseAmmoStats(ammo_t ammoNum, void *group)
     ammo = &ammoData[ammoNum];
     memset(ammo, 0, sizeof(ammoData_t));
 
-    ammo->name = (char*)trap_VM_LocalStringAlloc ( BG_GetRealAmmoName ( ammoNum ) );
+    ammo->name = (char*)G_StringAlloc ( BG_GetRealAmmoName ( ammoNum ) );
     Q_strlwr ( ammo->name );
 
     // Get the scale of the gore for this bullet
@@ -195,7 +195,7 @@ static qboolean BG_ParseAttackStats ( int weaponNum, attackData_t* attack, void 
     if ( Q_stricmp ( tmpStr, "none" ) )
     {
         Q_strlwr ( tmpStr );
-        attack->melee = trap_VM_LocalStringAlloc ( tmpStr );
+        attack->melee = G_StringAlloc ( tmpStr );
     }
 
     trap_GPG_FindPairValue(attacksub, "name", "NONE", attack->name, sizeof(attack->name));
@@ -475,7 +475,7 @@ static char *BG_BuildSideSurfaceList(void *group, char *pattern, char *sideSurfa
     int         length;
     int         i;
 
-    output = trap_VM_LocalAlloc(0);
+    output = G_Alloc(0);
     length = strlen(pattern);
     i=0;
 
@@ -486,7 +486,7 @@ static char *BG_BuildSideSurfaceList(void *group, char *pattern, char *sideSurfa
         if (Q_stricmpn(fieldName, pattern, length) == 0)
         {
             trap_GPV_GetTopValue(value, fieldValue, sizeof(fieldValue));
-            data = trap_VM_LocalAllocUnaligned(strlen(fieldValue)+1);
+            data = G_AllocUnaligned(strlen(fieldValue)+1);
             strcpy(data, fieldValue);
             sideSurfaces[i]=data;
             i++;
@@ -494,7 +494,7 @@ static char *BG_BuildSideSurfaceList(void *group, char *pattern, char *sideSurfa
         value = trap_GPV_GetNext(value);
     }
 
-    data = trap_VM_LocalAllocUnaligned(1);
+    data = G_AllocUnaligned(1);
     *data = 0;
 
     return output;
@@ -507,7 +507,7 @@ static char *BG_BuildList(void *group, char *pattern)
     char        fieldName[256], fieldValue[256];
     int         length;
 
-    output = trap_VM_LocalAlloc(0);
+    output = G_Alloc(0);
     length = strlen(pattern);
 
     value = trap_GPG_GetPairs(group);
@@ -517,13 +517,13 @@ static char *BG_BuildList(void *group, char *pattern)
         if (Q_stricmpn(fieldName, pattern, length) == 0)
         {
             trap_GPV_GetTopValue(value, fieldValue, sizeof(fieldValue));
-            data = trap_VM_LocalAllocUnaligned(strlen(fieldValue)+1);
+            data = G_AllocUnaligned(strlen(fieldValue)+1);
             strcpy(data, fieldValue);
         }
         value = trap_GPV_GetNext(value);
     }
 
-    data = trap_VM_LocalAllocUnaligned(1);
+    data = G_AllocUnaligned(1);
     *data = 0;
 
     return output;
@@ -565,7 +565,7 @@ static TNoteTrack *BG_FindNoteTracks(void *group)
         trap_GPG_GetName(sub, name, sizeof(name));
         if (Q_stricmp(name, "notetrack") == 0)
         {
-            current = (TNoteTrack *)trap_VM_LocalAlloc(sizeof(*current));
+            current = (TNoteTrack *)G_Alloc(sizeof(*current));
             memset(current, 0, sizeof(*current));
 
             // last character is automatically 0 cuz of the memset
@@ -676,7 +676,7 @@ static qboolean BG_ParseAnimGroup(weapon_t weapon, void *animGroup)
     int             i;
     char            temp[256];
 
-    anim = (TAnimWeapon *)trap_VM_LocalAlloc(sizeof(*anim));
+    anim = (TAnimWeapon *)G_Alloc(sizeof(*anim));
     memset(anim, 0, sizeof(*anim));
 
     anim->mNext = weaponParseInfo[weapon].mAnimList;
@@ -691,7 +691,7 @@ static qboolean BG_ParseAnimGroup(weapon_t weapon, void *animGroup)
         trap_GPG_GetName(sub, name, sizeof(name));
         if (Q_stricmp(name, "info") == 0)
         {
-            info = (TAnimInfoWeapon *)trap_VM_LocalAlloc(sizeof(*info));
+            info = (TAnimInfoWeapon *)G_Alloc(sizeof(*info));
             memset(info, 0, sizeof(*info));
 
             info->mNext = anim->mInfos;
@@ -732,7 +732,7 @@ static qboolean BG_ParseAnimGroup(weapon_t weapon, void *animGroup)
                 trap_GPG_FindPairValue(sub, temp, "", value, sizeof(value));
                 if (value[0] && info->mNumChoices < MAX_WEAPON_ANIM_CHOICES)
                 {
-                    info->mAnim[info->mNumChoices] = (char *)trap_VM_LocalAlloc(strlen(value)+1);
+                    info->mAnim[info->mNumChoices] = (char *)G_Alloc(strlen(value)+1);
                     strcpy(info->mAnim[info->mNumChoices], value);
 
                     if (i == 0)
@@ -746,7 +746,7 @@ static qboolean BG_ParseAnimGroup(weapon_t weapon, void *animGroup)
                     trap_GPG_FindPairValue(sub, temp, "", value, sizeof(value));
                     if (value[0])
                     {
-                        info->mTransition[info->mNumChoices] = (char *)trap_VM_LocalAlloc(strlen(value)+1);
+                        info->mTransition[info->mNumChoices] = (char *)G_Alloc(strlen(value)+1);
                         strcpy(info->mTransition[info->mNumChoices], value);
                     }
 
@@ -761,7 +761,7 @@ static qboolean BG_ParseAnimGroup(weapon_t weapon, void *animGroup)
                     trap_GPG_FindPairValue(sub, temp, "", value, sizeof(value));
                     if (value[0])
                     {
-                        info->mEnd[info->mNumChoices] = (char *)trap_VM_LocalAlloc(strlen(value)+1);
+                        info->mEnd[info->mNumChoices] = (char *)G_Alloc(strlen(value)+1);
                         strcpy(info->mEnd[info->mNumChoices], value);
                     }
 
@@ -782,7 +782,7 @@ static TBoltonWeapon *BG_ParseBolton(void *boltonGroup)
     void            *sub;
     char            temp[256];
 
-    bolton = (TBoltonWeapon *)trap_VM_LocalAlloc(sizeof(*bolton));
+    bolton = (TBoltonWeapon *)G_Alloc(sizeof(*bolton));
     memset(bolton, 0, sizeof(*bolton));
 
     trap_GPG_FindPairValue(boltonGroup, "name", "", bolton->mName, sizeof(bolton->mName));
@@ -868,7 +868,7 @@ static qboolean BG_ParseWeaponGroup(TWeaponModel *weapon, void *weaponGroup)
         }
         else if (Q_stricmp(name, "optionalpart") == 0)
         {
-            option = (TOptionalWeapon *)trap_VM_LocalAlloc(sizeof(*option));
+            option = (TOptionalWeapon *)G_Alloc(sizeof(*option));
             memset(option, 0, sizeof(*option));
             trap_GPG_FindPairValue(sub, "name", "", option->mName, sizeof(option->mName));
             trap_GPG_FindPairValue(sub, "muzzle", "", option->mMuzzle, sizeof(option->mMuzzle));

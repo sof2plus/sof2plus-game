@@ -975,6 +975,8 @@ void    trap_GetUsercmd( int clientNum, usercmd_t *cmd );
 qboolean    trap_GetEntityToken( char *buffer, int bufferSize );
 void        trap_GetWorldBounds ( vec3_t mins, vec3_t maxs );
 
+void    *trap_Mem_Init(int size);
+
 void    *trap_BotGetMemoryGame(int size);
 void    trap_BotFreeMemoryGame(void *ptr);
 
@@ -1142,12 +1144,6 @@ int     trap_GeneticParentsAndChildSelection(int numranks, float *ranks, int *pa
 void    trap_SnapVector( float *v );
 
 int         trap_CM_RegisterTerrain(const char *config);
-
-void        *trap_VM_LocalAlloc ( int size );
-void        *trap_VM_LocalAllocUnaligned ( int size );          // WARNING!!!! USE WITH CAUTION!!! BEWARE OF DOG!!!
-void        *trap_VM_LocalTempAlloc( int size );
-void        trap_VM_LocalTempFree( int size );                  // free must be in opposite order of allocation!
-const char  *trap_VM_LocalStringAlloc ( const char *source );
 
 // Gametype traps
 void        trap_GT_Init        ( const char* gametype, qboolean restart );

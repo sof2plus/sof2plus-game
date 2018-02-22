@@ -1022,10 +1022,16 @@ TGPValue            trap_GPV_GetList                ( TGPValue GPV );
 
 extern int          trap_FS_GetFileList             ( const char *path, const char *extension, char *listbuf, int bufsize );
 
-void        *trap_VM_LocalAlloc ( int size );
-void        *trap_VM_LocalAllocUnaligned ( int size );          // WARNING!!!! USE WITH CAUTION!!! BEWARE OF DOG!!!
-void        *trap_VM_LocalTempAlloc( int size );
-void        trap_VM_LocalTempFree( int size );                  // free must be in opposite order of allocation!
-const char  *trap_VM_LocalStringAlloc ( const char *source );
+//
+// Game module memory management system.
+//
+
+void        *G_Alloc                            ( int size );
+void        *G_AllocUnaligned                   ( int size );
+void        *G_TempAlloc                        ( int size );
+void        G_TempFree                          ( int size );
+char        *G_StringAlloc                      ( const char *source );
+
+void        G_InitMemory                        ( void );
 
 #endif // __BG_PUBLIC_H__

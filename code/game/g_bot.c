@@ -88,7 +88,7 @@ int G_ParseInfos( const char *buf, int max, char *infos[] ) {
             }
         }
         //NOTE: extra space for arena number
-        infos[count] = trap_VM_LocalAlloc(strlen(info) + strlen("\\num\\") + strlen(va("%d", MAX_ARENAS)) + 1);
+        infos[count] = G_Alloc(strlen(info) + strlen("\\num\\") + strlen(va("%d", MAX_ARENAS)) + 1);
         if (infos[count]) {
             strcpy(infos[count], info);
             count++;

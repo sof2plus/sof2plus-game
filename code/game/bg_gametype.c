@@ -34,10 +34,10 @@ static qboolean BG_ParseGametypePhotos ( int gametypeIndex, TGPGroup group )
     while ( photo )
     {
         trap_GPG_GetName ( photo, temp, sizeof(temp) );
-        bg_gametypeData[gametypeIndex].photos[index].name = trap_VM_LocalStringAlloc ( temp );
+        bg_gametypeData[gametypeIndex].photos[index].name = G_StringAlloc ( temp );
 
         trap_GPG_FindPairValue ( photo, "displayname", "unknown", temp, sizeof(temp) );
-        bg_gametypeData[gametypeIndex].photos[index].displayName = trap_VM_LocalStringAlloc ( temp );
+        bg_gametypeData[gametypeIndex].photos[index].displayName = G_StringAlloc ( temp );
 
         index++;
 
@@ -93,13 +93,13 @@ static qboolean BG_ParseGametypeInfo ( int gametypeIndex )
     {
         return qfalse;
     }
-    gametype->displayName = trap_VM_LocalStringAlloc ( temp );
+    gametype->displayName = G_StringAlloc ( temp );
 
     // Description
     trap_GPG_FindPairValue ( gtGroup, "description", "", temp, sizeof(temp) );
     if ( temp[0] )
     {
-        gametype->description = trap_VM_LocalStringAlloc ( temp );
+        gametype->description = G_StringAlloc ( temp );
     }
 
     // Are pickups enabled?
@@ -142,7 +142,7 @@ static qboolean BG_ParseGametypeInfo ( int gametypeIndex )
     trap_GPG_FindPairValue ( gtGroup, "basegametype", "", temp, sizeof(temp) );
     if ( temp[0] )
     {
-        gametype->basegametype = trap_VM_LocalStringAlloc ( temp );
+        gametype->basegametype = G_StringAlloc ( temp );
     }
 
     // What percentage doest he backpack replenish?
@@ -194,12 +194,12 @@ qboolean BG_BuildGametypeList ( void )
         strcat(filename, fileptr );
 
         // Fill in what we know so far
-        bg_gametypeData[bg_gametypeCount].script = trap_VM_LocalStringAlloc ( filename );
+        bg_gametypeData[bg_gametypeCount].script = G_StringAlloc ( filename );
 
         // Kill the dot so we can use the filename as the short name
         s  = strchr ( fileptr, '.' );
         *s = '\0';
-        bg_gametypeData[bg_gametypeCount].name   = trap_VM_LocalStringAlloc ( fileptr );
+        bg_gametypeData[bg_gametypeCount].name   = G_StringAlloc ( fileptr );
 
         // TODO: Parse the gametype file
         BG_ParseGametypeInfo ( bg_gametypeCount++ );

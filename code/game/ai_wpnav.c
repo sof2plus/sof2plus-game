@@ -284,7 +284,7 @@ checkprint:
         flagstr = GetFlagStr(gWPArray[bestindex]->flags);
         gLastPrintedIndex = bestindex;
         Com_Printf(S_COLOR_YELLOW "Waypoint %i\nFlags - %i (%s)\nOrigin - (%i %i %i)\n", (int)(gWPArray[bestindex]->index), (int)(gWPArray[bestindex]->flags), flagstr, (int)(gWPArray[bestindex]->origin[0]), (int)(gWPArray[bestindex]->origin[1]), (int)(gWPArray[bestindex]->origin[2]));
-        trap_VM_LocalTempFree(MAX_FLAGSTR_SIZE);
+        G_TempFree(MAX_FLAGSTR_SIZE);
 
         /*
         plum = G_TempEntity( gWPArray[bestindex]->origin, EV_BOTWAYPOINT );

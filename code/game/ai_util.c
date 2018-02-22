@@ -20,12 +20,12 @@ char gBotChatBuffer[MAX_CLIENTS][MAX_CHAT_BUFFER_SIZE];
 
 void *B_TempAlloc(int size)
 {
-    return trap_VM_LocalTempAlloc(size);
+    return G_TempAlloc(size);
 }
 
 void B_TempFree(int size)
 {
-    trap_VM_LocalTempFree(size);
+    G_TempFree(size);
 }
 
 
@@ -81,7 +81,7 @@ void *B_Alloc(int size)
     return ptr;
 #else
 
-    return trap_VM_LocalAlloc(size);
+    return G_Alloc(size);
 
 #endif
 }
@@ -651,8 +651,8 @@ void BotUtilizePersonality(bot_state_t *bs)
 
     len = rlen;
 
-    readbuf = (char *)trap_VM_LocalTempAlloc(1024);
-    group = (char *)trap_VM_LocalTempAlloc(65536);
+    readbuf = (char *)G_TempAlloc(1024);
+    group = (char *)G_TempAlloc(65536);
 
     if (!GetValueGroup(personalityBuffer, "GeneralBotInfo", group))
     {
@@ -793,7 +793,7 @@ void BotUtilizePersonality(bot_state_t *bs)
         ParseEmotionalAttachments(bs, group);
     }
 
-    trap_VM_LocalTempFree(65536);
-    trap_VM_LocalTempFree(1024);
+    G_TempFree(65536);
+    G_TempFree(1024);
     trap_FS_FCloseFile(f);
 }

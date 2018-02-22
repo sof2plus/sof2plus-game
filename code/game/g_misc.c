@@ -443,14 +443,14 @@ void SP_terrain(gentity_t *ent)
             trap_GetConfigstring ( CS_GAMETYPE_REDTEAM, temp, MAX_QPATH );
             if ( Q_stricmp ( temp, level.gametypeTeam[TEAM_RED] ) )
             {
-                level.gametypeTeam[TEAM_RED] = trap_VM_LocalStringAlloc ( temp );
+                level.gametypeTeam[TEAM_RED] = G_StringAlloc ( temp );
             }
 
             // Blue team change from RMG ?
             trap_GetConfigstring ( CS_GAMETYPE_BLUETEAM, temp, MAX_QPATH );
             if ( Q_stricmp ( temp, level.gametypeTeam[TEAM_BLUE] ) )
             {
-                level.gametypeTeam[TEAM_BLUE] = trap_VM_LocalStringAlloc ( temp );
+                level.gametypeTeam[TEAM_BLUE] = G_StringAlloc ( temp );
             }
         }
     }

@@ -574,6 +574,8 @@ void G_InitGame( int levelTime, int randomSeed, int restart )
 
     G_RegisterCvars();
 
+    // Initialize the game memory system.
+    G_InitMemory();
 
     // Load the list of arenas
     G_LoadArenas ( );

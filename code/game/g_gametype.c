@@ -539,7 +539,7 @@ qboolean G_ParseGametypeItems ( TGPGroup* itemsGroup )
         if ( !item )
         {
             item = &bg_itemlist[ MODELINDEX_GAMETYPE_ITEM + itemCount ];
-            item->pickup_name = (char *)trap_VM_LocalStringAlloc ( temp );
+            item->pickup_name = (char *)G_StringAlloc ( temp );
             itemCount++;
         }
 

@@ -995,29 +995,9 @@ void trap_GetWorldBounds ( vec3_t mins, vec3_t maxs )
     syscall ( G_GET_WORLD_BOUNDS, mins, maxs );
 }
 
-void *trap_VM_LocalAlloc ( int size )
+void *trap_Mem_Init(int size)
 {
-    return (void *)syscall ( G_VM_LOCALALLOC, size );
-}
-
-void *trap_VM_LocalAllocUnaligned ( int size )
-{
-    return (void *)syscall ( G_VM_LOCALALLOCUNALIGNED, size );
-}
-
-void *trap_VM_LocalTempAlloc( int size )
-{
-    return (void *)syscall ( G_VM_LOCALTEMPALLOC, size );
-}
-
-void trap_VM_LocalTempFree( int size )
-{
-    syscall ( G_VM_LOCALTEMPFREE, size );
-}
-
-const char *trap_VM_LocalStringAlloc ( const char *source )
-{
-    return (const char *)syscall ( G_VM_LOCALSTRINGALLOC, source );
+    return (void *)syscall ( G_MEM_INIT, size );
 }
 
 void trap_GT_Init ( const char* gametype, qboolean restart )
