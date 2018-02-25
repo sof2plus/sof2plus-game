@@ -562,7 +562,7 @@ void G_InitGame( int levelTime, int randomSeed, int restart )
     int i;
 
     Com_Printf ("------- Game Initialization -------\n");
-    Com_Printf ("gamename: %s\n", GAMEVERSION);
+    Com_Printf ("gamename: %s %s\n", PRODUCT_NAME, PRODUCT_VERSION);
     Com_Printf ("gamedate: %s\n", __DATE__);
 
     srand( randomSeed );
