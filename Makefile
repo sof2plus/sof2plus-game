@@ -630,7 +630,6 @@ SOF2GOBJ_ = \
   $(B)/game/ai_wpnav.o \
   \
   $(B)/game/bg_gametype.o \
-  $(B)/game/bg_lib.o \
   $(B)/game/bg_misc.o \
   $(B)/game/bg_player.o \
   $(B)/game/bg_pmove.o \
