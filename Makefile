@@ -127,7 +127,7 @@ endif
 #############################################################################
 
 INSTALL=install
-MKDIR=mkdir
+MKDIR=mkdir -p
 EXTRA_FILES=
 
 ifneq (,$(findstring "$(PLATFORM)", "linux" "gnu_kfreebsd" "kfreebsd-gnu" "gnu"))
@@ -179,8 +179,15 @@ ifeq ($(PLATFORM),darwin)
     MACOSX_VERSION_MIN=10.7
   endif
 
-  # Multiply by 100 and then remove decimal. 10.7 -> 1070.0 -> 1070
-  MAC_OS_X_VERSION_MIN_REQUIRED=$(shell echo '$(MACOSX_VERSION_MIN) * 100' | bc | cut -d. -f1)
+  MACOSX_MAJOR=$(shell echo $(MACOSX_VERSION_MIN) | cut -d. -f1)
+  MACOSX_MINOR=$(shell echo $(MACOSX_VERSION_MIN) | cut -d. -f2)
+  ifeq ($(shell test $(MACOSX_MINOR) -gt 9; echo $$?),0)
+    # Multiply and then remove decimal. 10.10 -> 101000.0 -> 101000
+    MAC_OS_X_VERSION_MIN_REQUIRED=$(shell echo "$(MACOSX_MAJOR) * 10000 + $(MACOSX_MINOR) * 100" | bc | cut -d. -f1)
+  else
+    # Multiply by 100 and then remove decimal. 10.7 -> 1070.0 -> 1070
+    MAC_OS_X_VERSION_MIN_REQUIRED=$(shell echo "$(MACOSX_VERSION_MIN) * 100" | bc | cut -d. -f1)
+  endif
 
   LDFLAGS += -mmacosx-version-min=$(MACOSX_VERSION_MIN)
   BASE_CFLAGS += -mmacosx-version-min=$(MACOSX_VERSION_MIN) \
@@ -380,7 +387,6 @@ ifeq ($(PLATFORM),irix64)
   LIB=lib
   ARCH=mips
   CC = c99
-  MKDIR = mkdir -p
 
   BASE_CFLAGS=-Dstricmp=strcasecmp -Xcpluscomm -woff 1185 \
     -I. -I$(ROOT)/usr/include
@@ -401,7 +407,7 @@ ifeq ($(PLATFORM),sunos)
 
   CC=gcc
   INSTALL=ginstall
-  MKDIR=gmkdir
+  MKDIR=gmkdir -p
   COPYDIR="/usr/local/share/games/sof2"
 
   ifneq ($(ARCH),x86)
@@ -613,10 +619,9 @@ ifneq ($(PLATFORM),darwin)
 endif
 
 makedirs:
-	@if [ ! -d $(BUILD_DIR) ];then $(MKDIR) $(BUILD_DIR);fi
-	@if [ ! -d $(B) ];then $(MKDIR) $(B);fi
-	@if [ ! -d $(B)/game ];then $(MKDIR) $(B)/game;fi
-	@if [ ! -d $(B)/qcommon ];then $(MKDIR) $(B)/qcommon;fi
+	@$(MKDIR) $(BUILD_DIR)
+	@$(MKDIR) $(B)/game
+	@$(MKDIR) $(B)/qcommon
 
 #############################################################################
 # GAME MODULE
