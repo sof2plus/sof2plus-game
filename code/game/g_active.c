@@ -1072,10 +1072,6 @@ void ClientThink_real( gentity_t *ent )
 
     pm.animations = NULL;
 
-#if _Debug
-    pm.isClient=0;
-#endif
-
     VectorCopy( client->ps.origin, client->oldOrigin );
 
     Pmove (&pm);

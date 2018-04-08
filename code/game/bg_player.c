@@ -1317,9 +1317,9 @@ qboolean BG_ParseAnimationFile ( const char *filename, animation_t* animations )
         if(animNum == -1)
         {
 //#ifndef FINAL_BUILD
-#ifdef _DEBUG
+#ifndef NDEBUG
             Com_Printf(S_COLOR_RED"WARNING: Unknown token %s in %s\n", token, filename);
-#endif
+#endif // !NDEBUG
             continue;
         }
 

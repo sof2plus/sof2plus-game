@@ -1216,13 +1216,13 @@ void QDECL G_LogPrintf( const char *fmt, ... ) {
     vsprintf( string +8 , fmt,argptr );
     va_end( argptr );
 
-#ifndef _DEBUG
+#ifdef NDEBUG
     if ( g_dedicated.integer ) {
-#endif
+#endif // NDEBUG
         Com_Printf( "%s", string + 8 );
-#ifndef _DEBUG
+#ifdef NDEBUG
     }
-#endif
+#endif // NDEBUG
 
     if ( !level.logFile ) {
         return;

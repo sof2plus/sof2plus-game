@@ -224,12 +224,12 @@ static qboolean BG_ParseAttackStats ( int weaponNum, attackData_t* attack, void 
         }
     }
 
-#ifdef _DEBUG
+#ifndef NDEBUG
     if (AMMO_MAX == i)
     {
         Com_Printf("BG_ParseWeaponStats: Unknown ammo: %s\n", tmpStr);
     }
-#endif
+#endif // !NDEBUG
 
     // Parse the weapon animations
     trap_GPG_FindPairValue(attacksub, "mp_animFire", "TORSO_ATTACK_PISTOL", tmpStr, sizeof(tmpStr));
@@ -446,12 +446,12 @@ qboolean BG_InitWeaponStats( qboolean pickupsDisabled )
                 }
             }
 
-#ifdef _DEBUG
+#ifndef NDEBUG
             if (i == WP_NUM_WEAPONS)
             {
                 Com_Printf("BG_InitWeaponStats: Unknown weapon: %s\n", name);
             }
-#endif
+#endif // !NDEBUG
         }
         topSubs = trap_GPG_GetNext(topSubs);
     }
@@ -1051,12 +1051,12 @@ qboolean BG_ParseInviewFile( qboolean pickupsDisabled )
                 }
             }
 
-#ifdef _DEBUG
+#ifndef NDEBUG
             if (i == WP_NUM_WEAPONS)
             {
                 Com_Printf("BG_InitWeapons: Unknown weapon: %s\n", name);
             }
-#endif
+#endif // !NDEBUG
         }
 
         topSubs = trap_GPG_GetNext(topSubs);

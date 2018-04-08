@@ -328,9 +328,9 @@ void Touch_Item (gentity_t *ent, gentity_t *other, trace_t *trace)
         return;
     }
 
-#ifdef _DEBUG
+#ifndef NDEBUG
     G_LogPrintf( "Item: %i %s\n", other->s.number, ent->item->classname );
-#endif
+#endif // !NDEBUG
 
     // Initialize booleans
     predict    = other->client->pers.predictItemPickup;

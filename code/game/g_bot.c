@@ -152,9 +152,9 @@ void G_LoadArenas( void )
         G_LoadArenasFromFile(filename);
     }
 
-#ifdef _DEBUG
+#ifndef NDEBUG
     Com_Printf ( "%i arenas parsed\n", g_numArenas );
-#endif
+#endif // !NDEBUG
 
     for( n = 0; n < g_numArenas; n++ )
     {

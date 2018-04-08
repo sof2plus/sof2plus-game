@@ -54,9 +54,9 @@ float regularupdate_time;
 boteventtracker_t gBotEventTracker[MAX_CLIENTS];
 
 //rww - new bot cvars..
-#ifdef _DEBUG
+#ifndef NDEBUG
 vmCvar_t bot_debugmessages;
-#endif
+#endif // !NDEBUG
 
 vmCvar_t bot_attachments;
 vmCvar_t bot_camp;
@@ -584,10 +584,10 @@ int BotAI(int client, float thinktime) {
     bot_state_t *bs;
     char buf[1024], *args;
     int j;
-#ifdef _DEBUG
+#ifndef NDEBUG
     int start = 0;
     int end = 0;
-#endif
+#endif // !NDEBUG
 
     trap_EA_ResetInput(client);
     //
@@ -634,11 +634,11 @@ int BotAI(int client, float thinktime) {
     bs->eye[2] += bs->cur_ps.viewheight;
     //get the area the bot is in
 
-#ifdef _DEBUG
+#ifndef NDEBUG
     start = trap_Milliseconds();
-#endif
+#endif // !NDEBUG
     StandardBotAI(bs, thinktime);
-#ifdef _DEBUG
+#ifndef NDEBUG
     end = trap_Milliseconds();
 
     trap_Cvar_Update(&bot_debugmessages);
@@ -647,7 +647,7 @@ int BotAI(int client, float thinktime) {
     {
         Com_Printf("Single AI frametime: %i\n", (end - start));
     }
-#endif
+#endif // !NDEBUG
 
     //subtract the delta angles
     for (j = 0; j < 3; j++) {
@@ -5450,9 +5450,9 @@ BotAISetup
 */
 int BotAISetup( int restart ) {
     //rww - new bot cvars..
-#ifdef _DEBUG
+#ifndef NDEBUG
     trap_Cvar_Register(&bot_debugmessages, "bot_debugmessages", "0", CVAR_CHEAT, 0.0, 0.0);
-#endif
+#endif // !NDEBUG
 
     trap_Cvar_Register(&bot_attachments, "bot_attachments", "1", 0, 0.0, 0.0);
     trap_Cvar_Register(&bot_camp, "bot_camp", "1", 0, 0.0, 0.0);
