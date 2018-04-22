@@ -511,14 +511,9 @@ ifeq ($(GENERATE_DEPENDENCIES),1)
   DO_QVM_DEP=cat $(@:%.o=%.d) | sed -e 's/\.o/\.asm/g' >> $(@:%.o=%.d)
 endif
 
-define DO_SHLIB_CC
-$(echo_cmd) "SHLIB_CC $<"
-$(Q)$(CC) $(BASEGAME_CFLAGS) $(SHLIBCFLAGS) $(CFLAGS) $(OPTIMIZE) -o $@ -c $<
-endef
-
 define DO_GAME_CC
 $(echo_cmd) "GAME_CC $<"
-$(Q)$(CC) $(BASEGAME_CFLAGS) -DQAGAME $(SHLIBCFLAGS) $(CFLAGS) $(OPTIMIZE) -o $@ -c $<
+$(Q)$(CC) $(BASEGAME_CFLAGS) $(SHLIBCFLAGS) $(CFLAGS) $(OPTIMIZE) -o $@ -c $<
 endef
 
 
@@ -676,7 +671,7 @@ $(B)/sof2mp_game$(SHLIBNAME): $(SOF2GOBJ)
 #############################################################################
 
 $(B)/qcommon/%.o: $(CMDIR)/%.c
-	$(DO_SHLIB_CC)
+	$(DO_GAME_CC)
 
 $(B)/game/%.o: $(GDIR)/%.c
 	$(DO_GAME_CC)
