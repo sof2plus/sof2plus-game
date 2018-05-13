@@ -740,6 +740,10 @@ void G_ShutdownGame( int restart )
         BotAIShutdown( restart );
     }
 #endif
+
+    // Shutdown the gametype last.
+    // Don't make any system calls beyond this point.
+    trap_GT_Shutdown();
 }
 
 
