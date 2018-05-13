@@ -48,7 +48,6 @@ typedef enum
     GT_RADIOMESSAGE,                // void ( int clientid, const char* message );
     GT_REGISTERTRIGGER,             // bool ( int trigid, const char* name, gtTriggerDef_t* def );
 
-    GT_GETCLIENTITEMS,              // void ( int clientid, int* buffer, int buffersize );
     GT_DOESCLIENTHAVEITEM,          // bool ( int clientid, int itemid );
 
     GT_ADDTEAMSCORE,                // void ( team_t team, int score );
@@ -85,55 +84,8 @@ typedef enum
     GAMETYPE_START,
     GAMETYPE_RUN_FRAME,
     GAMETYPE_EVENT,
-
+    GAMETYPE_SHUTDOWN
 } gametypeExport_t;
-
-
-typedef enum
-{
-    GTCMD_TEXTMESSAGE,              // void ( int client, const char* message );
-    GTCMD_RESETITEM,                // void ( const char* itemName );
-    GTCMD_GETCLIENTNAME,            // void ( int clientid, char* buffer, int buffersize );
-
-    GTCMD_REGISTERSOUND,            // int  ( const char* soundFile );
-    GTCMD_STARTGLOBALSOUND,         // void ( int soundid );
-
-    GTCMD_REGISTERITEM,             // int  ( const char* name, gtItemDef_t* def );
-
-    GTCMD_RADIOMESSAGE,             // void ( int clientid, const char* message );
-    GTCMD_REGISTERTRIGGER,          // bool ( int triggerid, const char* message, gtTriggerDef_t* def );
-
-    GTCMD_DOESCLIENTHAVEITEM,       // bool ( int clientid, int itemid );
-
-    GTCMD_ADDTEAMSCORE,             // void ( team_t team, int score );
-    GTCMD_ADDCLIENTSCORE,           // void ( int clientid, int score );
-
-    GTCMD_RESTART,                  // void ( int delay );
-
-    GTCMD_REGISTEREFFECT,           // int  ( const char* name );
-    GTCMD_PLAYEFFECT,               // void ( int effect, vec3_t origin, vec3_t angles );
-
-    GTCMD_REGISTERICON,             // int  ( const char* icon );
-
-    GTCMD_USETARGETS,               // void ( const char* targetname );
-
-    GTCMD_GETCLIENTORIGIN,          // void ( int clientid, vec3_t origin );
-    GTCMD_GIVECLIENTITEM,           // void ( int clientid, int itemid );
-    GTCMD_TAKECLIENTITEM,           // void ( int clientid, int itemid );
-
-    GTCMD_SPAWNITEM,                // void ( int itemid, vec3_t origin, vec3_t angles );
-
-    GTCMD_STARTSOUND,               // void ( int soundid, vec3_t origin );
-
-    GTCMD_GETTRIGGERTARGET,         // void ( int triggerid, char* bufferr, int buffersize );
-
-    GTCMD_GETCLIENTLIST,            // int  ( team_t team, int* clients, int clientcount );
-
-    GTCMD_SETHUDICON,               // void ( int index, int icon );
-
-} gametypeCommand_t;
-
-
 
 typedef enum
 {
@@ -182,4 +134,3 @@ typedef struct gtTriggerDef_s
     int         useSound;       // Sound to loop when using this trigger
 
 } gtTriggerDef_t;
-

@@ -823,7 +823,7 @@ int G_GametypeCommand ( int cmd, int arg0, int arg1, int arg2, int arg3, int arg
 {
     switch ( cmd )
     {
-        case GTCMD_RESTART:
+        case GT_RESTART:
             if ( arg0 <= 0 )
             {
                 G_ResetGametype ( qfalse );
@@ -834,18 +834,18 @@ int G_GametypeCommand ( int cmd, int arg0, int arg1, int arg2, int arg3, int arg
             }
             break;
 
-        case GTCMD_TEXTMESSAGE:
+        case GT_TEXTMESSAGE:
             trap_SetConfigstring ( CS_GAMETYPE_MESSAGE, va("%i,%s", level.time + 5000, (const char*)arg1 ) );
             break;
 
-        case GTCMD_RADIOMESSAGE:
+        case GT_RADIOMESSAGE:
             G_Voice ( &g_entities[arg0], NULL, SAY_TEAM, (const char*) arg1, qfalse );
             break;
 
-        case GTCMD_REGISTERSOUND:
+        case GT_REGISTERSOUND:
             return G_SoundIndex ( (char*) arg0 );
 
-        case GTCMD_STARTGLOBALSOUND:
+        case GT_STARTGLOBALSOUND:
         {
             gentity_t* tent;
             tent = G_TempEntity( vec3_origin, EV_GLOBAL_SOUND );
@@ -854,33 +854,33 @@ int G_GametypeCommand ( int cmd, int arg0, int arg1, int arg2, int arg3, int arg
             break;
         }
 
-        case GTCMD_STARTSOUND:
+        case GT_STARTSOUND:
             G_SoundAtLoc ( (float*)arg1, CHAN_AUTO, arg0 );
             break;
 
-        case GTCMD_REGISTEREFFECT:
+        case GT_REGISTEREFFECT:
             return G_EffectIndex ( (char*) arg0 );
 
-        case GTCMD_REGISTERICON:
+        case GT_REGISTERICON:
             return G_IconIndex ( (char*) arg0 );
 
-        case GTCMD_SETHUDICON:
+        case GT_SETHUDICON:
             G_SetHUDIcon ( arg0, arg1 );
             break;
 
-        case GTCMD_PLAYEFFECT:
+        case GT_PLAYEFFECT:
             G_PlayEffect ( arg0, (float*) arg1, (float*) arg2 );
             break;
 
-        case GTCMD_ADDCLIENTSCORE:
+        case GT_ADDCLIENTSCORE:
             G_AddScore ( &g_entities[arg0], arg1 );
             break;
 
-        case GTCMD_ADDTEAMSCORE:
+        case GT_ADDTEAMSCORE:
             G_AddTeamScore ( (team_t) arg0, arg1 );
             break;
 
-        case GTCMD_RESETITEM:
+        case GT_RESETITEM:
         {
             gitem_t* item;
 
@@ -893,11 +893,11 @@ int G_GametypeCommand ( int cmd, int arg0, int arg1, int arg2, int arg3, int arg
             break;
         }
 
-        case GTCMD_GETCLIENTNAME:
+        case GT_GETCLIENTNAME:
             Com_sprintf ( (char*) arg1, arg2, "%s", g_entities[arg0].client->pers.netname );
             break;
 
-        case GTCMD_GETTRIGGERTARGET:
+        case GT_GETTRIGGERTARGET:
         {
             gentity_t   *find;
 
@@ -916,11 +916,11 @@ int G_GametypeCommand ( int cmd, int arg0, int arg1, int arg2, int arg3, int arg
             break;
         }
 
-        case GTCMD_GETCLIENTORIGIN:
+        case GT_GETCLIENTORIGIN:
             VectorCopy ( g_entities[arg0].client->ps.origin, (float*) arg1 );
             break;
 
-        case GTCMD_GIVECLIENTITEM:
+        case GT_GIVECLIENTITEM:
         {
             gitem_t* item;
 
@@ -932,7 +932,7 @@ int G_GametypeCommand ( int cmd, int arg0, int arg1, int arg2, int arg3, int arg
             break;
         }
 
-        case GTCMD_GETCLIENTLIST:
+        case GT_GETCLIENTLIST:
         {
             int  i;
             int  count;
@@ -958,7 +958,7 @@ int G_GametypeCommand ( int cmd, int arg0, int arg1, int arg2, int arg3, int arg
             return count;
         }
 
-        case GTCMD_TAKECLIENTITEM:
+        case GT_TAKECLIENTITEM:
         {
             gitem_t* item;
 
@@ -970,7 +970,7 @@ int G_GametypeCommand ( int cmd, int arg0, int arg1, int arg2, int arg3, int arg
             break;
         }
 
-        case GTCMD_SPAWNITEM:
+        case GT_SPAWNITEM:
         {
             gitem_t* item;
 
@@ -986,7 +986,7 @@ int G_GametypeCommand ( int cmd, int arg0, int arg1, int arg2, int arg3, int arg
             break;
         }
 
-        case GTCMD_DOESCLIENTHAVEITEM:
+        case GT_DOESCLIENTHAVEITEM:
         {
             gitem_t*    item;
             gentity_t*  ent;
@@ -1005,7 +1005,7 @@ int G_GametypeCommand ( int cmd, int arg0, int arg1, int arg2, int arg3, int arg
             return 0;
         }
 
-        case GTCMD_REGISTERITEM:
+        case GT_REGISTERITEM:
         {
             gitem_t     *item;
             gtItemDef_t *def;
@@ -1036,7 +1036,7 @@ int G_GametypeCommand ( int cmd, int arg0, int arg1, int arg2, int arg3, int arg
             return qfalse;
         }
 
-        case GTCMD_REGISTERTRIGGER:
+        case GT_REGISTERTRIGGER:
         {
             gentity_t       *find;
             gtTriggerDef_t  *def;
@@ -1070,7 +1070,7 @@ int G_GametypeCommand ( int cmd, int arg0, int arg1, int arg2, int arg3, int arg
             return 0;
         }
 
-        case GTCMD_USETARGETS:
+        case GT_USETARGETS:
             G_UseTargetsByName ( (const char*) arg0, NULL, NULL );
             break;
 
