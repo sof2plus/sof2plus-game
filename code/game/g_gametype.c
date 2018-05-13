@@ -819,9 +819,10 @@ G_GametypeCommand
 Handles a command coming from the current gametype VM
 =================
 */
-int G_GametypeCommand ( int cmd, int arg0, int arg1, int arg2, int arg3, int arg4 )
+
+intptr_t G_GametypeCommand(int command, intptr_t arg0, intptr_t arg1, intptr_t arg2, intptr_t arg3, intptr_t arg4)
 {
-    switch ( cmd )
+    switch ( command )
     {
         case GT_RESTART:
             if ( arg0 <= 0 )
