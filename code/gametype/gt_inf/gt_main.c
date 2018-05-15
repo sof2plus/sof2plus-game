@@ -1,34 +1,34 @@
-// Copyright (C) 2001-2002 Raven Software.
-//
+/*
+===========================================================================
+Copyright (C) 2000 - 2013, Raven Software, Inc.
+Copyright (C) 2001 - 2013, Activision, Inc.
+Copyright (C) 2013 - 2015, OpenJK contributors
+Copyright (C) 2017, SoF2Plus contributors
+
+This file is part of the SoF2Plus source code.
+
+This program is free software; you can redistribute it and/or modify it
+under the terms of the GNU General Public License version 3 as
+published by the Free Software Foundation.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, see <http://www.gnu.org/licenses/>.
+===========================================================================
+*/
+// gt_main.c - Main gametype module routines.
 
 #include "gt_local.h"
 
-#define ITEM_BRIEFCASE          100
-                                
-#define TRIGGER_EXTRACTION      200
-
-void    GT_Init     ( void );
-void    GT_RunFrame ( int time );
-int     GT_Event    ( int cmd, int time, int arg0, int arg1, int arg2, int arg3, int arg4 );
-
 gametypeLocals_t    gametype;
 
-typedef struct 
-{
-    vmCvar_t    *vmCvar;
-    char        *cvarName;
-    char        *defaultString;
-    int         cvarFlags;
-    float       mMinValue, mMaxValue;
-    int         modificationCount;  // for tracking changes
-    qboolean    trackChange;        // track this variable, and announce if changed
-    qboolean    teamShader;         // track and if changed, update shader state
+vmCvar_t            gt_simpleScoring;
 
-} cvarTable_t;
-
-vmCvar_t    gt_simpleScoring;
-
-static cvarTable_t gametypeCvarTable[] = 
+static cvarTable_t gametypeCvarTable[] =
 {
     { &gt_simpleScoring,    "gt_simpleScoring",     "0",  CVAR_ARCHIVE, 0.0f, 0.0f, 0, qfalse },
 
@@ -60,6 +60,10 @@ Q_EXPORT intptr_t vmMain( int command, intptr_t arg0, intptr_t arg1, intptr_t ar
 
         case GAMETYPE_EVENT:
             return GT_Event ( arg0, arg1, arg2, arg3, arg4, arg5, arg6 );
+
+        case GAMETYPE_SHUTDOWN:
+            GT_Shutdown ( );
+            return 0;
     }
 
     return -1;
@@ -120,6 +124,9 @@ void GT_Init ( void )
 {
     gtItemDef_t     itemDef;
     gtTriggerDef_t  triggerDef;
+
+    Com_Printf("----- Gametype Initialization -----\n");
+    Com_Printf("gametype: %s (%s)\n", GAMETYPE_NAME, GAMETYPE_NAME_FULL);
 
     memset ( &gametype, 0, sizeof(gametype) );
 
@@ -256,6 +263,20 @@ int GT_Event ( int cmd, int time, int arg0, int arg1, int arg2, int arg3, int ar
     }
 
     return 0;
+}
+
+/*
+================
+GT_Shutdown
+
+Shutdown gametype and cleanup
+resources, if necessary.
+================
+*/
+
+void GT_Shutdown(void)
+{
+    Com_Printf("%s gametype shutdown.\n", GAMETYPE_NAME_FULL);
 }
 
 #ifndef GAMETYPE_HARD_LINKED
