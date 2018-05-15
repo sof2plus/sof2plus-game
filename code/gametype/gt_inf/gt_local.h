@@ -2,7 +2,7 @@
 //
 // gt_local.h -- local definitions for gametype module
 
-#include "../../game/q_shared.h"
+#include "../../qcommon/q_shared.h"
 #include "../gt_public.h"
 #include "../gt_syscalls.h"
 

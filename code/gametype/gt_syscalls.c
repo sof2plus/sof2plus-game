@@ -1,15 +1,15 @@
 // Copyright (C) 2001-2002 Raven Software.
 //
-#include "../game/q_shared.h"
+#include "../qcommon/q_shared.h"
 #include "gt_public.h"
 
 // this file is only included when building a dll
 // gt_syscalls.asm is included instead when building a qvm
 
-static int (QDECL *syscall)( int arg, ... ) = (int (QDECL *)( int, ...))-1;
+static intptr_t (QDECL *syscall)( intptr_t arg, ... ) = (intptr_t (QDECL *)( intptr_t, ...))-1;
 
-void dllEntry( int (QDECL *syscallptr)( int arg,... ) ) 
-{
+
+Q_EXPORT void dllEntry( intptr_t (QDECL *syscallptr)( intptr_t arg,... ) ) {
     syscall = syscallptr;
 }
 
@@ -139,11 +139,6 @@ void trap_Cmd_ResetItem ( int itemid )
 void trap_Cmd_GetClientName ( int clientid, const char* buffer, int buffersize )
 {
     syscall ( GT_GETCLIENTNAME, clientid, buffer, buffersize );
-}
-
-void trap_Cmd_GetClientItems ( int clientid, int* buffer, int buffersize )
-{
-    syscall ( GT_GETCLIENTITEMS, clientid, buffer, buffersize );
 }
 
 qboolean trap_Cmd_DoesClientHaveItem ( int clientid, int itemid )
