@@ -931,7 +931,7 @@ extern  vmCvar_t    g_voiceTalkingGhosts;
 extern  vmCvar_t    g_suddenDeath;
 
 void    trap_Printf( const char *fmt );
-void    trap_Error( const char *fmt );
+void    trap_Error( const char *fmt ) __attribute__((noreturn));
 int     trap_Milliseconds( void );
 int     trap_Argc( void );
 void    trap_Argv( int n, char *buffer, int bufferLength );
