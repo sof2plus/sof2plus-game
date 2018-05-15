@@ -61,7 +61,7 @@ struct gametypeLocals_s {
     int         bombPlantTime;
     vec3_t      bombPlantOrigin;
     char        bombPlantTarget[MAX_QPATH];
-    
+
     qboolean    firstFrame;
 
     int         bombExplodeEffect;

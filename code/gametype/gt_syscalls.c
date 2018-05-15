@@ -13,14 +13,14 @@ Q_EXPORT void dllEntry( intptr_t (QDECL *syscallptr)( intptr_t arg,... ) ) {
     syscall = syscallptr;
 }
 
-int PASSFLOAT( float x ) 
+int PASSFLOAT( float x )
 {
     float   floatTemp;
     floatTemp = x;
     return *(int *)&floatTemp;
 }
 
-void trap_Print( const char *string ) 
+void trap_Print( const char *string )
 {
     syscall( GT_PRINT, string );
 }
@@ -29,32 +29,32 @@ void trap_Error( const char *string ) {
     syscall( GT_ERROR, string );
 }
 
-int trap_Milliseconds( void ) 
+int trap_Milliseconds( void )
 {
-    return syscall( GT_MILLISECONDS ); 
+    return syscall( GT_MILLISECONDS );
 }
 
-void trap_Cvar_Register ( vmCvar_t *cvar, const char *var_name, const char *value, int flags, float MinValue, float MaxValue ) 
+void trap_Cvar_Register ( vmCvar_t *cvar, const char *var_name, const char *value, int flags, float MinValue, float MaxValue )
 {
     syscall( GT_CVAR_REGISTER, cvar, var_name, value, flags, PASSFLOAT(MinValue), PASSFLOAT(MaxValue) );
 }
 
-void trap_Cvar_Update( vmCvar_t *cvar ) 
+void trap_Cvar_Update( vmCvar_t *cvar )
 {
     syscall( GT_CVAR_UPDATE, cvar );
 }
 
-void trap_Cvar_Set( const char *var_name, const char *value ) 
+void trap_Cvar_Set( const char *var_name, const char *value )
 {
     syscall( GT_CVAR_SET, var_name, value );
 }
 
-int trap_Cvar_VariableIntegerValue( const char *var_name ) 
+int trap_Cvar_VariableIntegerValue( const char *var_name )
 {
     return syscall( GT_CVAR_VARIABLE_INTEGER_VALUE, var_name );
 }
 
-void trap_Cvar_VariableStringBuffer( const char *var_name, char *buffer, int bufsize ) 
+void trap_Cvar_VariableStringBuffer( const char *var_name, char *buffer, int bufsize )
 {
     syscall( GT_CVAR_VARIABLE_STRING_BUFFER, var_name, buffer, bufsize );
 }

@@ -51,7 +51,7 @@ This must be the very first function compiled into the .q3vm file
 */
 Q_EXPORT intptr_t vmMain( int command, intptr_t arg0, intptr_t arg1, intptr_t arg2, intptr_t arg3, intptr_t arg4, intptr_t arg5, intptr_t arg6, intptr_t arg7, intptr_t arg8, intptr_t arg9, intptr_t arg10, intptr_t arg11 )
 {
-    switch ( command ) 
+    switch ( command )
     {
         case GAMETYPE_INIT:
             GT_Init ( );
@@ -85,14 +85,14 @@ Q_EXPORT intptr_t vmMain( int command, intptr_t arg0, intptr_t arg1, intptr_t ar
 GT_RegisterCvars
 =================
 */
-void GT_RegisterCvars( void ) 
+void GT_RegisterCvars( void )
 {
     cvarTable_t *cv;
 
-    for ( cv = gametypeCvarTable ; cv->cvarName != NULL; cv++ ) 
+    for ( cv = gametypeCvarTable ; cv->cvarName != NULL; cv++ )
     {
         trap_Cvar_Register( cv->vmCvar, cv->cvarName, cv->defaultString, cv->cvarFlags, cv->mMinValue, cv->mMaxValue );
-        
+
         if ( cv->vmCvar )
         {
             cv->modificationCount = cv->vmCvar->modificationCount;
@@ -105,17 +105,17 @@ void GT_RegisterCvars( void )
 GT_UpdateCvars
 =================
 */
-void GT_UpdateCvars( void ) 
+void GT_UpdateCvars( void )
 {
     cvarTable_t *cv;
 
-    for ( cv = gametypeCvarTable ; cv->cvarName != NULL; cv++ ) 
+    for ( cv = gametypeCvarTable ; cv->cvarName != NULL; cv++ )
     {
-        if ( cv->vmCvar ) 
+        if ( cv->vmCvar )
         {
             trap_Cvar_Update( cv->vmCvar );
 
-            if ( cv->modificationCount != cv->vmCvar->modificationCount ) 
+            if ( cv->modificationCount != cv->vmCvar->modificationCount )
             {
                 cv->modificationCount = cv->vmCvar->modificationCount;
             }
@@ -127,7 +127,7 @@ void GT_UpdateCvars( void )
 ================
 GT_Init
 
-initializes the gametype by spawning the gametype items and 
+initializes the gametype by spawning the gametype items and
 preparing them
 ================
 */
@@ -215,7 +215,7 @@ void GT_RunFrame ( int time )
         static const int slowTime = 1000;
         static const int fastTime = 100;
 
-        if ( !gametype.bombBeepTime || gametype.time > gametype.bombBeepTime ) 
+        if ( !gametype.bombBeepTime || gametype.time > gametype.bombBeepTime )
         {
             float addTime;
 
@@ -307,7 +307,7 @@ int GT_Event ( int cmd, int time, int arg0, int arg1, int arg2, int arg3, int ar
             break;
         }
 
-        case GTEV_ITEM_TOUCHED:         
+        case GTEV_ITEM_TOUCHED:
             if ( arg0 == ITEM_BOMB && arg2 == TEAM_BLUE )
             {
                 char clientname[MAX_QPATH];
@@ -335,7 +335,7 @@ int GT_Event ( int cmd, int time, int arg0, int arg1, int arg2, int arg3, int ar
             {
                 return 1;
             }
-            return 0;           
+            return 0;
 
         case GTEV_TIME_EXPIRED:
             trap_Cmd_TextMessage ( -1, "Red team has defended the bomb site!" );
@@ -393,7 +393,7 @@ int GT_Event ( int cmd, int time, int arg0, int arg1, int arg2, int arg3, int ar
         case GTEV_TRIGGER_USED:
         {
             char    name[128];
-            
+
             gametype.bombPlantTime = time + gt_bombFuseTime.integer * 1000;
             gametype.bombPlantClient = arg1;
             trap_Cmd_GetClientOrigin ( arg1, gametype.bombPlantOrigin );
@@ -428,7 +428,7 @@ void GT_Shutdown(void)
 #ifndef GAMETYPE_HARD_LINKED
 // this is only here so the functions in q_shared.c and bg_*.c can link (FIXME)
 
-void QDECL Com_Error( int level, const char *msg, ... ) 
+void QDECL Com_Error( int level, const char *msg, ... )
 {
     va_list     argptr;
     char        text[1024];
@@ -440,7 +440,7 @@ void QDECL Com_Error( int level, const char *msg, ... )
     trap_Error( text );
 }
 
-void QDECL Com_Printf( const char *msg, ... ) 
+void QDECL Com_Printf( const char *msg, ... )
 {
     va_list     argptr;
     char        text[1024];

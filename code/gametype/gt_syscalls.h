@@ -45,7 +45,6 @@ void        trap_Cmd_GetTriggerTarget       ( int triggerid, const char* buffer,
 
 // Client commands
 void        trap_Cmd_GetClientName          ( int clientid, const char* buffer, int buffersize );
-void        trap_Cmd_GetClientItems         ( int clientid, int* buffer, int buffersize );
 qboolean    trap_Cmd_DoesClientHaveItem     ( int clientid, int itemid );
 void        trap_Cmd_AddClientScore         ( int clientid, int score );
 void        trap_Cmd_GetClientOrigin        ( int clientid, vec3_t origin );

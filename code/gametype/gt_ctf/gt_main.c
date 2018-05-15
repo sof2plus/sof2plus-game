@@ -47,7 +47,7 @@ This must be the very first function compiled into the .q3vm file
 */
 Q_EXPORT intptr_t vmMain( int command, intptr_t arg0, intptr_t arg1, intptr_t arg2, intptr_t arg3, intptr_t arg4, intptr_t arg5, intptr_t arg6, intptr_t arg7, intptr_t arg8, intptr_t arg9, intptr_t arg10, intptr_t arg11 )
 {
-    switch ( command ) 
+    switch ( command )
     {
         case GAMETYPE_INIT:
             GT_Init ( );
@@ -78,14 +78,14 @@ Q_EXPORT intptr_t vmMain( int command, intptr_t arg0, intptr_t arg1, intptr_t ar
 GT_RegisterCvars
 =================
 */
-void GT_RegisterCvars( void ) 
+void GT_RegisterCvars( void )
 {
     cvarTable_t *cv;
 
-    for ( cv = gametypeCvarTable ; cv->cvarName != NULL; cv++ ) 
+    for ( cv = gametypeCvarTable ; cv->cvarName != NULL; cv++ )
     {
         trap_Cvar_Register( cv->vmCvar, cv->cvarName, cv->defaultString, cv->cvarFlags, cv->mMinValue, cv->mMaxValue );
-        
+
         if ( cv->vmCvar )
         {
             cv->modificationCount = cv->vmCvar->modificationCount;
@@ -98,17 +98,17 @@ void GT_RegisterCvars( void )
 GT_UpdateCvars
 =================
 */
-void GT_UpdateCvars( void ) 
+void GT_UpdateCvars( void )
 {
     cvarTable_t *cv;
 
-    for ( cv = gametypeCvarTable ; cv->cvarName != NULL; cv++ ) 
+    for ( cv = gametypeCvarTable ; cv->cvarName != NULL; cv++ )
     {
-        if ( cv->vmCvar ) 
+        if ( cv->vmCvar )
         {
             trap_Cvar_Update( cv->vmCvar );
 
-            if ( cv->modificationCount != cv->vmCvar->modificationCount ) 
+            if ( cv->modificationCount != cv->vmCvar->modificationCount )
             {
                 cv->modificationCount = cv->vmCvar->modificationCount;
             }
@@ -120,7 +120,7 @@ void GT_UpdateCvars( void )
 ================
 GT_Init
 
-initializes the gametype by spawning the gametype items and 
+initializes the gametype by spawning the gametype items and
 preparing them
 ================
 */
@@ -233,7 +233,7 @@ int GT_Event ( int cmd, int time, int arg0, int arg1, int arg2, int arg3, int ar
                     trap_Cmd_SetHUDIcon ( 1, gametype.iconBlueFlag );
                     return 1;
             }
-            
+
             break;
 
         case GTEV_ITEM_DROPPED:
@@ -249,7 +249,7 @@ int GT_Event ( int cmd, int time, int arg0, int arg1, int arg2, int arg3, int ar
                     trap_Cmd_SetHUDIcon ( 1, gametype.iconBlueFlagDropped );
                     gametype.blueFlagDropTime = time;
                     break;
-                
+
                 case ITEM_REDFLAG:
                     trap_Cmd_TextMessage ( -1, va("%s has dropped the Red Flag!", clientname ) );
                     trap_Cmd_SetHUDIcon ( 0, gametype.iconRedFlagDropped );
@@ -364,7 +364,7 @@ void GT_Shutdown(void)
 #ifndef GAMETYPE_HARD_LINKED
 // this is only here so the functions in q_shared.c and bg_*.c can link (FIXME)
 
-void QDECL Com_Error( int level, const char *msg, ... ) 
+void QDECL Com_Error( int level, const char *msg, ... )
 {
     va_list     argptr;
     char        text[1024];
@@ -376,7 +376,7 @@ void QDECL Com_Error( int level, const char *msg, ... )
     trap_Error( text );
 }
 
-void QDECL Com_Printf( const char *msg, ... ) 
+void QDECL Com_Printf( const char *msg, ... )
 {
     va_list     argptr;
     char        text[1024];
