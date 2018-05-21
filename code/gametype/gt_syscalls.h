@@ -3,10 +3,10 @@
 // gt_syscalls.h -- system call function definitions
 
 // print message on the local console
-void        trap_Print                      ( const char *fmt );
+void        trap_Print                      ( const char *text );
 
 // abort the game
-void        trap_Error                      ( const char *fmt ) __attribute__((noreturn));
+void        trap_Error                      ( const char *text ) __attribute__((noreturn));
 
 // Current system milliseconds
 int         trap_Milliseconds               ( void );

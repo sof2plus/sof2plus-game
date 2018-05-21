@@ -744,6 +744,8 @@ $(B)/sof2mp_game$(SHLIBNAME): $(SOF2GOBJ)
 GTDMOBJ_ = \
   $(B)/gametype/gt_dm/gt_main.o \
   \
+  $(B)/gametype/gt_shared.o \
+  \
   $(B)/qcommon/q_math.o \
   $(B)/qcommon/q_shared.o
 
@@ -759,6 +761,8 @@ $(B)/gt_dm$(SHLIBNAME): $(GTDMOBJ)
 
 GTTDMOBJ_ = \
   $(B)/gametype/gt_tdm/gt_main.o \
+  \
+  $(B)/gametype/gt_shared.o \
   \
   $(B)/qcommon/q_math.o \
   $(B)/qcommon/q_shared.o
@@ -776,6 +780,8 @@ $(B)/gt_tdm$(SHLIBNAME): $(GTTDMOBJ)
 GTCTFOBJ_ = \
   $(B)/gametype/gt_ctf/gt_main.o \
   \
+  $(B)/gametype/gt_shared.o \
+  \
   $(B)/qcommon/q_math.o \
   $(B)/qcommon/q_shared.o
 
@@ -791,6 +797,8 @@ $(B)/gt_ctf$(SHLIBNAME): $(GTCTFOBJ)
 
 GTINFOBJ_ = \
   $(B)/gametype/gt_inf/gt_main.o \
+  \
+  $(B)/gametype/gt_shared.o \
   \
   $(B)/qcommon/q_math.o \
   $(B)/qcommon/q_shared.o
@@ -808,6 +816,8 @@ $(B)/gt_inf$(SHLIBNAME): $(GTINFOBJ)
 GTELIMOBJ_ = \
   $(B)/gametype/gt_elim/gt_main.o \
   \
+  $(B)/gametype/gt_shared.o \
+  \
   $(B)/qcommon/q_math.o \
   $(B)/qcommon/q_shared.o
 
@@ -823,6 +833,8 @@ $(B)/gt_elim$(SHLIBNAME): $(GTELIMOBJ)
 
 GTDEMOBJ_ = \
   $(B)/gametype/gt_dem/gt_main.o \
+  \
+  $(B)/gametype/gt_shared.o \
   \
   $(B)/qcommon/q_math.o \
   $(B)/qcommon/q_shared.o

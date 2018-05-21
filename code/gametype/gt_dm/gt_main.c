@@ -118,8 +118,8 @@ preparing them
 */
 void GT_Init ( void )
 {
-    Com_Printf("----- Gametype Initialization -----\n");
-    Com_Printf("gametype: %s (%s)\n", GAMETYPE_NAME, GAMETYPE_NAME_FULL);
+    GT_Printf("----- Gametype Initialization -----\n");
+    GT_Printf("gametype: %s (%s)\n", GAMETYPE_NAME, GAMETYPE_NAME_FULL);
 
     memset ( &gametype, 0, sizeof(gametype) );
 
@@ -170,34 +170,5 @@ resources, if necessary.
 
 void GT_Shutdown(void)
 {
-    Com_Printf("%s gametype shutdown.\n", GAMETYPE_NAME_FULL);
+    GT_Printf("%s gametype shutdown.\n", GAMETYPE_NAME_FULL);
 }
-
-#ifndef GAMETYPE_HARD_LINKED
-// this is only here so the functions in q_shared.c and bg_*.c can link (FIXME)
-
-void QDECL Com_Error( int level, const char *msg, ... )
-{
-    va_list     argptr;
-    char        text[1024];
-
-    va_start (argptr, msg);
-    vsprintf (text, msg, argptr);
-    va_end (argptr);
-
-    trap_Error( text );
-}
-
-void QDECL Com_Printf( const char *msg, ... )
-{
-    va_list     argptr;
-    char        text[1024];
-
-    va_start (argptr, msg);
-    vsprintf (text, msg, argptr);
-    va_end (argptr);
-
-    trap_Print( text );
-}
-
-#endif

@@ -25,9 +25,7 @@ along with this program; if not, see <http://www.gnu.org/licenses/>.
 #ifndef __GT_LOCAL_H
 #define __GT_LOCAL_H
 
-#include "../../qcommon/q_shared.h"
-#include "../gt_public.h"
-#include "../gt_syscalls.h"
+#include "../gt_shared.h"
 
 //=============================================
 //
@@ -44,16 +42,11 @@ along with this program; if not, see <http://www.gnu.org/licenses/>.
 #define ITEM_PLANTED_BOMB           301
 
 //=============================================
-
-typedef     struct      gametypeLocals_s    gametypeLocals_t;
-typedef     struct      cvarTable_s         cvarTable_t;
-
-//=============================================
 //
 // Main gametype structures.
 //
 
-struct gametypeLocals_s {
+typedef struct {
     int         time;
 
     int         bombBeepTime;
@@ -76,18 +69,7 @@ struct gametypeLocals_s {
     int         bombPlantClient;
 
     qboolean    roundOver;
-};
-
-struct cvarTable_s {
-    vmCvar_t    *vmCvar;
-    char        *cvarName;
-    char        *defaultString;
-    int         cvarFlags;
-    float       mMinValue, mMaxValue;
-    int         modificationCount;  // for tracking changes
-    qboolean    trackChange;        // track this variable, and announce if changed
-    qboolean    teamShader;         // track and if changed, update shader state
-};
+} gametypeLocals_t;
 
 //=============================================
 

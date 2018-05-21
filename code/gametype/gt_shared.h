@@ -20,41 +20,35 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, see <http://www.gnu.org/licenses/>.
 ===========================================================================
 */
-// gt_local.h - Local definitions for gametype module.
+// gt_shared.h - Definitions included by all gametype modules.
 
-#ifndef __GT_LOCAL_H
-#define __GT_LOCAL_H
+#ifndef __GT_SHARED_H
+#define __GT_SHARED_H
 
-#include "../gt_shared.h"
-
-//=============================================
-//
-// Global gametype definitions.
-//
-
-#define GAMETYPE_NAME               "DM"
-#define GAMETYPE_NAME_FULL          "Deathmatch"
+#include "../qcommon/q_shared.h"
+#include "gt_public.h"
+#include "gt_syscalls.h"
 
 //=============================================
-//
-// Main gametype structures.
-//
 
 typedef struct {
-    int         time;
-} gametypeLocals_t;
+    vmCvar_t    *vmCvar;
+    char        *cvarName;
+    char        *defaultString;
+    int         cvarFlags;
+    float       mMinValue, mMaxValue;
+    int         modificationCount;  // for tracking changes
+    qboolean    trackChange;        // track this variable, and announce if changed
+    qboolean    teamShader;         // track and if changed, update shader state
+} cvarTable_t;
 
 //=============================================
 
 //
-// gt_main.c
+// gt_shared.c
 //
 
-extern gametypeLocals_t gametype;
+void QDECL GT_Printf    ( const char *fmt, ... )    __attribute__ ((format (printf, 1, 2)));
+void QDECL GT_Error     ( const char *fmt, ... )    __attribute__ ((noreturn, format (printf, 1, 2)));
 
-void    GT_Init         ( void );
-void    GT_RunFrame     ( int time );
-int     GT_Event        ( int cmd, int time, int arg0, int arg1, int arg2, int arg3, int arg4 );
-void    GT_Shutdown     ( void );
-
-#endif // __GT_LOCAL_H
+#endif // __GT_SHARED_H

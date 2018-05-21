@@ -20,13 +20,14 @@ int PASSFLOAT( float x )
     return *(int *)&floatTemp;
 }
 
-void trap_Print( const char *string )
-{
-    syscall( GT_PRINT, string );
+void    trap_Print( const char *text ) {
+    syscall( GT_PRINT, text );
 }
 
-void trap_Error( const char *string ) {
-    syscall( GT_ERROR, string );
+void    trap_Error( const char *text ) {
+    syscall( GT_ERROR, text );
+    // shut up GCC warning about returning functions, because we know better
+    exit(1);
 }
 
 int trap_Milliseconds( void )
