@@ -747,33 +747,37 @@ void G_ShutdownGame( int restart )
 }
 
 
-#ifndef GAME_HARD_LINKED
+//===================================================================
 
-void QDECL Com_Error ( int level, const char *fmt, ... )
-{
+void QDECL Com_Error ( int level, const char *error, ... ) {
     va_list     argptr;
     char        text[1024];
 
-    va_start (argptr, fmt);
-    vsprintf (text, fmt, argptr);
+    va_start (argptr, error);
+    Q_vsnprintf (text, sizeof(text), error, argptr);
     va_end (argptr);
 
     trap_Error( text );
 }
 
-void QDECL Com_Printf( const char *msg, ... )
-{
+void QDECL Com_Printf( const char *msg, ... ) {
     va_list     argptr;
     char        text[1024];
 
     va_start (argptr, msg);
-    vsprintf (text, msg, argptr);
+    Q_vsnprintf (text, sizeof(text), msg, argptr);
     va_end (argptr);
 
-    trap_Printf( text );
+    trap_Print( text );
 }
 
-#endif
+/*
+========================================================================
+
+PLAYER COUNTING / SCORE SORTING
+
+========================================================================
+*/
 
 /*
 =============
