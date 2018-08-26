@@ -494,8 +494,6 @@ typedef struct
     char        mFilter[MAX_QPATH];
     char        mTeamFilter[MAX_QPATH];
 
-    struct gentity_s    *landScapes[MAX_TERRAINS];
-
     int             gametypeStartTime;
     int             gametypeJoinTime;
     int             gametypeResetTime;

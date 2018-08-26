@@ -317,16 +317,12 @@ void SP_terrain(gentity_t *ent)
     char                seed[MAX_QPATH];
     char                missionType[MAX_QPATH];
     char                soundSet[MAX_QPATH];
-    int                 shaderNum, i;
+    int                 i;
     char                *value;
     int                 terrainID;
 
     VectorClear (ent->s.angles);
     trap_SetBrushModel( ent, ent->model );
-
-    // Get the shader from the top of the brush
-//  shaderNum = gi.CM_GetShaderNum(s.modelindex);
-    shaderNum = 0;
 
     if (RMG.integer)
     {
@@ -348,13 +344,6 @@ void SP_terrain(gentity_t *ent)
 
         trap_Cvar_VariableStringBuffer("RMG_soundset", soundSet, MAX_QPATH);
         trap_SetConfigstring(CS_AMBIENT_SOUNDSETS, soundSet );
-    }
-
-    // Arbitrary (but sane) limits to the number of terxels
-//  if((mTerxels < MIN_TERXELS) || (mTerxels > MAX_TERXELS))
-    {
-//      Com_printf("G_Terrain: terxels out of range - defaulting to 4\n");
-//      mTerxels = 4;
     }
 
     // Get info required for the common init
@@ -402,21 +391,20 @@ void SP_terrain(gentity_t *ent)
     G_SpawnString("densitymap", "", &value);
     Info_SetValueForKey(temp, "densityMap", value);
 
-    Info_SetValueForKey(temp, "shader", va("%d", shaderNum));
     G_SpawnString("texturescale", "0.005", &value);
     Info_SetValueForKey(temp, "texturescale", va("%f", atof(value)));
 
-    // Initialise the common aspects of the terrain
+    // Initialize the common aspects of the terrain
     terrainID = trap_CM_RegisterTerrain(temp);
-//  SetCommon(common);
+
+    // If the server returns terrain ID 0, an error occurred.
+    // No need to continue the terrain creation.
+    if(terrainID == 0){
+        G_FreeEntity(ent);
+        return;
+    }
 
     Info_SetValueForKey(temp, "terrainId", va("%d", terrainID));
-
-    // Let the entity know if it is random generated or not
-//  SetIsRandom(common->GetIsRandom());
-
-    // Let the game remember everything
-    level.landScapes[terrainID] = ent;
 
     // Send all the data down to the client
     trap_SetConfigstring(CS_TERRAINS + terrainID, temp);
