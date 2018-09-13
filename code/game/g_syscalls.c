@@ -868,7 +868,7 @@ TGenericParser2 trap_GP_Parse(char **dataPtr)
     return (TGenericParser2)syscall(G_GP_PARSE, dataPtr);
 }
 
-TGenericParser2 trap_GP_ParseFile(char *fileName)
+TGenericParser2 trap_GP_ParseFile(const char *fileName)
 {
     return (TGenericParser2)syscall(G_GP_PARSE_FILE, fileName);
 }

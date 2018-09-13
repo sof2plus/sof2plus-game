@@ -993,7 +993,7 @@ typedef void    *TGPValue;
 
 // CGenericParser2 (void *) routines
 TGenericParser2     trap_GP_Parse                   ( char **dataPtr );
-TGenericParser2     trap_GP_ParseFile               ( char *fileName );
+TGenericParser2     trap_GP_ParseFile               ( const char *fileName );
 void                trap_GP_Clean                   ( TGenericParser2 GP2 );
 void                trap_GP_Delete                  ( TGenericParser2 *GP2 );
 TGPGroup            trap_GP_GetBaseParseGroup       ( TGenericParser2 GP2 );
