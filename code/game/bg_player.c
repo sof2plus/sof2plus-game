@@ -648,7 +648,7 @@ qboolean BG_ParseNPCFiles ( void )
         Com_sprintf(fileName, sizeof(fileName),"NPCs/%s", fileptr );
 
         // Create the generic parser so the item file can be parsed
-        NPCFile = trap_GP_ParseFile( fileName );
+        NPCFile = trap_GP_ParseFile( (const char *)fileName );
         if ( !NPCFile )
         {
             continue;
@@ -935,7 +935,7 @@ int BG_ParseSkin ( const char* filename, char* pairs, int pairsSize )
     int             numPairs;
 
     // Open the skin file
-    skinFile = trap_GP_ParseFile( (char*)filename );
+    skinFile = trap_GP_ParseFile( filename );
     if ( !skinFile )
     {
         return 0;
@@ -1564,7 +1564,7 @@ qboolean BG_ParseOutfittingTemplate ( const char* fileName, goutfitting_t* outfi
     memset ( outfitting, 0, sizeof(goutfitting_t) );
 
     // Create the generic parser so the item file can be parsed
-    file = trap_GP_ParseFile( (char*)fileName );
+    file = trap_GP_ParseFile( fileName );
     if ( !file )
     {
         return qfalse;

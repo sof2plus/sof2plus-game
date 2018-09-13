@@ -538,7 +538,7 @@ static int  numInitialFiles = 0;
 
 static  qboolean BG_OpenWeaponFrames(const char *name)
 {
-    weaponFrames[numWeaponFiles] = trap_GP_ParseFile((char *)name);
+    weaponFrames[numWeaponFiles] = trap_GP_ParseFile(name);
 
     if (!weaponFrames)
     {

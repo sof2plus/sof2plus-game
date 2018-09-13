@@ -583,7 +583,7 @@ qboolean G_ParseGametypeFile ( void )
     trap_SetConfigstring ( CS_GAMETYPE_MESSAGE, "0,0" );
 
     // Open the given gametype file
-    GP2 = trap_GP_ParseFile ( (char*)level.gametypeData->script );
+    GP2 = trap_GP_ParseFile ( level.gametypeData->script );
     if (!GP2)
     {
         return qfalse;

@@ -67,7 +67,7 @@ static qboolean BG_ParseGametypeInfo ( int gametypeIndex )
     gametype = &bg_gametypeData[gametypeIndex];
 
     // Open the gametype's script file
-    GP2 = trap_GP_ParseFile( (char*)gametype->script );
+    GP2 = trap_GP_ParseFile( gametype->script );
     if (!GP2)
     {
         return qfalse;
